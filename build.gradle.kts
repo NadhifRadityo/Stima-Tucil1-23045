@@ -39,7 +39,7 @@ testing {
 
 java {
 	toolchain {
-		languageVersion = JavaLanguageVersion.of(21)
+		languageVersion.set(JavaLanguageVersion.of(21))
 	}
 }
 

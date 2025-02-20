@@ -24,6 +24,19 @@ const splitEvery = (a, n) => {
 const toSigned64 = x => (x & 0x7FFFFFFFFFFFFFFFn) - (x & 0x8000000000000000n);
 
 /**
+ * @param {boolean[]} boolArray 
+ * @returns {BigInt}
+ */
+const booleanArrayToBigInt = boolArray => {
+	let result = 0n;
+	for(let i = 0; i < boolArray.length; i++) {
+		if(!boolArray[i]) continue;
+		result |= (1n << BigInt(i));
+	}
+	return result;
+}
+
+/**
  * @typedef {Object} GeneratorOpts
  * @property {string} storeType
  * @property {number} storeSize
@@ -70,10 +83,10 @@ const generateSource = async (/** @type {GeneratorOpts} */ opts) => {
 
 	/**
 	 * @param {number[]} fromPositions
-	 * @param {number} toPositions
+	 * @param {number[]} toPositions
 	 * @returns {string[]}
 	 */
-	const generateSourceOffset = (fromPositions, toPositions, vResult = l => `this._${l}`, vFrom = l => `this._${l}`, vTarget = l => `this._${l}`) => {
+	const generateSourceMover = (fromPositions, toPositions, vResult = l => `this._${l}`, vFrom = l => `this._${l}`, vTarget = l => `this._${l}`) => {
 		/** @type {[number, number][]} */
 		const flos = fromPositions.map(p => [positionLoc(p), positionOffset(p)]);
 		/** @type {[number, number][]} */
@@ -89,9 +102,9 @@ const generateSource = async (/** @type {GeneratorOpts} */ opts) => {
 			}
 			group[4]++;
 			return a;
-		}, []).filter(([l1, o1, l2, o2, l]) => l1 != l2 || o1 != o2);
+		}, []).filter(([l1, o1, l2, o2, l]) => l1 != l2 || o1 != o2 || l != 0);
 		// group islands of bit shifts
-		const iglos = glos.reduce((/** @type {[number, number, number, number, number][]} */ a, [l1, o1, l2, o2, l]) => {
+		const iglos = glos.reduce((/** @type {[number, BigInt, number, BigInt, number][]} */ a, [l1, o1, l2, o2, l]) => {
 			const lm = toSigned64((1n << BigInt(l)) - 1n);
 			const m1 = toSigned64((lm << BigInt(o1)) & 0xFFFFFFFFFFFFFFFFn);
 			const m2 = toSigned64((lm << BigInt(o2)) & 0xFFFFFFFFFFFFFFFFn);
@@ -103,7 +116,7 @@ const generateSource = async (/** @type {GeneratorOpts} */ opts) => {
 			group[1] |= m1;
 			group[3] |= m2;
 			return a;
-		}, []).filter(([l1, m1, l2, m2, s]) => l1 != l2 || s != 0);
+		}, []).filter(([l1, m1, l2, m2, s]) => l1 != l2 || m1 != 0 || m2 != 0 || s != 0);
 		// https://graphics.stanford.edu/~seander/bithacks.html
 		// https://stackoverflow.com/questions/14547087/extracting-bits-with-a-single-multiplication
 		// const cancglos = new Array(fromPositions.length).fill().reduce((/** @type {[number, number[], number, number][]} */ a, _, i) => {
@@ -129,7 +142,50 @@ const generateSource = async (/** @type {GeneratorOpts} */ opts) => {
 			const fs = nm2 != 0n ? `(${vFrom(l2)} & ${nm2}L) | (${ts})` : ts;
 			return `${vResult(l2)} = ${fs};`;
 		});
-	}
+	};
+	/**
+	 * @param {number[]} positions
+	 * @param {boolean[]} values
+	 * @returns {string[]}
+	 */
+	const generateSourceSetter = (positions, values, vResult = l => `this._${l}`, vFrom = l => `this._${l}`) => {
+		/** @type {[number, number][]} */
+		const flos = positions.map(p => [positionLoc(p), positionOffset(p)]);
+		// group consecutive bit shifts
+		const glos = new Array(positions.length).fill().reduce((/** @type {[number, number, boolean[]][]} */ a, _, i) => {
+			const [l1, o1] = flos[i];
+			const value = values[i];
+			const group = a.find(([pl1, po1, v]) => l1 == pl1 && o1 == po1 + v.length);
+			if(group == null) {
+				a.push([l1, o1, [value]]);
+				return a;
+			}
+			group[2].push(value);
+			return a;
+		}, []).filter(([l1, o1, v]) => v.length != 0);
+		// group islands of bit shifts
+		const iglos = glos.reduce((/** @type {[number, BigInt, BigInt][]} */ a, [l1, o1, v]) => {
+			const lm = toSigned64((1n << BigInt(v.length)) - 1n);
+			const m1 = toSigned64((lm << BigInt(o1)) & 0xFFFFFFFFFFFFFFFFn);
+			const v1 = toSigned64((booleanArrayToBigInt(v) << BigInt(o1)) & 0xFFFFFFFFFFFFFFFFn);
+			const group = a.find(([pl1, pm1, pv1]) => l1 == pl1);
+			if(group == null) {
+				a.push([l1, m1, v1]);
+				return a;
+			}
+			group[1] |= m1;
+			group[2] |= v1;
+			return a;
+		}, []).filter(([l1, m1, v1]) => m1 != 0);
+		return iglos.map(([l1, m1, v1]) => {
+			const nm1 = toSigned64(m1 ^ 0xFFFFFFFFFFFFFFFFn);
+			const ts = v1 != 0n ? `${v1}L` : null;
+			const fs = nm1 != 0n ? ts != null ? `(${vFrom(l1)} & ${nm1}L) | (${ts})` : `${vFrom(l1)} & ${nm1}L` : ts;
+			if(fs == null) return null;
+			return `${vResult(l1)} = ${fs};`
+		}).filter(l => l != null);
+	};
+
 	/**
 	 * @param {string} name
 	 * @param {number} amountX
@@ -140,6 +196,7 @@ const generateSource = async (/** @type {GeneratorOpts} */ opts) => {
 	const generateSourceOffsetXYZ = (name, amountX, amountY, amountZ) => {
 		const fromPositions = [];
 		const toPositions = [];
+		const unsetPositions = [];
 		for(let x = 0; x < width; x++) {
 			const tx = x + amountX;
 			if(tx < 0 || tx >= width) continue;
@@ -151,10 +208,13 @@ const generateSource = async (/** @type {GeneratorOpts} */ opts) => {
 					if(tz < 0 || tz >= depth) continue;
 					fromPositions.push(positionAt(x, y, z));
 					toPositions.push(positionAt(tx, ty, tz));
+					if(x < amountX || y < amountY || z < amountZ)
+						unsetPositions.push(positionAt(x, y, z));
 				}
 			}
 		}
-		const moves = generateSourceOffset(fromPositions, toPositions).map(m => `		${m}`);
+		const moves = generateSourceMover(fromPositions, toPositions).map(m => `		${m}`);
+		moves.push(...generateSourceSetter(unsetPositions, unsetPositions.map(() => false)).map(m => `		${m}`));
 		const movesBatched = splitEvery(moves, 8 * batch);
 		return (
 `
@@ -209,7 +269,7 @@ ${m.join("\n")}
 				}
 			}
 		}
-		const moves = generateSourceOffset(fromPositions, toPositions, l => `that._${l}`).map(m => `		${m}`);
+		const moves = generateSourceMover(fromPositions, toPositions, l => `that._${l}`).map(m => `		${m}`);
 		const movesBatched = splitEvery(moves, 8 * batch);
 		return (
 `
@@ -235,7 +295,7 @@ ${m.join("\n")}
 
 package io.github.nadhifradityo.stima_tucil1_23045;
 
-public class ${Class} implements BitField {
+public class ${Class} extends BitField {
 	public static final int WIDTH = ${width};
 	public static final int HEIGHT = ${height};
 	public static final int DEPTH = ${depth};
@@ -256,12 +316,12 @@ ${new Array(slots).fill().map((_, i) => i).map(i => `	protected ${storeType} _${
 		assert y >= 0 && y < HEIGHT;
 		assert z >= 0 && z < DEPTH;
 		int position = z * (HEIGHT * WIDTH) + y * WIDTH + x;
-${new Array(slotBatch).fill().map((_, i) => i).map(i => `		if(position < ${(i + 1) * batch * storeSize}) return this.getValue${i}(position);`).join("\n")}
+${new Array(slotBatch).fill().map((_, i) => i).map(i => `		if(position < ${(i + 1) * batch * storeSize}) return this.getValue_${i}(position);`).join("\n")}
 		assert false;
 		return false;
 	}
 ${new Array(slotBatch).fill().map((_, i) => i).map(i => `
-	protected boolean getValue${i}(int position) {
+	protected boolean getValue_${i}(int position) {
 		long mask = 1L << (${storeSize - 1} - position % ${storeSize});
 ${new Array(batch).fill().map((_, j) => i * batch + j).filter(j => j < slots).map(j => `		if(position < ${(j + 1) * storeSize}) return (this._${j} & mask) != 0;`).join("\n")}
 		assert false;
@@ -274,11 +334,11 @@ ${new Array(batch).fill().map((_, j) => i * batch + j).filter(j => j < slots).ma
 		assert y >= 0 && y < HEIGHT;
 		assert z >= 0 && z < DEPTH;
 		int position = z * (HEIGHT * WIDTH) + y * WIDTH + x;
-${new Array(slotBatch).fill().map((_, i) => i).map(i => `		if(position < ${(i + 1) * batch * storeSize}) { this.setValue${i}(position, v); return; }`).join("\n")}
+${new Array(slotBatch).fill().map((_, i) => i).map(i => `		if(position < ${(i + 1) * batch * storeSize}) { this.setValue_${i}(position, v); return; }`).join("\n")}
 		assert false;
 	}
 ${new Array(slotBatch).fill().map((_, i) => i).map(i => `
-	protected void setValue${i}(int position, boolean v) {
+	protected void setValue_${i}(int position, boolean v) {
 		long mask = ~(1L << (${storeSize - 1} - position % ${storeSize}));
 		long value = v ? 1L << (${storeSize - 1} - position % ${storeSize}) : 0;
 ${new Array(batch).fill().map((_, j) => i * batch + j).filter(j => j < slots).map(j => `		if(position < ${(j + 1) * storeSize}) { this._${j} = (this._${j} & mask) | value; return; }`).join("\n")}
@@ -288,15 +348,24 @@ ${new Array(batch).fill().map((_, j) => i * batch + j).filter(j => j < slots).ma
 
 	public void set(BitField that0) {
 		if(!(that0 instanceof ${Class})) {
-			BitField.super.set(that0);
+			super.set(that0);
 			return;
 		}
 		var that = (${Class}) that0;
-${new Array(slotBatch).fill().map((_, i) => i).map(i => `		this.set${i}(that);`).join("\n")}
+${new Array(slotBatch).fill().map((_, i) => i).map(i => `		this.set_${i}(that);`).join("\n")}
 	}
 ${new Array(slotBatch).fill().map((_, i) => i).map(i => `
-	protected void set${i}(${Class} that) {
+	protected void set_${i}(${Class} that) {
 ${new Array(batch).fill().map((_, j) => i * batch + j).filter(j => j < slots).map(j => `		this._${j} = that._${j};`).join("\n")}
+	}
+`.slice(1, -1)).join("\n")}
+
+	public void clear() {
+${new Array(slotBatch).fill().map((_, i) => i).map(i => `		this.clear_${i}();`).join("\n")}
+	}
+${new Array(slotBatch).fill().map((_, i) => i).map(i => `
+	protected void clear_${i}() {
+${new Array(batch).fill().map((_, j) => i * batch + j).filter(j => j < slots).map(j => `		this._${j} = 0;`).join("\n")}
 	}
 `.slice(1, -1)).join("\n")}
 
@@ -307,6 +376,7 @@ ${new Array(batch).fill().map((_, j) => i * batch + j).filter(j => j < slots).ma
 	}
 
 	public void offsetX(int amount) {
+		amount = Math.max(-WIDTH, Math.min(WIDTH, amount));
 		if(amount >= 0) {
 ${offsetSteps.map(step => `
 			while((amount / ${step}) > 0) {
@@ -333,6 +403,7 @@ ${generateSourceOffsetXYZ(`offsetNX${step}`, -step, 0, 0)}
 `.slice(1, -1)).join("\n")}
 
 	public void offsetY(int amount) {
+		amount = Math.max(-HEIGHT, Math.min(HEIGHT, amount));
 		if(amount >= 0) {
 ${offsetSteps.map(step => `
 			while((amount / ${step}) > 0) {
@@ -359,6 +430,7 @@ ${generateSourceOffsetXYZ(`offsetNY${step}`, 0, -step, 0)}
 `.slice(1, -1)).join("\n")}
 
 	public void offsetZ(int amount) {
+		amount = Math.max(-DEPTH, Math.min(DEPTH, amount));
 		if(amount >= 0) {
 ${offsetSteps.map(step => `
 			while((amount / ${step}) > 0) {
@@ -386,79 +458,79 @@ ${generateSourceOffsetXYZ(`offsetNZ${step}`, 0, 0, -step)}
 
 	public boolean isIntersecting(BitField that0) {
 		if(!(that0 instanceof ${Class}))
-			return BitField.super.isIntersecting(that0);
+			return super.isIntersecting(that0);
 		var that = (${Class}) that0;
-${new Array(slotBatch).fill().map((_, i) => i).map(i => `		if(this.isIntersecting${i}(that)) return true;`).join("\n")}
+${new Array(slotBatch).fill().map((_, i) => i).map(i => `		if(this.isIntersecting_${i}(that)) return true;`).join("\n")}
 		return false;
 	}
 ${new Array(slotBatch).fill().map((_, i) => i).map(i => `
-	protected boolean isIntersecting${i}(${Class} that) {
+	protected boolean isIntersecting_${i}(${Class} that) {
 ${new Array(batch).fill().map((_, j) => i * batch + j).filter(j => j < slots).map(j => `		if((this._${j} & that._${j}) != 0) return true;`).join("\n")}
 		return false;
 	}
 `.slice(1, -1)).join("\n")}
 
 	public void complement() {
-${new Array(slotBatch).fill().map((_, i) => i).map(i => `		this.complement${i}();`).join("\n")}
+${new Array(slotBatch).fill().map((_, i) => i).map(i => `		this.complement_${i}();`).join("\n")}
 	}
 ${new Array(slotBatch).fill().map((_, i) => i).map(i => `
-	protected void complement${i}() {
+	protected void complement_${i}() {
 ${new Array(batch).fill().map((_, j) => i * batch + j).filter(j => j < slots).map(j => `		this._${j} = ~this._${j};`).join("\n")}
 	}
 `.slice(1, -1)).join("\n")}
 
 	public void union(BitField that0) {
 		if(!(that0 instanceof ${Class})) {
-			BitField.super.union(that0);
+			super.union(that0);
 			return;
 		}
 		var that = (${Class}) that0;
-${new Array(slotBatch).fill().map((_, i) => i).map(i => `		this.union${i}(that);`).join("\n")}
+${new Array(slotBatch).fill().map((_, i) => i).map(i => `		this.union_${i}(that);`).join("\n")}
 	}
 ${new Array(slotBatch).fill().map((_, i) => i).map(i => `
-	protected void union${i}(${Class} that) {
+	protected void union_${i}(${Class} that) {
 ${new Array(batch).fill().map((_, j) => i * batch + j).filter(j => j < slots).map(j => `		this._${j} |= that._${j};`).join("\n")}
 	}
 `.slice(1, -1)).join("\n")}
 
 	public void intersect(BitField that0) {
 		if(!(that0 instanceof ${Class})) {
-			BitField.super.union(that0);
+			super.union(that0);
 			return;
 		}
 		var that = (${Class}) that0;
-${new Array(slotBatch).fill().map((_, i) => i).map(i => `		this.intersect${i}(that);`).join("\n")}
+${new Array(slotBatch).fill().map((_, i) => i).map(i => `		this.intersect_${i}(that);`).join("\n")}
 	}
 ${new Array(slotBatch).fill().map((_, i) => i).map(i => `
-	protected void intersect${i}(${Class} that) {
+	protected void intersect_${i}(${Class} that) {
 ${new Array(batch).fill().map((_, j) => i * batch + j).filter(j => j < slots).map(j => `		this._${j} &= that._${j};`).join("\n")}
 	}
 `.slice(1, -1)).join("\n")}
 
 	public void exclusive(BitField that0) {
 		if(!(that0 instanceof ${Class})) {
-			BitField.super.union(that0);
+			super.union(that0);
 			return;
 		}
 		var that = (${Class}) that0;
-${new Array(slotBatch).fill().map((_, i) => i).map(i => `		this.exclusive${i}(that);`).join("\n")}
+${new Array(slotBatch).fill().map((_, i) => i).map(i => `		this.exclusive_${i}(that);`).join("\n")}
 	}
 ${new Array(slotBatch).fill().map((_, i) => i).map(i => `
-	protected void exclusive${i}(${Class} that) {
+	protected void exclusive_${i}(${Class} that) {
 ${new Array(batch).fill().map((_, j) => i * batch + j).filter(j => j < slots).map(j => `		this._${j} ^= that._${j};`).join("\n")}
 	}
 `.slice(1, -1)).join("\n")}
 
 	public void subtract(BitField that0) {
 		if(!(that0 instanceof ${Class})) {
-			BitField.super.union(that0);
+			super.union(that0);
 			return;
 		}
 		var that = (${Class}) that0;
-${new Array(slotBatch).fill().map((_, i) => i).map(i => `		this.subtract${i}(that);`).join("\n")}
+${new Array(slotBatch).fill().map((_, i) => i).map(i => `		this.subtract_${i}(that);`).join("\n")}
 	}
 ${new Array(slotBatch).fill().map((_, i) => i).map(i => `
-	protected void subtract${i}(${Class} that) {
+	protected void subtract_${i}(${Class} that) {
 ${new Array(batch).fill().map((_, j) => i * batch + j).filter(j => j < slots).map(j => `		this._${j} &= ~that._${j};`).join("\n")}
 	}
 `.slice(1, -1)).join("\n")}

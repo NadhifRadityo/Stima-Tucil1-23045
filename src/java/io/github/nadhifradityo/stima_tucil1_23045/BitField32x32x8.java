@@ -3,7 +3,7 @@
 
 package io.github.nadhifradityo.stima_tucil1_23045;
 
-public class BitField32x32x8 implements BitField {
+public class BitField32x32x8 extends BitField {
 	public static final int WIDTH = 32;
 	public static final int HEIGHT = 32;
 	public static final int DEPTH = 8;
@@ -151,18 +151,18 @@ public class BitField32x32x8 implements BitField {
 		assert y >= 0 && y < HEIGHT;
 		assert z >= 0 && z < DEPTH;
 		int position = z * (HEIGHT * WIDTH) + y * WIDTH + x;
-		if(position < 1024) return this.getValue0(position);
-		if(position < 2048) return this.getValue1(position);
-		if(position < 3072) return this.getValue2(position);
-		if(position < 4096) return this.getValue3(position);
-		if(position < 5120) return this.getValue4(position);
-		if(position < 6144) return this.getValue5(position);
-		if(position < 7168) return this.getValue6(position);
-		if(position < 8192) return this.getValue7(position);
+		if(position < 1024) return this.getValue_0(position);
+		if(position < 2048) return this.getValue_1(position);
+		if(position < 3072) return this.getValue_2(position);
+		if(position < 4096) return this.getValue_3(position);
+		if(position < 5120) return this.getValue_4(position);
+		if(position < 6144) return this.getValue_5(position);
+		if(position < 7168) return this.getValue_6(position);
+		if(position < 8192) return this.getValue_7(position);
 		assert false;
 		return false;
 	}
-	protected boolean getValue0(int position) {
+	protected boolean getValue_0(int position) {
 		long mask = 1L << (63 - position % 64);
 		if(position < 64) return (this._0 & mask) != 0;
 		if(position < 128) return (this._1 & mask) != 0;
@@ -183,7 +183,7 @@ public class BitField32x32x8 implements BitField {
 		assert false;
 		return false;
 	}
-	protected boolean getValue1(int position) {
+	protected boolean getValue_1(int position) {
 		long mask = 1L << (63 - position % 64);
 		if(position < 1088) return (this._16 & mask) != 0;
 		if(position < 1152) return (this._17 & mask) != 0;
@@ -204,7 +204,7 @@ public class BitField32x32x8 implements BitField {
 		assert false;
 		return false;
 	}
-	protected boolean getValue2(int position) {
+	protected boolean getValue_2(int position) {
 		long mask = 1L << (63 - position % 64);
 		if(position < 2112) return (this._32 & mask) != 0;
 		if(position < 2176) return (this._33 & mask) != 0;
@@ -225,7 +225,7 @@ public class BitField32x32x8 implements BitField {
 		assert false;
 		return false;
 	}
-	protected boolean getValue3(int position) {
+	protected boolean getValue_3(int position) {
 		long mask = 1L << (63 - position % 64);
 		if(position < 3136) return (this._48 & mask) != 0;
 		if(position < 3200) return (this._49 & mask) != 0;
@@ -246,7 +246,7 @@ public class BitField32x32x8 implements BitField {
 		assert false;
 		return false;
 	}
-	protected boolean getValue4(int position) {
+	protected boolean getValue_4(int position) {
 		long mask = 1L << (63 - position % 64);
 		if(position < 4160) return (this._64 & mask) != 0;
 		if(position < 4224) return (this._65 & mask) != 0;
@@ -267,7 +267,7 @@ public class BitField32x32x8 implements BitField {
 		assert false;
 		return false;
 	}
-	protected boolean getValue5(int position) {
+	protected boolean getValue_5(int position) {
 		long mask = 1L << (63 - position % 64);
 		if(position < 5184) return (this._80 & mask) != 0;
 		if(position < 5248) return (this._81 & mask) != 0;
@@ -288,7 +288,7 @@ public class BitField32x32x8 implements BitField {
 		assert false;
 		return false;
 	}
-	protected boolean getValue6(int position) {
+	protected boolean getValue_6(int position) {
 		long mask = 1L << (63 - position % 64);
 		if(position < 6208) return (this._96 & mask) != 0;
 		if(position < 6272) return (this._97 & mask) != 0;
@@ -309,7 +309,7 @@ public class BitField32x32x8 implements BitField {
 		assert false;
 		return false;
 	}
-	protected boolean getValue7(int position) {
+	protected boolean getValue_7(int position) {
 		long mask = 1L << (63 - position % 64);
 		if(position < 7232) return (this._112 & mask) != 0;
 		if(position < 7296) return (this._113 & mask) != 0;
@@ -336,17 +336,17 @@ public class BitField32x32x8 implements BitField {
 		assert y >= 0 && y < HEIGHT;
 		assert z >= 0 && z < DEPTH;
 		int position = z * (HEIGHT * WIDTH) + y * WIDTH + x;
-		if(position < 1024) { this.setValue0(position, v); return; }
-		if(position < 2048) { this.setValue1(position, v); return; }
-		if(position < 3072) { this.setValue2(position, v); return; }
-		if(position < 4096) { this.setValue3(position, v); return; }
-		if(position < 5120) { this.setValue4(position, v); return; }
-		if(position < 6144) { this.setValue5(position, v); return; }
-		if(position < 7168) { this.setValue6(position, v); return; }
-		if(position < 8192) { this.setValue7(position, v); return; }
+		if(position < 1024) { this.setValue_0(position, v); return; }
+		if(position < 2048) { this.setValue_1(position, v); return; }
+		if(position < 3072) { this.setValue_2(position, v); return; }
+		if(position < 4096) { this.setValue_3(position, v); return; }
+		if(position < 5120) { this.setValue_4(position, v); return; }
+		if(position < 6144) { this.setValue_5(position, v); return; }
+		if(position < 7168) { this.setValue_6(position, v); return; }
+		if(position < 8192) { this.setValue_7(position, v); return; }
 		assert false;
 	}
-	protected void setValue0(int position, boolean v) {
+	protected void setValue_0(int position, boolean v) {
 		long mask = ~(1L << (63 - position % 64));
 		long value = v ? 1L << (63 - position % 64) : 0;
 		if(position < 64) { this._0 = (this._0 & mask) | value; return; }
@@ -367,7 +367,7 @@ public class BitField32x32x8 implements BitField {
 		if(position < 1024) { this._15 = (this._15 & mask) | value; return; }
 		assert false;
 	}
-	protected void setValue1(int position, boolean v) {
+	protected void setValue_1(int position, boolean v) {
 		long mask = ~(1L << (63 - position % 64));
 		long value = v ? 1L << (63 - position % 64) : 0;
 		if(position < 1088) { this._16 = (this._16 & mask) | value; return; }
@@ -388,7 +388,7 @@ public class BitField32x32x8 implements BitField {
 		if(position < 2048) { this._31 = (this._31 & mask) | value; return; }
 		assert false;
 	}
-	protected void setValue2(int position, boolean v) {
+	protected void setValue_2(int position, boolean v) {
 		long mask = ~(1L << (63 - position % 64));
 		long value = v ? 1L << (63 - position % 64) : 0;
 		if(position < 2112) { this._32 = (this._32 & mask) | value; return; }
@@ -409,7 +409,7 @@ public class BitField32x32x8 implements BitField {
 		if(position < 3072) { this._47 = (this._47 & mask) | value; return; }
 		assert false;
 	}
-	protected void setValue3(int position, boolean v) {
+	protected void setValue_3(int position, boolean v) {
 		long mask = ~(1L << (63 - position % 64));
 		long value = v ? 1L << (63 - position % 64) : 0;
 		if(position < 3136) { this._48 = (this._48 & mask) | value; return; }
@@ -430,7 +430,7 @@ public class BitField32x32x8 implements BitField {
 		if(position < 4096) { this._63 = (this._63 & mask) | value; return; }
 		assert false;
 	}
-	protected void setValue4(int position, boolean v) {
+	protected void setValue_4(int position, boolean v) {
 		long mask = ~(1L << (63 - position % 64));
 		long value = v ? 1L << (63 - position % 64) : 0;
 		if(position < 4160) { this._64 = (this._64 & mask) | value; return; }
@@ -451,7 +451,7 @@ public class BitField32x32x8 implements BitField {
 		if(position < 5120) { this._79 = (this._79 & mask) | value; return; }
 		assert false;
 	}
-	protected void setValue5(int position, boolean v) {
+	protected void setValue_5(int position, boolean v) {
 		long mask = ~(1L << (63 - position % 64));
 		long value = v ? 1L << (63 - position % 64) : 0;
 		if(position < 5184) { this._80 = (this._80 & mask) | value; return; }
@@ -472,7 +472,7 @@ public class BitField32x32x8 implements BitField {
 		if(position < 6144) { this._95 = (this._95 & mask) | value; return; }
 		assert false;
 	}
-	protected void setValue6(int position, boolean v) {
+	protected void setValue_6(int position, boolean v) {
 		long mask = ~(1L << (63 - position % 64));
 		long value = v ? 1L << (63 - position % 64) : 0;
 		if(position < 6208) { this._96 = (this._96 & mask) | value; return; }
@@ -493,7 +493,7 @@ public class BitField32x32x8 implements BitField {
 		if(position < 7168) { this._111 = (this._111 & mask) | value; return; }
 		assert false;
 	}
-	protected void setValue7(int position, boolean v) {
+	protected void setValue_7(int position, boolean v) {
 		long mask = ~(1L << (63 - position % 64));
 		long value = v ? 1L << (63 - position % 64) : 0;
 		if(position < 7232) { this._112 = (this._112 & mask) | value; return; }
@@ -517,20 +517,20 @@ public class BitField32x32x8 implements BitField {
 
 	public void set(BitField that0) {
 		if(!(that0 instanceof BitField32x32x8)) {
-			BitField.super.set(that0);
+			super.set(that0);
 			return;
 		}
 		var that = (BitField32x32x8) that0;
-		this.set0(that);
-		this.set1(that);
-		this.set2(that);
-		this.set3(that);
-		this.set4(that);
-		this.set5(that);
-		this.set6(that);
-		this.set7(that);
+		this.set_0(that);
+		this.set_1(that);
+		this.set_2(that);
+		this.set_3(that);
+		this.set_4(that);
+		this.set_5(that);
+		this.set_6(that);
+		this.set_7(that);
 	}
-	protected void set0(BitField32x32x8 that) {
+	protected void set_0(BitField32x32x8 that) {
 		this._0 = that._0;
 		this._1 = that._1;
 		this._2 = that._2;
@@ -548,7 +548,7 @@ public class BitField32x32x8 implements BitField {
 		this._14 = that._14;
 		this._15 = that._15;
 	}
-	protected void set1(BitField32x32x8 that) {
+	protected void set_1(BitField32x32x8 that) {
 		this._16 = that._16;
 		this._17 = that._17;
 		this._18 = that._18;
@@ -566,7 +566,7 @@ public class BitField32x32x8 implements BitField {
 		this._30 = that._30;
 		this._31 = that._31;
 	}
-	protected void set2(BitField32x32x8 that) {
+	protected void set_2(BitField32x32x8 that) {
 		this._32 = that._32;
 		this._33 = that._33;
 		this._34 = that._34;
@@ -584,7 +584,7 @@ public class BitField32x32x8 implements BitField {
 		this._46 = that._46;
 		this._47 = that._47;
 	}
-	protected void set3(BitField32x32x8 that) {
+	protected void set_3(BitField32x32x8 that) {
 		this._48 = that._48;
 		this._49 = that._49;
 		this._50 = that._50;
@@ -602,7 +602,7 @@ public class BitField32x32x8 implements BitField {
 		this._62 = that._62;
 		this._63 = that._63;
 	}
-	protected void set4(BitField32x32x8 that) {
+	protected void set_4(BitField32x32x8 that) {
 		this._64 = that._64;
 		this._65 = that._65;
 		this._66 = that._66;
@@ -620,7 +620,7 @@ public class BitField32x32x8 implements BitField {
 		this._78 = that._78;
 		this._79 = that._79;
 	}
-	protected void set5(BitField32x32x8 that) {
+	protected void set_5(BitField32x32x8 that) {
 		this._80 = that._80;
 		this._81 = that._81;
 		this._82 = that._82;
@@ -638,7 +638,7 @@ public class BitField32x32x8 implements BitField {
 		this._94 = that._94;
 		this._95 = that._95;
 	}
-	protected void set6(BitField32x32x8 that) {
+	protected void set_6(BitField32x32x8 that) {
 		this._96 = that._96;
 		this._97 = that._97;
 		this._98 = that._98;
@@ -656,7 +656,7 @@ public class BitField32x32x8 implements BitField {
 		this._110 = that._110;
 		this._111 = that._111;
 	}
-	protected void set7(BitField32x32x8 that) {
+	protected void set_7(BitField32x32x8 that) {
 		this._112 = that._112;
 		this._113 = that._113;
 		this._114 = that._114;
@@ -675,6 +675,161 @@ public class BitField32x32x8 implements BitField {
 		this._127 = that._127;
 	}
 
+	public void clear() {
+		this.clear_0();
+		this.clear_1();
+		this.clear_2();
+		this.clear_3();
+		this.clear_4();
+		this.clear_5();
+		this.clear_6();
+		this.clear_7();
+	}
+	protected void clear_0() {
+		this._0 = 0;
+		this._1 = 0;
+		this._2 = 0;
+		this._3 = 0;
+		this._4 = 0;
+		this._5 = 0;
+		this._6 = 0;
+		this._7 = 0;
+		this._8 = 0;
+		this._9 = 0;
+		this._10 = 0;
+		this._11 = 0;
+		this._12 = 0;
+		this._13 = 0;
+		this._14 = 0;
+		this._15 = 0;
+	}
+	protected void clear_1() {
+		this._16 = 0;
+		this._17 = 0;
+		this._18 = 0;
+		this._19 = 0;
+		this._20 = 0;
+		this._21 = 0;
+		this._22 = 0;
+		this._23 = 0;
+		this._24 = 0;
+		this._25 = 0;
+		this._26 = 0;
+		this._27 = 0;
+		this._28 = 0;
+		this._29 = 0;
+		this._30 = 0;
+		this._31 = 0;
+	}
+	protected void clear_2() {
+		this._32 = 0;
+		this._33 = 0;
+		this._34 = 0;
+		this._35 = 0;
+		this._36 = 0;
+		this._37 = 0;
+		this._38 = 0;
+		this._39 = 0;
+		this._40 = 0;
+		this._41 = 0;
+		this._42 = 0;
+		this._43 = 0;
+		this._44 = 0;
+		this._45 = 0;
+		this._46 = 0;
+		this._47 = 0;
+	}
+	protected void clear_3() {
+		this._48 = 0;
+		this._49 = 0;
+		this._50 = 0;
+		this._51 = 0;
+		this._52 = 0;
+		this._53 = 0;
+		this._54 = 0;
+		this._55 = 0;
+		this._56 = 0;
+		this._57 = 0;
+		this._58 = 0;
+		this._59 = 0;
+		this._60 = 0;
+		this._61 = 0;
+		this._62 = 0;
+		this._63 = 0;
+	}
+	protected void clear_4() {
+		this._64 = 0;
+		this._65 = 0;
+		this._66 = 0;
+		this._67 = 0;
+		this._68 = 0;
+		this._69 = 0;
+		this._70 = 0;
+		this._71 = 0;
+		this._72 = 0;
+		this._73 = 0;
+		this._74 = 0;
+		this._75 = 0;
+		this._76 = 0;
+		this._77 = 0;
+		this._78 = 0;
+		this._79 = 0;
+	}
+	protected void clear_5() {
+		this._80 = 0;
+		this._81 = 0;
+		this._82 = 0;
+		this._83 = 0;
+		this._84 = 0;
+		this._85 = 0;
+		this._86 = 0;
+		this._87 = 0;
+		this._88 = 0;
+		this._89 = 0;
+		this._90 = 0;
+		this._91 = 0;
+		this._92 = 0;
+		this._93 = 0;
+		this._94 = 0;
+		this._95 = 0;
+	}
+	protected void clear_6() {
+		this._96 = 0;
+		this._97 = 0;
+		this._98 = 0;
+		this._99 = 0;
+		this._100 = 0;
+		this._101 = 0;
+		this._102 = 0;
+		this._103 = 0;
+		this._104 = 0;
+		this._105 = 0;
+		this._106 = 0;
+		this._107 = 0;
+		this._108 = 0;
+		this._109 = 0;
+		this._110 = 0;
+		this._111 = 0;
+	}
+	protected void clear_7() {
+		this._112 = 0;
+		this._113 = 0;
+		this._114 = 0;
+		this._115 = 0;
+		this._116 = 0;
+		this._117 = 0;
+		this._118 = 0;
+		this._119 = 0;
+		this._120 = 0;
+		this._121 = 0;
+		this._122 = 0;
+		this._123 = 0;
+		this._124 = 0;
+		this._125 = 0;
+		this._126 = 0;
+		this._127 = 0;
+	}
+
 	public BitField32x32x8 clone() {
 		var result = new BitField32x32x8();
 		result.set(this);
@@ -682,6 +837,7 @@ public class BitField32x32x8 implements BitField {
 	}
 
 	public void offsetX(int amount) {
+		amount = Math.max(-WIDTH, Math.min(WIDTH, amount));
 		if(amount >= 0) {
 			while((amount / 4) > 0) {
 				this.offsetPX4();
@@ -714,6 +870,7 @@ public class BitField32x32x8 implements BitField {
 	}
 	protected void offsetPX4() {
 		this.offsetPX4_0();
+		this.offsetPX4_1();
 	}
 	protected void offsetPX4_0() {
 		this._0 = (this._0 & -1152921500580315136L) | (this._0 & -64424509456L >> 4);
@@ -845,8 +1002,139 @@ public class BitField32x32x8 implements BitField {
 		this._111 = (this._111 & -1152921500580315136L) | (this._111 & -64424509456L >> 4);
 		this._127 = (this._127 & -1152921500580315136L) | (this._127 & -64424509456L >> 4);
 	}
+	protected void offsetPX4_1() {
+		this._0 = this._0 & 1152921500580315135L;
+		this._16 = this._16 & 1152921500580315135L;
+		this._32 = this._32 & 1152921500580315135L;
+		this._48 = this._48 & 1152921500580315135L;
+		this._64 = this._64 & 1152921500580315135L;
+		this._80 = this._80 & 1152921500580315135L;
+		this._96 = this._96 & 1152921500580315135L;
+		this._112 = this._112 & 1152921500580315135L;
+		this._1 = this._1 & 1152921500580315135L;
+		this._17 = this._17 & 1152921500580315135L;
+		this._33 = this._33 & 1152921500580315135L;
+		this._49 = this._49 & 1152921500580315135L;
+		this._65 = this._65 & 1152921500580315135L;
+		this._81 = this._81 & 1152921500580315135L;
+		this._97 = this._97 & 1152921500580315135L;
+		this._113 = this._113 & 1152921500580315135L;
+		this._2 = this._2 & 1152921500580315135L;
+		this._18 = this._18 & 1152921500580315135L;
+		this._34 = this._34 & 1152921500580315135L;
+		this._50 = this._50 & 1152921500580315135L;
+		this._66 = this._66 & 1152921500580315135L;
+		this._82 = this._82 & 1152921500580315135L;
+		this._98 = this._98 & 1152921500580315135L;
+		this._114 = this._114 & 1152921500580315135L;
+		this._3 = this._3 & 1152921500580315135L;
+		this._19 = this._19 & 1152921500580315135L;
+		this._35 = this._35 & 1152921500580315135L;
+		this._51 = this._51 & 1152921500580315135L;
+		this._67 = this._67 & 1152921500580315135L;
+		this._83 = this._83 & 1152921500580315135L;
+		this._99 = this._99 & 1152921500580315135L;
+		this._115 = this._115 & 1152921500580315135L;
+		this._4 = this._4 & 1152921500580315135L;
+		this._20 = this._20 & 1152921500580315135L;
+		this._36 = this._36 & 1152921500580315135L;
+		this._52 = this._52 & 1152921500580315135L;
+		this._68 = this._68 & 1152921500580315135L;
+		this._84 = this._84 & 1152921500580315135L;
+		this._100 = this._100 & 1152921500580315135L;
+		this._116 = this._116 & 1152921500580315135L;
+		this._5 = this._5 & 1152921500580315135L;
+		this._21 = this._21 & 1152921500580315135L;
+		this._37 = this._37 & 1152921500580315135L;
+		this._53 = this._53 & 1152921500580315135L;
+		this._69 = this._69 & 1152921500580315135L;
+		this._85 = this._85 & 1152921500580315135L;
+		this._101 = this._101 & 1152921500580315135L;
+		this._117 = this._117 & 1152921500580315135L;
+		this._6 = this._6 & 1152921500580315135L;
+		this._22 = this._22 & 1152921500580315135L;
+		this._38 = this._38 & 1152921500580315135L;
+		this._54 = this._54 & 1152921500580315135L;
+		this._70 = this._70 & 1152921500580315135L;
+		this._86 = this._86 & 1152921500580315135L;
+		this._102 = this._102 & 1152921500580315135L;
+		this._118 = this._118 & 1152921500580315135L;
+		this._7 = this._7 & 1152921500580315135L;
+		this._23 = this._23 & 1152921500580315135L;
+		this._39 = this._39 & 1152921500580315135L;
+		this._55 = this._55 & 1152921500580315135L;
+		this._71 = this._71 & 1152921500580315135L;
+		this._87 = this._87 & 1152921500580315135L;
+		this._103 = this._103 & 1152921500580315135L;
+		this._119 = this._119 & 1152921500580315135L;
+		this._8 = this._8 & 1152921500580315135L;
+		this._24 = this._24 & 1152921500580315135L;
+		this._40 = this._40 & 1152921500580315135L;
+		this._56 = this._56 & 1152921500580315135L;
+		this._72 = this._72 & 1152921500580315135L;
+		this._88 = this._88 & 1152921500580315135L;
+		this._104 = this._104 & 1152921500580315135L;
+		this._120 = this._120 & 1152921500580315135L;
+		this._9 = this._9 & 1152921500580315135L;
+		this._25 = this._25 & 1152921500580315135L;
+		this._41 = this._41 & 1152921500580315135L;
+		this._57 = this._57 & 1152921500580315135L;
+		this._73 = this._73 & 1152921500580315135L;
+		this._89 = this._89 & 1152921500580315135L;
+		this._105 = this._105 & 1152921500580315135L;
+		this._121 = this._121 & 1152921500580315135L;
+		this._10 = this._10 & 1152921500580315135L;
+		this._26 = this._26 & 1152921500580315135L;
+		this._42 = this._42 & 1152921500580315135L;
+		this._58 = this._58 & 1152921500580315135L;
+		this._74 = this._74 & 1152921500580315135L;
+		this._90 = this._90 & 1152921500580315135L;
+		this._106 = this._106 & 1152921500580315135L;
+		this._122 = this._122 & 1152921500580315135L;
+		this._11 = this._11 & 1152921500580315135L;
+		this._27 = this._27 & 1152921500580315135L;
+		this._43 = this._43 & 1152921500580315135L;
+		this._59 = this._59 & 1152921500580315135L;
+		this._75 = this._75 & 1152921500580315135L;
+		this._91 = this._91 & 1152921500580315135L;
+		this._107 = this._107 & 1152921500580315135L;
+		this._123 = this._123 & 1152921500580315135L;
+		this._12 = this._12 & 1152921500580315135L;
+		this._28 = this._28 & 1152921500580315135L;
+		this._44 = this._44 & 1152921500580315135L;
+		this._60 = this._60 & 1152921500580315135L;
+		this._76 = this._76 & 1152921500580315135L;
+		this._92 = this._92 & 1152921500580315135L;
+		this._108 = this._108 & 1152921500580315135L;
+		this._124 = this._124 & 1152921500580315135L;
+		this._13 = this._13 & 1152921500580315135L;
+		this._29 = this._29 & 1152921500580315135L;
+		this._45 = this._45 & 1152921500580315135L;
+		this._61 = this._61 & 1152921500580315135L;
+		this._77 = this._77 & 1152921500580315135L;
+		this._93 = this._93 & 1152921500580315135L;
+		this._109 = this._109 & 1152921500580315135L;
+		this._125 = this._125 & 1152921500580315135L;
+		this._14 = this._14 & 1152921500580315135L;
+		this._30 = this._30 & 1152921500580315135L;
+		this._46 = this._46 & 1152921500580315135L;
+		this._62 = this._62 & 1152921500580315135L;
+		this._78 = this._78 & 1152921500580315135L;
+		this._94 = this._94 & 1152921500580315135L;
+		this._110 = this._110 & 1152921500580315135L;
+		this._126 = this._126 & 1152921500580315135L;
+		this._15 = this._15 & 1152921500580315135L;
+		this._31 = this._31 & 1152921500580315135L;
+		this._47 = this._47 & 1152921500580315135L;
+		this._63 = this._63 & 1152921500580315135L;
+		this._79 = this._79 & 1152921500580315135L;
+		this._95 = this._95 & 1152921500580315135L;
+		this._111 = this._111 & 1152921500580315135L;
+		this._127 = this._127 & 1152921500580315135L;
+	}
 	protected void offsetPX2() {
 		this.offsetPX2_0();
+		this.offsetPX2_1();
 	}
 	protected void offsetPX2_0() {
 		this._0 = (this._0 & -4611686015206162432L) | (this._0 & -12884901892L >> 2);
@@ -978,8 +1266,139 @@ public class BitField32x32x8 implements BitField {
 		this._111 = (this._111 & -4611686015206162432L) | (this._111 & -12884901892L >> 2);
 		this._127 = (this._127 & -4611686015206162432L) | (this._127 & -12884901892L >> 2);
 	}
+	protected void offsetPX2_1() {
+		this._0 = this._0 & 4611686015206162431L;
+		this._16 = this._16 & 4611686015206162431L;
+		this._32 = this._32 & 4611686015206162431L;
+		this._48 = this._48 & 4611686015206162431L;
+		this._64 = this._64 & 4611686015206162431L;
+		this._80 = this._80 & 4611686015206162431L;
+		this._96 = this._96 & 4611686015206162431L;
+		this._112 = this._112 & 4611686015206162431L;
+		this._1 = this._1 & 4611686015206162431L;
+		this._17 = this._17 & 4611686015206162431L;
+		this._33 = this._33 & 4611686015206162431L;
+		this._49 = this._49 & 4611686015206162431L;
+		this._65 = this._65 & 4611686015206162431L;
+		this._81 = this._81 & 4611686015206162431L;
+		this._97 = this._97 & 4611686015206162431L;
+		this._113 = this._113 & 4611686015206162431L;
+		this._2 = this._2 & 4611686015206162431L;
+		this._18 = this._18 & 4611686015206162431L;
+		this._34 = this._34 & 4611686015206162431L;
+		this._50 = this._50 & 4611686015206162431L;
+		this._66 = this._66 & 4611686015206162431L;
+		this._82 = this._82 & 4611686015206162431L;
+		this._98 = this._98 & 4611686015206162431L;
+		this._114 = this._114 & 4611686015206162431L;
+		this._3 = this._3 & 4611686015206162431L;
+		this._19 = this._19 & 4611686015206162431L;
+		this._35 = this._35 & 4611686015206162431L;
+		this._51 = this._51 & 4611686015206162431L;
+		this._67 = this._67 & 4611686015206162431L;
+		this._83 = this._83 & 4611686015206162431L;
+		this._99 = this._99 & 4611686015206162431L;
+		this._115 = this._115 & 4611686015206162431L;
+		this._4 = this._4 & 4611686015206162431L;
+		this._20 = this._20 & 4611686015206162431L;
+		this._36 = this._36 & 4611686015206162431L;
+		this._52 = this._52 & 4611686015206162431L;
+		this._68 = this._68 & 4611686015206162431L;
+		this._84 = this._84 & 4611686015206162431L;
+		this._100 = this._100 & 4611686015206162431L;
+		this._116 = this._116 & 4611686015206162431L;
+		this._5 = this._5 & 4611686015206162431L;
+		this._21 = this._21 & 4611686015206162431L;
+		this._37 = this._37 & 4611686015206162431L;
+		this._53 = this._53 & 4611686015206162431L;
+		this._69 = this._69 & 4611686015206162431L;
+		this._85 = this._85 & 4611686015206162431L;
+		this._101 = this._101 & 4611686015206162431L;
+		this._117 = this._117 & 4611686015206162431L;
+		this._6 = this._6 & 4611686015206162431L;
+		this._22 = this._22 & 4611686015206162431L;
+		this._38 = this._38 & 4611686015206162431L;
+		this._54 = this._54 & 4611686015206162431L;
+		this._70 = this._70 & 4611686015206162431L;
+		this._86 = this._86 & 4611686015206162431L;
+		this._102 = this._102 & 4611686015206162431L;
+		this._118 = this._118 & 4611686015206162431L;
+		this._7 = this._7 & 4611686015206162431L;
+		this._23 = this._23 & 4611686015206162431L;
+		this._39 = this._39 & 4611686015206162431L;
+		this._55 = this._55 & 4611686015206162431L;
+		this._71 = this._71 & 4611686015206162431L;
+		this._87 = this._87 & 4611686015206162431L;
+		this._103 = this._103 & 4611686015206162431L;
+		this._119 = this._119 & 4611686015206162431L;
+		this._8 = this._8 & 4611686015206162431L;
+		this._24 = this._24 & 4611686015206162431L;
+		this._40 = this._40 & 4611686015206162431L;
+		this._56 = this._56 & 4611686015206162431L;
+		this._72 = this._72 & 4611686015206162431L;
+		this._88 = this._88 & 4611686015206162431L;
+		this._104 = this._104 & 4611686015206162431L;
+		this._120 = this._120 & 4611686015206162431L;
+		this._9 = this._9 & 4611686015206162431L;
+		this._25 = this._25 & 4611686015206162431L;
+		this._41 = this._41 & 4611686015206162431L;
+		this._57 = this._57 & 4611686015206162431L;
+		this._73 = this._73 & 4611686015206162431L;
+		this._89 = this._89 & 4611686015206162431L;
+		this._105 = this._105 & 4611686015206162431L;
+		this._121 = this._121 & 4611686015206162431L;
+		this._10 = this._10 & 4611686015206162431L;
+		this._26 = this._26 & 4611686015206162431L;
+		this._42 = this._42 & 4611686015206162431L;
+		this._58 = this._58 & 4611686015206162431L;
+		this._74 = this._74 & 4611686015206162431L;
+		this._90 = this._90 & 4611686015206162431L;
+		this._106 = this._106 & 4611686015206162431L;
+		this._122 = this._122 & 4611686015206162431L;
+		this._11 = this._11 & 4611686015206162431L;
+		this._27 = this._27 & 4611686015206162431L;
+		this._43 = this._43 & 4611686015206162431L;
+		this._59 = this._59 & 4611686015206162431L;
+		this._75 = this._75 & 4611686015206162431L;
+		this._91 = this._91 & 4611686015206162431L;
+		this._107 = this._107 & 4611686015206162431L;
+		this._123 = this._123 & 4611686015206162431L;
+		this._12 = this._12 & 4611686015206162431L;
+		this._28 = this._28 & 4611686015206162431L;
+		this._44 = this._44 & 4611686015206162431L;
+		this._60 = this._60 & 4611686015206162431L;
+		this._76 = this._76 & 4611686015206162431L;
+		this._92 = this._92 & 4611686015206162431L;
+		this._108 = this._108 & 4611686015206162431L;
+		this._124 = this._124 & 4611686015206162431L;
+		this._13 = this._13 & 4611686015206162431L;
+		this._29 = this._29 & 4611686015206162431L;
+		this._45 = this._45 & 4611686015206162431L;
+		this._61 = this._61 & 4611686015206162431L;
+		this._77 = this._77 & 4611686015206162431L;
+		this._93 = this._93 & 4611686015206162431L;
+		this._109 = this._109 & 4611686015206162431L;
+		this._125 = this._125 & 4611686015206162431L;
+		this._14 = this._14 & 4611686015206162431L;
+		this._30 = this._30 & 4611686015206162431L;
+		this._46 = this._46 & 4611686015206162431L;
+		this._62 = this._62 & 4611686015206162431L;
+		this._78 = this._78 & 4611686015206162431L;
+		this._94 = this._94 & 4611686015206162431L;
+		this._110 = this._110 & 4611686015206162431L;
+		this._126 = this._126 & 4611686015206162431L;
+		this._15 = this._15 & 4611686015206162431L;
+		this._31 = this._31 & 4611686015206162431L;
+		this._47 = this._47 & 4611686015206162431L;
+		this._63 = this._63 & 4611686015206162431L;
+		this._79 = this._79 & 4611686015206162431L;
+		this._95 = this._95 & 4611686015206162431L;
+		this._111 = this._111 & 4611686015206162431L;
+		this._127 = this._127 & 4611686015206162431L;
+	}
 	protected void offsetPX1() {
 		this.offsetPX1_0();
+		this.offsetPX1_1();
 	}
 	protected void offsetPX1_0() {
 		this._0 = (this._0 & -9223372034707292160L) | (this._0 & -4294967298L >> 1);
@@ -1110,6 +1529,136 @@ public class BitField32x32x8 implements BitField {
 		this._95 = (this._95 & -9223372034707292160L) | (this._95 & -4294967298L >> 1);
 		this._111 = (this._111 & -9223372034707292160L) | (this._111 & -4294967298L >> 1);
 		this._127 = (this._127 & -9223372034707292160L) | (this._127 & -4294967298L >> 1);
+	}
+	protected void offsetPX1_1() {
+		this._0 = this._0 & 9223372034707292159L;
+		this._16 = this._16 & 9223372034707292159L;
+		this._32 = this._32 & 9223372034707292159L;
+		this._48 = this._48 & 9223372034707292159L;
+		this._64 = this._64 & 9223372034707292159L;
+		this._80 = this._80 & 9223372034707292159L;
+		this._96 = this._96 & 9223372034707292159L;
+		this._112 = this._112 & 9223372034707292159L;
+		this._1 = this._1 & 9223372034707292159L;
+		this._17 = this._17 & 9223372034707292159L;
+		this._33 = this._33 & 9223372034707292159L;
+		this._49 = this._49 & 9223372034707292159L;
+		this._65 = this._65 & 9223372034707292159L;
+		this._81 = this._81 & 9223372034707292159L;
+		this._97 = this._97 & 9223372034707292159L;
+		this._113 = this._113 & 9223372034707292159L;
+		this._2 = this._2 & 9223372034707292159L;
+		this._18 = this._18 & 9223372034707292159L;
+		this._34 = this._34 & 9223372034707292159L;
+		this._50 = this._50 & 9223372034707292159L;
+		this._66 = this._66 & 9223372034707292159L;
+		this._82 = this._82 & 9223372034707292159L;
+		this._98 = this._98 & 9223372034707292159L;
+		this._114 = this._114 & 9223372034707292159L;
+		this._3 = this._3 & 9223372034707292159L;
+		this._19 = this._19 & 9223372034707292159L;
+		this._35 = this._35 & 9223372034707292159L;
+		this._51 = this._51 & 9223372034707292159L;
+		this._67 = this._67 & 9223372034707292159L;
+		this._83 = this._83 & 9223372034707292159L;
+		this._99 = this._99 & 9223372034707292159L;
+		this._115 = this._115 & 9223372034707292159L;
+		this._4 = this._4 & 9223372034707292159L;
+		this._20 = this._20 & 9223372034707292159L;
+		this._36 = this._36 & 9223372034707292159L;
+		this._52 = this._52 & 9223372034707292159L;
+		this._68 = this._68 & 9223372034707292159L;
+		this._84 = this._84 & 9223372034707292159L;
+		this._100 = this._100 & 9223372034707292159L;
+		this._116 = this._116 & 9223372034707292159L;
+		this._5 = this._5 & 9223372034707292159L;
+		this._21 = this._21 & 9223372034707292159L;
+		this._37 = this._37 & 9223372034707292159L;
+		this._53 = this._53 & 9223372034707292159L;
+		this._69 = this._69 & 9223372034707292159L;
+		this._85 = this._85 & 9223372034707292159L;
+		this._101 = this._101 & 9223372034707292159L;
+		this._117 = this._117 & 9223372034707292159L;
+		this._6 = this._6 & 9223372034707292159L;
+		this._22 = this._22 & 9223372034707292159L;
+		this._38 = this._38 & 9223372034707292159L;
+		this._54 = this._54 & 9223372034707292159L;
+		this._70 = this._70 & 9223372034707292159L;
+		this._86 = this._86 & 9223372034707292159L;
+		this._102 = this._102 & 9223372034707292159L;
+		this._118 = this._118 & 9223372034707292159L;
+		this._7 = this._7 & 9223372034707292159L;
+		this._23 = this._23 & 9223372034707292159L;
+		this._39 = this._39 & 9223372034707292159L;
+		this._55 = this._55 & 9223372034707292159L;
+		this._71 = this._71 & 9223372034707292159L;
+		this._87 = this._87 & 9223372034707292159L;
+		this._103 = this._103 & 9223372034707292159L;
+		this._119 = this._119 & 9223372034707292159L;
+		this._8 = this._8 & 9223372034707292159L;
+		this._24 = this._24 & 9223372034707292159L;
+		this._40 = this._40 & 9223372034707292159L;
+		this._56 = this._56 & 9223372034707292159L;
+		this._72 = this._72 & 9223372034707292159L;
+		this._88 = this._88 & 9223372034707292159L;
+		this._104 = this._104 & 9223372034707292159L;
+		this._120 = this._120 & 9223372034707292159L;
+		this._9 = this._9 & 9223372034707292159L;
+		this._25 = this._25 & 9223372034707292159L;
+		this._41 = this._41 & 9223372034707292159L;
+		this._57 = this._57 & 9223372034707292159L;
+		this._73 = this._73 & 9223372034707292159L;
+		this._89 = this._89 & 9223372034707292159L;
+		this._105 = this._105 & 9223372034707292159L;
+		this._121 = this._121 & 9223372034707292159L;
+		this._10 = this._10 & 9223372034707292159L;
+		this._26 = this._26 & 9223372034707292159L;
+		this._42 = this._42 & 9223372034707292159L;
+		this._58 = this._58 & 9223372034707292159L;
+		this._74 = this._74 & 9223372034707292159L;
+		this._90 = this._90 & 9223372034707292159L;
+		this._106 = this._106 & 9223372034707292159L;
+		this._122 = this._122 & 9223372034707292159L;
+		this._11 = this._11 & 9223372034707292159L;
+		this._27 = this._27 & 9223372034707292159L;
+		this._43 = this._43 & 9223372034707292159L;
+		this._59 = this._59 & 9223372034707292159L;
+		this._75 = this._75 & 9223372034707292159L;
+		this._91 = this._91 & 9223372034707292159L;
+		this._107 = this._107 & 9223372034707292159L;
+		this._123 = this._123 & 9223372034707292159L;
+		this._12 = this._12 & 9223372034707292159L;
+		this._28 = this._28 & 9223372034707292159L;
+		this._44 = this._44 & 9223372034707292159L;
+		this._60 = this._60 & 9223372034707292159L;
+		this._76 = this._76 & 9223372034707292159L;
+		this._92 = this._92 & 9223372034707292159L;
+		this._108 = this._108 & 9223372034707292159L;
+		this._124 = this._124 & 9223372034707292159L;
+		this._13 = this._13 & 9223372034707292159L;
+		this._29 = this._29 & 9223372034707292159L;
+		this._45 = this._45 & 9223372034707292159L;
+		this._61 = this._61 & 9223372034707292159L;
+		this._77 = this._77 & 9223372034707292159L;
+		this._93 = this._93 & 9223372034707292159L;
+		this._109 = this._109 & 9223372034707292159L;
+		this._125 = this._125 & 9223372034707292159L;
+		this._14 = this._14 & 9223372034707292159L;
+		this._30 = this._30 & 9223372034707292159L;
+		this._46 = this._46 & 9223372034707292159L;
+		this._62 = this._62 & 9223372034707292159L;
+		this._78 = this._78 & 9223372034707292159L;
+		this._94 = this._94 & 9223372034707292159L;
+		this._110 = this._110 & 9223372034707292159L;
+		this._126 = this._126 & 9223372034707292159L;
+		this._15 = this._15 & 9223372034707292159L;
+		this._31 = this._31 & 9223372034707292159L;
+		this._47 = this._47 & 9223372034707292159L;
+		this._63 = this._63 & 9223372034707292159L;
+		this._79 = this._79 & 9223372034707292159L;
+		this._95 = this._95 & 9223372034707292159L;
+		this._111 = this._111 & 9223372034707292159L;
+		this._127 = this._127 & 9223372034707292159L;
 	}
 	protected void offsetNX4() {
 		this.offsetNX4_0();
@@ -1512,6 +2061,7 @@ public class BitField32x32x8 implements BitField {
 	}
 
 	public void offsetY(int amount) {
+		amount = Math.max(-HEIGHT, Math.min(HEIGHT, amount));
 		if(amount >= 0) {
 			while((amount / 4) > 0) {
 				this.offsetPY4();
@@ -2039,6 +2589,14 @@ public class BitField32x32x8 implements BitField {
 		this._95 = (this._95 & -4294967296L) | (this._95 & -4294967296L >> 32);
 		this._111 = (this._111 & -4294967296L) | (this._111 & -4294967296L >> 32);
 		this._127 = (this._127 & -4294967296L) | (this._127 & -4294967296L >> 32);
+		this._0 = this._0 & 4294967295L;
+		this._16 = this._16 & 4294967295L;
+		this._32 = this._32 & 4294967295L;
+		this._48 = this._48 & 4294967295L;
+		this._64 = this._64 & 4294967295L;
+		this._80 = this._80 & 4294967295L;
+		this._96 = this._96 & 4294967295L;
+		this._112 = this._112 & 4294967295L;
 	}
 	protected void offsetNY4() {
 		this.offsetNY4_0();
@@ -2540,6 +3098,7 @@ public class BitField32x32x8 implements BitField {
 	}
 
 	public void offsetZ(int amount) {
+		amount = Math.max(-DEPTH, Math.min(DEPTH, amount));
 		if(amount >= 0) {
 			while((amount / 4) > 0) {
 				this.offsetPZ4();
@@ -3147,19 +3706,19 @@ public class BitField32x32x8 implements BitField {
 
 	public boolean isIntersecting(BitField that0) {
 		if(!(that0 instanceof BitField32x32x8))
-			return BitField.super.isIntersecting(that0);
+			return super.isIntersecting(that0);
 		var that = (BitField32x32x8) that0;
-		if(this.isIntersecting0(that)) return true;
-		if(this.isIntersecting1(that)) return true;
-		if(this.isIntersecting2(that)) return true;
-		if(this.isIntersecting3(that)) return true;
-		if(this.isIntersecting4(that)) return true;
-		if(this.isIntersecting5(that)) return true;
-		if(this.isIntersecting6(that)) return true;
-		if(this.isIntersecting7(that)) return true;
+		if(this.isIntersecting_0(that)) return true;
+		if(this.isIntersecting_1(that)) return true;
+		if(this.isIntersecting_2(that)) return true;
+		if(this.isIntersecting_3(that)) return true;
+		if(this.isIntersecting_4(that)) return true;
+		if(this.isIntersecting_5(that)) return true;
+		if(this.isIntersecting_6(that)) return true;
+		if(this.isIntersecting_7(that)) return true;
 		return false;
 	}
-	protected boolean isIntersecting0(BitField32x32x8 that) {
+	protected boolean isIntersecting_0(BitField32x32x8 that) {
 		if((this._0 & that._0) != 0) return true;
 		if((this._1 & that._1) != 0) return true;
 		if((this._2 & that._2) != 0) return true;
@@ -3178,7 +3737,7 @@ public class BitField32x32x8 implements BitField {
 		if((this._15 & that._15) != 0) return true;
 		return false;
 	}
-	protected boolean isIntersecting1(BitField32x32x8 that) {
+	protected boolean isIntersecting_1(BitField32x32x8 that) {
 		if((this._16 & that._16) != 0) return true;
 		if((this._17 & that._17) != 0) return true;
 		if((this._18 & that._18) != 0) return true;
@@ -3197,7 +3756,7 @@ public class BitField32x32x8 implements BitField {
 		if((this._31 & that._31) != 0) return true;
 		return false;
 	}
-	protected boolean isIntersecting2(BitField32x32x8 that) {
+	protected boolean isIntersecting_2(BitField32x32x8 that) {
 		if((this._32 & that._32) != 0) return true;
 		if((this._33 & that._33) != 0) return true;
 		if((this._34 & that._34) != 0) return true;
@@ -3216,7 +3775,7 @@ public class BitField32x32x8 implements BitField {
 		if((this._47 & that._47) != 0) return true;
 		return false;
 	}
-	protected boolean isIntersecting3(BitField32x32x8 that) {
+	protected boolean isIntersecting_3(BitField32x32x8 that) {
 		if((this._48 & that._48) != 0) return true;
 		if((this._49 & that._49) != 0) return true;
 		if((this._50 & that._50) != 0) return true;
@@ -3235,7 +3794,7 @@ public class BitField32x32x8 implements BitField {
 		if((this._63 & that._63) != 0) return true;
 		return false;
 	}
-	protected boolean isIntersecting4(BitField32x32x8 that) {
+	protected boolean isIntersecting_4(BitField32x32x8 that) {
 		if((this._64 & that._64) != 0) return true;
 		if((this._65 & that._65) != 0) return true;
 		if((this._66 & that._66) != 0) return true;
@@ -3254,7 +3813,7 @@ public class BitField32x32x8 implements BitField {
 		if((this._79 & that._79) != 0) return true;
 		return false;
 	}
-	protected boolean isIntersecting5(BitField32x32x8 that) {
+	protected boolean isIntersecting_5(BitField32x32x8 that) {
 		if((this._80 & that._80) != 0) return true;
 		if((this._81 & that._81) != 0) return true;
 		if((this._82 & that._82) != 0) return true;
@@ -3273,7 +3832,7 @@ public class BitField32x32x8 implements BitField {
 		if((this._95 & that._95) != 0) return true;
 		return false;
 	}
-	protected boolean isIntersecting6(BitField32x32x8 that) {
+	protected boolean isIntersecting_6(BitField32x32x8 that) {
 		if((this._96 & that._96) != 0) return true;
 		if((this._97 & that._97) != 0) return true;
 		if((this._98 & that._98) != 0) return true;
@@ -3292,7 +3851,7 @@ public class BitField32x32x8 implements BitField {
 		if((this._111 & that._111) != 0) return true;
 		return false;
 	}
-	protected boolean isIntersecting7(BitField32x32x8 that) {
+	protected boolean isIntersecting_7(BitField32x32x8 that) {
 		if((this._112 & that._112) != 0) return true;
 		if((this._113 & that._113) != 0) return true;
 		if((this._114 & that._114) != 0) return true;
@@ -3313,16 +3872,16 @@ public class BitField32x32x8 implements BitField {
 	}
 
 	public void complement() {
-		this.complement0();
-		this.complement1();
-		this.complement2();
-		this.complement3();
-		this.complement4();
-		this.complement5();
-		this.complement6();
-		this.complement7();
+		this.complement_0();
+		this.complement_1();
+		this.complement_2();
+		this.complement_3();
+		this.complement_4();
+		this.complement_5();
+		this.complement_6();
+		this.complement_7();
 	}
-	protected void complement0() {
+	protected void complement_0() {
 		this._0 = ~this._0;
 		this._1 = ~this._1;
 		this._2 = ~this._2;
@@ -3340,7 +3899,7 @@ public class BitField32x32x8 implements BitField {
 		this._14 = ~this._14;
 		this._15 = ~this._15;
 	}
-	protected void complement1() {
+	protected void complement_1() {
 		this._16 = ~this._16;
 		this._17 = ~this._17;
 		this._18 = ~this._18;
@@ -3358,7 +3917,7 @@ public class BitField32x32x8 implements BitField {
 		this._30 = ~this._30;
 		this._31 = ~this._31;
 	}
-	protected void complement2() {
+	protected void complement_2() {
 		this._32 = ~this._32;
 		this._33 = ~this._33;
 		this._34 = ~this._34;
@@ -3376,7 +3935,7 @@ public class BitField32x32x8 implements BitField {
 		this._46 = ~this._46;
 		this._47 = ~this._47;
 	}
-	protected void complement3() {
+	protected void complement_3() {
 		this._48 = ~this._48;
 		this._49 = ~this._49;
 		this._50 = ~this._50;
@@ -3394,7 +3953,7 @@ public class BitField32x32x8 implements BitField {
 		this._62 = ~this._62;
 		this._63 = ~this._63;
 	}
-	protected void complement4() {
+	protected void complement_4() {
 		this._64 = ~this._64;
 		this._65 = ~this._65;
 		this._66 = ~this._66;
@@ -3412,7 +3971,7 @@ public class BitField32x32x8 implements BitField {
 		this._78 = ~this._78;
 		this._79 = ~this._79;
 	}
-	protected void complement5() {
+	protected void complement_5() {
 		this._80 = ~this._80;
 		this._81 = ~this._81;
 		this._82 = ~this._82;
@@ -3430,7 +3989,7 @@ public class BitField32x32x8 implements BitField {
 		this._94 = ~this._94;
 		this._95 = ~this._95;
 	}
-	protected void complement6() {
+	protected void complement_6() {
 		this._96 = ~this._96;
 		this._97 = ~this._97;
 		this._98 = ~this._98;
@@ -3448,7 +4007,7 @@ public class BitField32x32x8 implements BitField {
 		this._110 = ~this._110;
 		this._111 = ~this._111;
 	}
-	protected void complement7() {
+	protected void complement_7() {
 		this._112 = ~this._112;
 		this._113 = ~this._113;
 		this._114 = ~this._114;
@@ -3469,20 +4028,20 @@ public class BitField32x32x8 implements BitField {
 
 	public void union(BitField that0) {
 		if(!(that0 instanceof BitField32x32x8)) {
-			BitField.super.union(that0);
+			super.union(that0);
 			return;
 		}
 		var that = (BitField32x32x8) that0;
-		this.union0(that);
-		this.union1(that);
-		this.union2(that);
-		this.union3(that);
-		this.union4(that);
-		this.union5(that);
-		this.union6(that);
-		this.union7(that);
+		this.union_0(that);
+		this.union_1(that);
+		this.union_2(that);
+		this.union_3(that);
+		this.union_4(that);
+		this.union_5(that);
+		this.union_6(that);
+		this.union_7(that);
 	}
-	protected void union0(BitField32x32x8 that) {
+	protected void union_0(BitField32x32x8 that) {
 		this._0 |= that._0;
 		this._1 |= that._1;
 		this._2 |= that._2;
@@ -3500,7 +4059,7 @@ public class BitField32x32x8 implements BitField {
 		this._14 |= that._14;
 		this._15 |= that._15;
 	}
-	protected void union1(BitField32x32x8 that) {
+	protected void union_1(BitField32x32x8 that) {
 		this._16 |= that._16;
 		this._17 |= that._17;
 		this._18 |= that._18;
@@ -3518,7 +4077,7 @@ public class BitField32x32x8 implements BitField {
 		this._30 |= that._30;
 		this._31 |= that._31;
 	}
-	protected void union2(BitField32x32x8 that) {
+	protected void union_2(BitField32x32x8 that) {
 		this._32 |= that._32;
 		this._33 |= that._33;
 		this._34 |= that._34;
@@ -3536,7 +4095,7 @@ public class BitField32x32x8 implements BitField {
 		this._46 |= that._46;
 		this._47 |= that._47;
 	}
-	protected void union3(BitField32x32x8 that) {
+	protected void union_3(BitField32x32x8 that) {
 		this._48 |= that._48;
 		this._49 |= that._49;
 		this._50 |= that._50;
@@ -3554,7 +4113,7 @@ public class BitField32x32x8 implements BitField {
 		this._62 |= that._62;
 		this._63 |= that._63;
 	}
-	protected void union4(BitField32x32x8 that) {
+	protected void union_4(BitField32x32x8 that) {
 		this._64 |= that._64;
 		this._65 |= that._65;
 		this._66 |= that._66;
@@ -3572,7 +4131,7 @@ public class BitField32x32x8 implements BitField {
 		this._78 |= that._78;
 		this._79 |= that._79;
 	}
-	protected void union5(BitField32x32x8 that) {
+	protected void union_5(BitField32x32x8 that) {
 		this._80 |= that._80;
 		this._81 |= that._81;
 		this._82 |= that._82;
@@ -3590,7 +4149,7 @@ public class BitField32x32x8 implements BitField {
 		this._94 |= that._94;
 		this._95 |= that._95;
 	}
-	protected void union6(BitField32x32x8 that) {
+	protected void union_6(BitField32x32x8 that) {
 		this._96 |= that._96;
 		this._97 |= that._97;
 		this._98 |= that._98;
@@ -3608,7 +4167,7 @@ public class BitField32x32x8 implements BitField {
 		this._110 |= that._110;
 		this._111 |= that._111;
 	}
-	protected void union7(BitField32x32x8 that) {
+	protected void union_7(BitField32x32x8 that) {
 		this._112 |= that._112;
 		this._113 |= that._113;
 		this._114 |= that._114;
@@ -3629,20 +4188,20 @@ public class BitField32x32x8 implements BitField {
 
 	public void intersect(BitField that0) {
 		if(!(that0 instanceof BitField32x32x8)) {
-			BitField.super.union(that0);
+			super.union(that0);
 			return;
 		}
 		var that = (BitField32x32x8) that0;
-		this.intersect0(that);
-		this.intersect1(that);
-		this.intersect2(that);
-		this.intersect3(that);
-		this.intersect4(that);
-		this.intersect5(that);
-		this.intersect6(that);
-		this.intersect7(that);
+		this.intersect_0(that);
+		this.intersect_1(that);
+		this.intersect_2(that);
+		this.intersect_3(that);
+		this.intersect_4(that);
+		this.intersect_5(that);
+		this.intersect_6(that);
+		this.intersect_7(that);
 	}
-	protected void intersect0(BitField32x32x8 that) {
+	protected void intersect_0(BitField32x32x8 that) {
 		this._0 &= that._0;
 		this._1 &= that._1;
 		this._2 &= that._2;
@@ -3660,7 +4219,7 @@ public class BitField32x32x8 implements BitField {
 		this._14 &= that._14;
 		this._15 &= that._15;
 	}
-	protected void intersect1(BitField32x32x8 that) {
+	protected void intersect_1(BitField32x32x8 that) {
 		this._16 &= that._16;
 		this._17 &= that._17;
 		this._18 &= that._18;
@@ -3678,7 +4237,7 @@ public class BitField32x32x8 implements BitField {
 		this._30 &= that._30;
 		this._31 &= that._31;
 	}
-	protected void intersect2(BitField32x32x8 that) {
+	protected void intersect_2(BitField32x32x8 that) {
 		this._32 &= that._32;
 		this._33 &= that._33;
 		this._34 &= that._34;
@@ -3696,7 +4255,7 @@ public class BitField32x32x8 implements BitField {
 		this._46 &= that._46;
 		this._47 &= that._47;
 	}
-	protected void intersect3(BitField32x32x8 that) {
+	protected void intersect_3(BitField32x32x8 that) {
 		this._48 &= that._48;
 		this._49 &= that._49;
 		this._50 &= that._50;
@@ -3714,7 +4273,7 @@ public class BitField32x32x8 implements BitField {
 		this._62 &= that._62;
 		this._63 &= that._63;
 	}
-	protected void intersect4(BitField32x32x8 that) {
+	protected void intersect_4(BitField32x32x8 that) {
 		this._64 &= that._64;
 		this._65 &= that._65;
 		this._66 &= that._66;
@@ -3732,7 +4291,7 @@ public class BitField32x32x8 implements BitField {
 		this._78 &= that._78;
 		this._79 &= that._79;
 	}
-	protected void intersect5(BitField32x32x8 that) {
+	protected void intersect_5(BitField32x32x8 that) {
 		this._80 &= that._80;
 		this._81 &= that._81;
 		this._82 &= that._82;
@@ -3750,7 +4309,7 @@ public class BitField32x32x8 implements BitField {
 		this._94 &= that._94;
 		this._95 &= that._95;
 	}
-	protected void intersect6(BitField32x32x8 that) {
+	protected void intersect_6(BitField32x32x8 that) {
 		this._96 &= that._96;
 		this._97 &= that._97;
 		this._98 &= that._98;
@@ -3768,7 +4327,7 @@ public class BitField32x32x8 implements BitField {
 		this._110 &= that._110;
 		this._111 &= that._111;
 	}
-	protected void intersect7(BitField32x32x8 that) {
+	protected void intersect_7(BitField32x32x8 that) {
 		this._112 &= that._112;
 		this._113 &= that._113;
 		this._114 &= that._114;
@@ -3789,20 +4348,20 @@ public class BitField32x32x8 implements BitField {
 
 	public void exclusive(BitField that0) {
 		if(!(that0 instanceof BitField32x32x8)) {
-			BitField.super.union(that0);
+			super.union(that0);
 			return;
 		}
 		var that = (BitField32x32x8) that0;
-		this.exclusive0(that);
-		this.exclusive1(that);
-		this.exclusive2(that);
-		this.exclusive3(that);
-		this.exclusive4(that);
-		this.exclusive5(that);
-		this.exclusive6(that);
-		this.exclusive7(that);
+		this.exclusive_0(that);
+		this.exclusive_1(that);
+		this.exclusive_2(that);
+		this.exclusive_3(that);
+		this.exclusive_4(that);
+		this.exclusive_5(that);
+		this.exclusive_6(that);
+		this.exclusive_7(that);
 	}
-	protected void exclusive0(BitField32x32x8 that) {
+	protected void exclusive_0(BitField32x32x8 that) {
 		this._0 ^= that._0;
 		this._1 ^= that._1;
 		this._2 ^= that._2;
@@ -3820,7 +4379,7 @@ public class BitField32x32x8 implements BitField {
 		this._14 ^= that._14;
 		this._15 ^= that._15;
 	}
-	protected void exclusive1(BitField32x32x8 that) {
+	protected void exclusive_1(BitField32x32x8 that) {
 		this._16 ^= that._16;
 		this._17 ^= that._17;
 		this._18 ^= that._18;
@@ -3838,7 +4397,7 @@ public class BitField32x32x8 implements BitField {
 		this._30 ^= that._30;
 		this._31 ^= that._31;
 	}
-	protected void exclusive2(BitField32x32x8 that) {
+	protected void exclusive_2(BitField32x32x8 that) {
 		this._32 ^= that._32;
 		this._33 ^= that._33;
 		this._34 ^= that._34;
@@ -3856,7 +4415,7 @@ public class BitField32x32x8 implements BitField {
 		this._46 ^= that._46;
 		this._47 ^= that._47;
 	}
-	protected void exclusive3(BitField32x32x8 that) {
+	protected void exclusive_3(BitField32x32x8 that) {
 		this._48 ^= that._48;
 		this._49 ^= that._49;
 		this._50 ^= that._50;
@@ -3874,7 +4433,7 @@ public class BitField32x32x8 implements BitField {
 		this._62 ^= that._62;
 		this._63 ^= that._63;
 	}
-	protected void exclusive4(BitField32x32x8 that) {
+	protected void exclusive_4(BitField32x32x8 that) {
 		this._64 ^= that._64;
 		this._65 ^= that._65;
 		this._66 ^= that._66;
@@ -3892,7 +4451,7 @@ public class BitField32x32x8 implements BitField {
 		this._78 ^= that._78;
 		this._79 ^= that._79;
 	}
-	protected void exclusive5(BitField32x32x8 that) {
+	protected void exclusive_5(BitField32x32x8 that) {
 		this._80 ^= that._80;
 		this._81 ^= that._81;
 		this._82 ^= that._82;
@@ -3910,7 +4469,7 @@ public class BitField32x32x8 implements BitField {
 		this._94 ^= that._94;
 		this._95 ^= that._95;
 	}
-	protected void exclusive6(BitField32x32x8 that) {
+	protected void exclusive_6(BitField32x32x8 that) {
 		this._96 ^= that._96;
 		this._97 ^= that._97;
 		this._98 ^= that._98;
@@ -3928,7 +4487,7 @@ public class BitField32x32x8 implements BitField {
 		this._110 ^= that._110;
 		this._111 ^= that._111;
 	}
-	protected void exclusive7(BitField32x32x8 that) {
+	protected void exclusive_7(BitField32x32x8 that) {
 		this._112 ^= that._112;
 		this._113 ^= that._113;
 		this._114 ^= that._114;
@@ -3949,20 +4508,20 @@ public class BitField32x32x8 implements BitField {
 
 	public void subtract(BitField that0) {
 		if(!(that0 instanceof BitField32x32x8)) {
-			BitField.super.union(that0);
+			super.union(that0);
 			return;
 		}
 		var that = (BitField32x32x8) that0;
-		this.subtract0(that);
-		this.subtract1(that);
-		this.subtract2(that);
-		this.subtract3(that);
-		this.subtract4(that);
-		this.subtract5(that);
-		this.subtract6(that);
-		this.subtract7(that);
+		this.subtract_0(that);
+		this.subtract_1(that);
+		this.subtract_2(that);
+		this.subtract_3(that);
+		this.subtract_4(that);
+		this.subtract_5(that);
+		this.subtract_6(that);
+		this.subtract_7(that);
 	}
-	protected void subtract0(BitField32x32x8 that) {
+	protected void subtract_0(BitField32x32x8 that) {
 		this._0 &= ~that._0;
 		this._1 &= ~that._1;
 		this._2 &= ~that._2;
@@ -3980,7 +4539,7 @@ public class BitField32x32x8 implements BitField {
 		this._14 &= ~that._14;
 		this._15 &= ~that._15;
 	}
-	protected void subtract1(BitField32x32x8 that) {
+	protected void subtract_1(BitField32x32x8 that) {
 		this._16 &= ~that._16;
 		this._17 &= ~that._17;
 		this._18 &= ~that._18;
@@ -3998,7 +4557,7 @@ public class BitField32x32x8 implements BitField {
 		this._30 &= ~that._30;
 		this._31 &= ~that._31;
 	}
-	protected void subtract2(BitField32x32x8 that) {
+	protected void subtract_2(BitField32x32x8 that) {
 		this._32 &= ~that._32;
 		this._33 &= ~that._33;
 		this._34 &= ~that._34;
@@ -4016,7 +4575,7 @@ public class BitField32x32x8 implements BitField {
 		this._46 &= ~that._46;
 		this._47 &= ~that._47;
 	}
-	protected void subtract3(BitField32x32x8 that) {
+	protected void subtract_3(BitField32x32x8 that) {
 		this._48 &= ~that._48;
 		this._49 &= ~that._49;
 		this._50 &= ~that._50;
@@ -4034,7 +4593,7 @@ public class BitField32x32x8 implements BitField {
 		this._62 &= ~that._62;
 		this._63 &= ~that._63;
 	}
-	protected void subtract4(BitField32x32x8 that) {
+	protected void subtract_4(BitField32x32x8 that) {
 		this._64 &= ~that._64;
 		this._65 &= ~that._65;
 		this._66 &= ~that._66;
@@ -4052,7 +4611,7 @@ public class BitField32x32x8 implements BitField {
 		this._78 &= ~that._78;
 		this._79 &= ~that._79;
 	}
-	protected void subtract5(BitField32x32x8 that) {
+	protected void subtract_5(BitField32x32x8 that) {
 		this._80 &= ~that._80;
 		this._81 &= ~that._81;
 		this._82 &= ~that._82;
@@ -4070,7 +4629,7 @@ public class BitField32x32x8 implements BitField {
 		this._94 &= ~that._94;
 		this._95 &= ~that._95;
 	}
-	protected void subtract6(BitField32x32x8 that) {
+	protected void subtract_6(BitField32x32x8 that) {
 		this._96 &= ~that._96;
 		this._97 &= ~that._97;
 		this._98 &= ~that._98;
@@ -4088,7 +4647,7 @@ public class BitField32x32x8 implements BitField {
 		this._110 &= ~that._110;
 		this._111 &= ~that._111;
 	}
-	protected void subtract7(BitField32x32x8 that) {
+	protected void subtract_7(BitField32x32x8 that) {
 		this._112 &= ~that._112;
 		this._113 &= ~that._113;
 		this._114 &= ~that._114;

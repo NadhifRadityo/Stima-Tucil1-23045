@@ -7,6 +7,8 @@ repositories {
 }
 
 dependencies {
+	implementation("org.eclipse.collections:eclipse-collections-api:11.1.0")
+	implementation("org.eclipse.collections:eclipse-collections:11.1.0")
 	implementation("io.github.spair:imgui-java-app:1.89.0")
 }
 

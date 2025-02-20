@@ -56,8 +56,28 @@ public class BitField12x12x1 implements BitField {
 		assert false;
 	}
 
+	public void set(BitField that0) {
+		if(!(that0 instanceof BitField12x12x1)) {
+			BitField.super.set(that0);
+			return;
+		}
+		var that = (BitField12x12x1) that0;
+		this.set0(that);
+	}
+	protected void set0(BitField12x12x1 that) {
+		this._0 = that._0;
+		this._1 = that._1;
+		this._2 = that._2;
+	}
+
+	public BitField12x12x1 clone() {
+		var result = new BitField12x12x1();
+		result.set(this);
+		return result;
+	}
+
 	public void offsetX(int amount) {
-		if(amount > 0) {
+		if(amount >= 0) {
 			while((amount / 4) > 0) {
 				this.offsetPX4();
 				amount -= 4;
@@ -88,152 +108,68 @@ public class BitField12x12x1 implements BitField {
 		assert amount == 0;
 	}
 	protected void offsetPX4() {
-		this.offsetPX4A();
+		this.offsetPX4_0();
 	}
-	protected void offsetPX4A() {
-		this._0 = (this._0 & -241L) | ((this._0 << 4) & 240L);
-		this._0 = (this._0 & -983041L) | ((this._0 << 4) & 983040L);
-		this._0 = (this._0 & -4026531841L) | ((this._0 << 4) & 4026531840L);
-		this._0 = (this._0 & -16492674416641L) | ((this._0 << 4) & 16492674416640L);
-		this._0 = (this._0 & -67553994410557441L) | ((this._0 << 4) & 67553994410557440L);
-		this._1 = (this._1 & -16L) | ((this._0 >> 60) & 15L);
-		this._1 = (this._1 & -65281L) | ((this._1 << 8) & 65280L);
-		this._1 = (this._1 & -267386881L) | ((this._1 << 8) & 267386880L);
-		this._1 = (this._1 & -1095216660481L) | ((this._1 << 8) & 1095216660480L);
-		this._1 = (this._1 & -4486007441326081L) | ((this._1 << 8) & 4486007441326080L);
-		this._1 = (this._1 & 72057594037927935L) | ((this._1 << 8) & -72057594037927936L);
-		this._2 = (this._2 & -4222124650659841L) | ((this._1 >> 12) & 4222124650659840L);
-		this._2 = (this._2 & 1152921504606846975L) | ((this._2 << 4) & -1152921504606846976L);
+	protected void offsetPX4_0() {
+		this._0 = (this._0 & -1148698348912316401L) | (this._0 & -67570491112489216L >> 4);
+		this._1 = (this._1 & 1152921504606846975L) | (this._0 & 15L << 60);
+		this._1 = (this._1 & -1085351013494357776L) | (this._1 & -1081127857799827216L >> 4);
+		this._2 = (this._2 & -71776119061217281L) | (this._2 & 1148417904979476480L >> 4);
+		this._2 = (this._2 & 1152921504606846975L) | (this._1 & 15L << 60);
 	}
 	protected void offsetPX2() {
-		this.offsetPX2A();
-		this.offsetPX2B();
+		this.offsetPX2_0();
 	}
-	protected void offsetPX2A() {
-		this._0 = (this._0 & -49L) | ((this._0 << 2) & 48L);
-		this._0 = (this._0 & -196609L) | ((this._0 << 2) & 196608L);
-		this._0 = (this._0 & -805306369L) | ((this._0 << 2) & 805306368L);
-		this._0 = (this._0 & -3298534883329L) | ((this._0 << 2) & 3298534883328L);
-		this._0 = (this._0 & -13510798882111489L) | ((this._0 << 2) & 13510798882111488L);
-		this._1 = (this._1 & -4L) | ((this._0 >> 62) & 3L);
-		this._1 = (this._1 & -61L) | ((this._1 << 2) & 60L);
-		this._1 = (this._1 & -3841L) | ((this._1 << 4) & 3840L);
-		this._1 = (this._1 & -258049L) | ((this._1 << 2) & 258048L);
-		this._1 = (this._1 & -15728641L) | ((this._1 << 4) & 15728640L);
-		this._1 = (this._1 & -1056964609L) | ((this._1 << 2) & 1056964608L);
-		this._1 = (this._1 & -64424509441L) | ((this._1 << 4) & 64424509440L);
-		this._1 = (this._1 & -4329327034369L) | ((this._1 << 2) & 4329327034368L);
-		this._1 = (this._1 & -263882790666241L) | ((this._1 << 4) & 263882790666240L);
-		this._1 = (this._1 & -17732923532771329L) | ((this._1 << 2) & 17732923532771328L);
-		this._1 = (this._1 & -1080863910568919041L) | ((this._1 << 4) & 1080863910568919040L);
-	}
-	protected void offsetPX2B() {
-		this._1 = (this._1 & 1152921504606846975L) | ((this._1 << 2) & -1152921504606846976L);
-		this._2 = (this._2 & -844424930131969L) | ((this._1 >> 14) & 844424930131968L);
-		this._2 = (this._2 & -3458764513820540929L) | ((this._2 << 2) & 3458764513820540928L);
+	protected void offsetPX2_0() {
+		this._0 = (this._0 & -4608307493871763444L) | (this._0 & -13514098222497844L >> 2);
+		this._1 = (this._1 & -4557629625537396544L) | (this._1 & -216225571559965444L >> 2);
+		this._2 = (this._2 & -3746713414995542017L) | (this._2 & -3459890413727383552L >> 2);
+		this._1 = (this._1 & 4611686018427387903L) | (this._0 & 3L << 62);
+		this._2 = (this._2 & 4611686018427387903L) | (this._1 & 3L << 62);
 	}
 	protected void offsetPX1() {
-		this.offsetPX1A();
-		this.offsetPX1B();
+		this.offsetPX1_0();
 	}
-	protected void offsetPX1A() {
-		this._0 = (this._0 & -17L) | ((this._0 << 1) & 16L);
-		this._0 = (this._0 & -65537L) | ((this._0 << 1) & 65536L);
-		this._0 = (this._0 & -268435457L) | ((this._0 << 1) & 268435456L);
-		this._0 = (this._0 & -1099511627777L) | ((this._0 << 1) & 1099511627776L);
-		this._0 = (this._0 & -4503599627370497L) | ((this._0 << 1) & 4503599627370496L);
-		this._1 = (this._1 & -2L) | ((this._0 >> 63) & 1L);
-		this._1 = (this._1 & -127L) | ((this._1 << 1) & 126L);
-		this._1 = (this._1 & -769L) | ((this._1 << 2) & 768L);
-		this._1 = (this._1 & -523265L) | ((this._1 << 1) & 523264L);
-		this._1 = (this._1 & -3145729L) | ((this._1 << 2) & 3145728L);
-		this._1 = (this._1 & -2143289345L) | ((this._1 << 1) & 2143289344L);
-		this._1 = (this._1 & -12884901889L) | ((this._1 << 2) & 12884901888L);
-		this._1 = (this._1 & -8778913153025L) | ((this._1 << 1) & 8778913153024L);
-		this._1 = (this._1 & -52776558133249L) | ((this._1 << 2) & 52776558133248L);
-		this._1 = (this._1 & -35958428274786305L) | ((this._1 << 1) & 35958428274786304L);
-		this._1 = (this._1 & -216172782113783809L) | ((this._1 << 2) & 216172782113783808L);
-	}
-	protected void offsetPX1B() {
-		this._1 = (this._1 & 288230376151711743L) | ((this._1 << 1) & -288230376151711744L);
-		this._2 = (this._2 & -281474976710657L) | ((this._1 >> 15) & 281474976710656L);
-		this._2 = (this._2 & -1152921504606846977L) | ((this._2 << 1) & 1152921504606846976L);
+	protected void offsetPX1_0() {
+		this._0 = (this._0 & -9221119687151026168L) | (this._0 & -4504699407499282L >> 1);
+		this._1 = (this._1 & -9187334441594781568L) | (this._1 & -72075190519988482L >> 1);
+		this._2 = (this._2 & -8646629809574641665L) | (this._2 & -1153484454560268288L >> 1);
+		this._1 = (this._1 & 9223372036854775807L) | (this._0 & 1L << 63);
+		this._2 = (this._2 & 9223372036854775807L) | (this._1 & 1L << 63);
 	}
 	protected void offsetNX4() {
-		this.offsetNX4A();
+		this.offsetNX4_0();
 	}
-	protected void offsetNX4A() {
-		this._0 = (this._0 & -16L) | ((this._0 >> 4) & 15L);
-		this._0 = (this._0 & -61441L) | ((this._0 >> 4) & 61440L);
-		this._0 = (this._0 & -251658241L) | ((this._0 >> 4) & 251658240L);
-		this._0 = (this._0 & -1030792151041L) | ((this._0 >> 4) & 1030792151040L);
-		this._0 = (this._0 & -4222124650659841L) | ((this._0 >> 4) & 4222124650659840L);
-		this._0 = (this._0 & 1152921504606846975L) | ((this._1 << 60) & -1152921504606846976L);
-		this._1 = (this._1 & -256L) | ((this._1 >> 8) & 255L);
-		this._1 = (this._1 & -1044481L) | ((this._1 >> 8) & 1044480L);
-		this._1 = (this._1 & -4278190081L) | ((this._1 >> 8) & 4278190080L);
-		this._1 = (this._1 & -17523466567681L) | ((this._1 >> 8) & 17523466567680L);
-		this._1 = (this._1 & -71776119061217281L) | ((this._1 >> 8) & 71776119061217280L);
-		this._1 = (this._1 & 1152921504606846975L) | ((this._2 << 12) & -1152921504606846976L);
-		this._2 = (this._2 & -1080863910568919041L) | ((this._2 >> 4) & 1080863910568919040L);
+	protected void offsetNX4_0() {
+		this._0 = (this._0 & 67570491112489215L) | (this._0 & 1148698348912316400L << 4);
+		this._0 = (this._0 & -16L) | (this._1 & -1152921504606846976L >> 60);
+		this._1 = (this._1 & 1081127857799827215L) | (this._1 & 1085351013494357775L << 4);
+		this._2 = (this._2 & -1148417904979476481L) | (this._2 & 71776119061217280L << 4);
+		this._1 = (this._1 & -16L) | (this._2 & -1152921504606846976L >> 60);
 	}
 	protected void offsetNX2() {
-		this.offsetNX2A();
-		this.offsetNX2B();
+		this.offsetNX2_0();
 	}
-	protected void offsetNX2A() {
-		this._0 = (this._0 & -13L) | ((this._0 >> 2) & 12L);
-		this._0 = (this._0 & -49153L) | ((this._0 >> 2) & 49152L);
-		this._0 = (this._0 & -201326593L) | ((this._0 >> 2) & 201326592L);
-		this._0 = (this._0 & -824633720833L) | ((this._0 >> 2) & 824633720832L);
-		this._0 = (this._0 & -3377699720527873L) | ((this._0 >> 2) & 3377699720527872L);
-		this._0 = (this._0 & 4611686018427387903L) | ((this._1 << 62) & -4611686018427387904L);
-		this._1 = (this._1 & -16L) | ((this._1 >> 2) & 15L);
-		this._1 = (this._1 & -241L) | ((this._1 >> 4) & 240L);
-		this._1 = (this._1 & -64513L) | ((this._1 >> 2) & 64512L);
-		this._1 = (this._1 & -983041L) | ((this._1 >> 4) & 983040L);
-		this._1 = (this._1 & -264241153L) | ((this._1 >> 2) & 264241152L);
-		this._1 = (this._1 & -4026531841L) | ((this._1 >> 4) & 4026531840L);
-		this._1 = (this._1 & -1082331758593L) | ((this._1 >> 2) & 1082331758592L);
-		this._1 = (this._1 & -16492674416641L) | ((this._1 >> 4) & 16492674416640L);
-		this._1 = (this._1 & -4433230883192833L) | ((this._1 >> 2) & 4433230883192832L);
-		this._1 = (this._1 & -67553994410557441L) | ((this._1 >> 4) & 67553994410557440L);
-	}
-	protected void offsetNX2B() {
-		this._1 = (this._1 & -4323455642275676161L) | ((this._1 >> 2) & 4323455642275676160L);
-		this._1 = (this._1 & 4611686018427387903L) | ((this._2 << 14) & -4611686018427387904L);
-		this._2 = (this._2 & -864691128455135233L) | ((this._2 >> 2) & 864691128455135232L);
+	protected void offsetNX2_0() {
+		this._0 = (this._0 & 13514098222497843L) | (this._0 & 4608307493871763443L << 2);
+		this._1 = (this._1 & 216225571559965443L) | (this._1 & 4557629625537396543L << 2);
+		this._2 = (this._2 & 3459890413727383551L) | (this._2 & 3746713414995542016L << 2);
+		this._0 = (this._0 & -4L) | (this._1 & -4611686018427387904L >> 62);
+		this._1 = (this._1 & -4L) | (this._2 & -4611686018427387904L >> 62);
 	}
 	protected void offsetNX1() {
-		this.offsetNX1A();
-		this.offsetNX1B();
+		this.offsetNX1_0();
 	}
-	protected void offsetNX1A() {
-		this._0 = (this._0 & -9L) | ((this._0 >> 1) & 8L);
-		this._0 = (this._0 & -32769L) | ((this._0 >> 1) & 32768L);
-		this._0 = (this._0 & -134217729L) | ((this._0 >> 1) & 134217728L);
-		this._0 = (this._0 & -549755813889L) | ((this._0 >> 1) & 549755813888L);
-		this._0 = (this._0 & -2251799813685249L) | ((this._0 >> 1) & 2251799813685248L);
-		this._0 = (this._0 & 9223372036854775807L) | ((this._1 << 63) & -9223372036854775808L);
-		this._1 = (this._1 & -64L) | ((this._1 >> 1) & 63L);
-		this._1 = (this._1 & -193L) | ((this._1 >> 2) & 192L);
-		this._1 = (this._1 & -261633L) | ((this._1 >> 1) & 261632L);
-		this._1 = (this._1 & -786433L) | ((this._1 >> 2) & 786432L);
-		this._1 = (this._1 & -1071644673L) | ((this._1 >> 1) & 1071644672L);
-		this._1 = (this._1 & -3221225473L) | ((this._1 >> 2) & 3221225472L);
-		this._1 = (this._1 & -4389456576513L) | ((this._1 >> 1) & 4389456576512L);
-		this._1 = (this._1 & -13194139533313L) | ((this._1 >> 2) & 13194139533312L);
-		this._1 = (this._1 & -17979214137393153L) | ((this._1 >> 1) & 17979214137393152L);
-		this._1 = (this._1 & -54043195528445953L) | ((this._1 >> 2) & 54043195528445952L);
-	}
-	protected void offsetNX1B() {
-		this._1 = (this._1 & -9079256848778919937L) | ((this._1 >> 1) & 9079256848778919936L);
-		this._1 = (this._1 & 9223372036854775807L) | ((this._2 << 15) & -9223372036854775808L);
-		this._2 = (this._2 & -576460752303423489L) | ((this._2 >> 1) & 576460752303423488L);
+	protected void offsetNX1_0() {
+		this._0 = (this._0 & 4504699407499281L) | (this._0 & 9221119687151026167L << 1);
+		this._1 = (this._1 & 72075190519988481L) | (this._1 & 9187334441594781567L << 1);
+		this._2 = (this._2 & 1153484454560268287L) | (this._2 & 8646629809574641664L << 1);
+		this._0 = (this._0 & -2L) | (this._1 & -9223372036854775808L >> 63);
+		this._1 = (this._1 & -2L) | (this._2 & -9223372036854775808L >> 63);
 	}
 
 	public void offsetY(int amount) {
-		if(amount > 0) {
+		if(amount >= 0) {
 			while((amount / 4) > 0) {
 				this.offsetPY4();
 				amount -= 4;
@@ -264,56 +200,64 @@ public class BitField12x12x1 implements BitField {
 		assert amount == 0;
 	}
 	protected void offsetPY4() {
-		this.offsetPY4A();
+		this.offsetPY4_0();
 	}
-	protected void offsetPY4A() {
-		this._1 = (this._1 & -281474976710656L) | ((this._0 >> 16) & 281474976710655L);
-		this._1 = (this._1 & 281474976710655L) | ((this._1 << 16) & -281474976710656L);
-		this._2 = (this._2 & 281474976710655L) | (this._1 & -281474976710656L);
+	protected void offsetPY4_0() {
+		this._0 = (this._0 & -65536L) | (this._0 & -281474976710656L >> 48);
+		this._1 = (this._1 & 65535L) | (this._0 & 281474976710655L << 16);
+		this._1 = (this._1 & -65536L) | (this._1 & -281474976710656L >> 48);
+		this._2 = (this._2 & 281474976710655L) | (this._1 & 281470681743360L << 16);
 	}
 	protected void offsetPY2() {
-		this.offsetPY2A();
+		this.offsetPY2_0();
 	}
-	protected void offsetPY2A() {
-		this._1 = (this._1 & -16777216L) | ((this._0 >> 40) & 16777215L);
-		this._1 = (this._1 & 16777215L) | ((this._1 << 16) & -16777216L);
-		this._2 = (this._2 & 281474976710655L) | (this._1 & -281474976710656L);
+	protected void offsetPY2_0() {
+		this._0 = (this._0 & -1099511627776L) | (this._0 & -16777216L >> 24);
+		this._1 = (this._1 & 1099511627775L) | (this._0 & 16777215L << 40);
+		this._1 = (this._1 & -1099511627776L) | (this._1 & -16777216L >> 24);
+		this._2 = (this._2 & 281474976710655L) | (this._1 & 16776960L << 40);
 	}
 	protected void offsetPY1() {
-		this.offsetPY1A();
+		this.offsetPY1_0();
 	}
-	protected void offsetPY1A() {
-		this._1 = (this._1 & -4096L) | ((this._0 >> 52) & 4095L);
-		this._1 = (this._1 & 4095L) | ((this._1 << 12) & -4096L);
-		this._2 = (this._2 & -1152640029630136321L) | ((this._1 >> 4) & 1152640029630136320L);
+	protected void offsetPY1_0() {
+		this._0 = (this._0 & -4503599627370496L) | (this._0 & -4096L >> 12);
+		this._1 = (this._1 & 4503599627370495L) | (this._0 & 4095L << 52);
+		this._1 = (this._1 & -4503599627370496L) | (this._1 & -4096L >> 12);
+		this._2 = (this._2 & 4503599627370495L) | (this._1 & 4095L << 52);
+		this._2 = (this._2 & -4222124650659841L) | (this._2 & -1152921504606846976L >> 12);
 	}
 	protected void offsetNY4() {
-		this.offsetNY4A();
+		this.offsetNY4_0();
 	}
-	protected void offsetNY4A() {
-		this._0 = (this._0 & 65535L) | ((this._1 << 16) & -65536L);
-		this._1 = (this._1 & -281470681743361L) | ((this._1 >> 16) & 281470681743360L);
-		this._1 = (this._1 & 281474976710655L) | (this._2 & -281474976710656L);
+	protected void offsetNY4_0() {
+		this._0 = (this._0 & 281474976710655L) | (this._0 & 65535L << 48);
+		this._0 = (this._0 & -281474976710656L) | (this._1 & -65536L >> 16);
+		this._1 = (this._1 & 281474976710655L) | (this._1 & 65535L << 48);
+		this._1 = (this._1 & -281470681743361L) | (this._2 & -281474976710656L >> 16);
 	}
 	protected void offsetNY2() {
-		this.offsetNY2A();
+		this.offsetNY2_0();
 	}
-	protected void offsetNY2A() {
-		this._0 = (this._0 & 1099511627775L) | ((this._1 << 40) & -1099511627776L);
-		this._1 = (this._1 & -281474976710401L) | ((this._1 >> 16) & 281474976710400L);
-		this._1 = (this._1 & 281474976710655L) | (this._2 & -281474976710656L);
+	protected void offsetNY2_0() {
+		this._0 = (this._0 & 16777215L) | (this._0 & 1099511627775L << 24);
+		this._0 = (this._0 & -16777216L) | (this._1 & -1099511627776L >> 40);
+		this._1 = (this._1 & 16777215L) | (this._1 & 1099511627775L << 24);
+		this._1 = (this._1 & -16776961L) | (this._2 & -281474976710656L >> 40);
 	}
 	protected void offsetNY1() {
-		this.offsetNY1A();
+		this.offsetNY1_0();
 	}
-	protected void offsetNY1A() {
-		this._0 = (this._0 & 4503599627370495L) | ((this._1 << 52) & -4503599627370496L);
-		this._1 = (this._1 & -4503599627370496L) | ((this._1 >> 12) & 4503599627370495L);
-		this._1 = (this._1 & 4503599627370495L) | ((this._2 << 4) & -4503599627370496L);
+	protected void offsetNY1_0() {
+		this._0 = (this._0 & 4095L) | (this._0 & 4503599627370495L << 12);
+		this._0 = (this._0 & -4096L) | (this._1 & -4503599627370496L >> 52);
+		this._1 = (this._1 & 4095L) | (this._1 & 4503599627370495L << 12);
+		this._1 = (this._1 & -4096L) | (this._2 & -4503599627370496L >> 52);
+		this._2 = (this._2 & 1152921504606846975L) | (this._2 & 4222124650659840L << 12);
 	}
 
 	public void offsetZ(int amount) {
-		if(amount > 0) {
+		if(amount >= 0) {
 			while((amount / 4) > 0) {
 				this.offsetPZ4();
 				amount -= 4;
@@ -368,15 +312,6 @@ public class BitField12x12x1 implements BitField {
 	}
 
 
-	public void complement() {
-		this.complement0();
-	}
-	protected void complement0() {
-		this._0 = ~this._0;
-		this._1 = ~this._1;
-		this._2 = ~this._2;
-	}
-
 	public boolean isIntersecting(BitField that0) {
 		if(!(that0 instanceof BitField12x12x1))
 			return BitField.super.isIntersecting(that0);
@@ -389,6 +324,15 @@ public class BitField12x12x1 implements BitField {
 		if((this._1 & that._1) != 0) return true;
 		if((this._2 & that._2) != 0) return true;
 		return false;
+	}
+
+	public void complement() {
+		this.complement0();
+	}
+	protected void complement0() {
+		this._0 = ~this._0;
+		this._1 = ~this._1;
+		this._2 = ~this._2;
 	}
 
 	public void union(BitField that0) {
@@ -446,4 +390,6 @@ public class BitField12x12x1 implements BitField {
 		this._1 &= ~that._1;
 		this._2 &= ~that._2;
 	}
+
+
 }

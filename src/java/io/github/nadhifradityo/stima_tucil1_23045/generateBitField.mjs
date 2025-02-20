@@ -52,9 +52,9 @@ const generateSource = async (/** @type {GeneratorOpts} */ opts) => {
 	 * @returns {number}
 	 */
 	const positionAt = (x, y, z) => {
-		if(x < 0 || x >= width) throw new Error("X index out of range");
-		if(y < 0 || y >= height) throw new Error("Y index out of range");
-		if(z < 0 || z >= depth) throw new Error("Z index out of range");
+		if(x < 0 || x >= width) throw new Error("X index out of range: " + x);
+		if(y < 0 || y >= height) throw new Error("Y index out of range: " + y);
+		if(z < 0 || z >= depth) throw new Error("Z index out of range: " + z);
 		return z * (height * width) + y * width + x;
 	};
 	/**
@@ -73,32 +73,61 @@ const generateSource = async (/** @type {GeneratorOpts} */ opts) => {
 	 * @param {number} toPositions
 	 * @returns {string[]}
 	 */
-	const generateSourceOffset = (fromPositions, toPositions) => {
+	const generateSourceOffset = (fromPositions, toPositions, vResult = l => `this._${l}`, vFrom = l => `this._${l}`, vTarget = l => `this._${l}`) => {
 		/** @type {[number, number][]} */
-		const flos = fromPositions.map(p => [positionLoc(p), positionOffset(p)]).sort(([l1, o1], [l2, o2]) => (l1 * storeSize + o1) - (l2 * storeSize + o2));
+		const flos = fromPositions.map(p => [positionLoc(p), positionOffset(p)]);
 		/** @type {[number, number][]} */
-		const tlos = toPositions.map(p => [positionLoc(p), positionOffset(p)]).sort(([l1, o1], [l2, o2]) => (l1 * storeSize + o1) - (l2 * storeSize + o2));
-		const glos = new Array(fromPositions.length).fill().reduce((/** @type {[number, number, number][]} */ a, _, i) => {
+		const tlos = toPositions.map(p => [positionLoc(p), positionOffset(p)]);
+		// group consecutive bit shifts
+		const glos = new Array(fromPositions.length).fill().reduce((/** @type {[number, number, number, number, number][]} */ a, _, i) => {
 			const [l1, o1] = flos[i];
 			const [l2, o2] = tlos[i];
-			const [pl1, po1, pl2, po2, l] = a.at(-1) ?? [];
-			if(l1 != pl1 || o1 != po1 + l || l2 != pl2 || o2 != po2 + l) {
+			const group = a.find(([pl1, po1, pl2, po2, l]) => l1 == pl1 && o1 == po1 + l && l2 == pl2 && o2 == po2 + l);
+			if(group == null) {
 				a.push([l1, o1, l2, o2, 1]);
 				return a;
 			}
-			a.at(-1)[4]++;
+			group[4]++;
 			return a;
 		}, []).filter(([l1, o1, l2, o2, l]) => l1 != l2 || o1 != o2);
-		return glos.map(([l1, o1, l2, o2, l]) => {
-			const mask = toSigned64((1n << BigInt(l)) - 1n);
-			const o2Mask = toSigned64((mask << BigInt(o2)) & 0xFFFFFFFFFFFFFFFFn);
-			const o2nMask = toSigned64(o2Mask ^ 0xFFFFFFFFFFFFFFFFn);
-			if(o1 == o2)
-				return `this._${l2} = (this._${l2} & ${o2nMask}L) | (this._${l1} & ${o2Mask}L);`;
-			else if(o1 > o2)
-				return `this._${l2} = (this._${l2} & ${o2nMask}L) | ((this._${l1} >> ${o1 - o2}) & ${o2Mask}L);`;
-			else
-				return `this._${l2} = (this._${l2} & ${o2nMask}L) | ((this._${l1} << ${o2 - o1}) & ${o2Mask}L);`;
+		// group islands of bit shifts
+		const iglos = glos.reduce((/** @type {[number, number, number, number, number][]} */ a, [l1, o1, l2, o2, l]) => {
+			const lm = toSigned64((1n << BigInt(l)) - 1n);
+			const m1 = toSigned64((lm << BigInt(o1)) & 0xFFFFFFFFFFFFFFFFn);
+			const m2 = toSigned64((lm << BigInt(o2)) & 0xFFFFFFFFFFFFFFFFn);
+			const group = a.find(([pl1, pm1, pl2, pm2, ps]) => l1 == pl1 && l2 == pl2 && o1 - o2 == ps);
+			if(group == null) {
+				a.push([l1, m1, l2, m2, o1 - o2]);
+				return a;
+			}
+			group[1] |= m1;
+			group[3] |= m2;
+			return a;
+		}, []).filter(([l1, m1, l2, m2, s]) => l1 != l2 || s != 0);
+		// https://graphics.stanford.edu/~seander/bithacks.html
+		// https://stackoverflow.com/questions/14547087/extracting-bits-with-a-single-multiplication
+		// const cancglos = new Array(fromPositions.length).fill().reduce((/** @type {[number, number[], number, number][]} */ a, _, i) => {
+		// 	const [l1, o1] = flos[i];
+		// 	const [l2, o2] = tlos[i];
+		// 	const group = a.find(([pl1, po1s, pl2, po2]) => l1 == pl1 && l2 == pl2 && o2 == po2 + 1);
+		// 	if(group == null) {
+		// 		a.push([l1, [o1], l2, o2]);
+		// 		return a;
+		// 	}
+		// 	group[1].push(o1);
+		// 	group[1].sort((a, b) => a - b);
+		// 	group[3] = o2;
+		// 	return a;
+		// }, []);
+		// const cglos = new Array(fromPositions.length).fill().reduce((/** @type {[number, number, number, number, number][]} */ a, _, i) => {
+		// 	const [l1, o1] = flos[i];
+		// 	const [l2, o2] = tlos[i];
+		// }, []);
+		return iglos.map(([l1, m1, l2, m2, s]) => {
+			const nm2 = toSigned64(m2 ^ 0xFFFFFFFFFFFFFFFFn);
+			const ts = `${vTarget(l1)}${m1 != -1n ? ` & ${m1}L` : ""}${s != 0 ? s > 0 ? ` >> ${s}` : ` << ${-s}` : ""}`;
+			const fs = nm2 != 0n ? `(${vFrom(l2)} & ${nm2}L) | (${ts})` : ts;
+			return `${vResult(l2)} = ${fs};`;
 		});
 	}
 	/**
@@ -126,23 +155,80 @@ const generateSource = async (/** @type {GeneratorOpts} */ opts) => {
 			}
 		}
 		const moves = generateSourceOffset(fromPositions, toPositions).map(m => `		${m}`);
-		const movesBatched = splitEvery(moves, batch);
+		const movesBatched = splitEvery(moves, 8 * batch);
 		return (
 `
 	protected void ${name}() {
 ${movesBatched.map((_, i) => `
-		this.${name}${String.fromCharCode(65 + i)}();
+		this.${name}_${i}();
 `.slice(1, -1)).join("\n")}
 	}
 ${movesBatched.map((m, i) => `
-	protected void ${name}${String.fromCharCode(65 + i)}() {
+	protected void ${name}_${i}() {
 ${m.join("\n")}
 	}
 `.slice(1, -1)).join("\n")}
 `).slice(1, -1);
-};
-	const offsetSteps = [4,2,1];
+	};
 
+	/**
+	 * @param {string} name
+	 * @returns {string}
+	 */
+	const generateSourceRotateXYZ = (name) => {
+		const fromPositions = [];
+		const toPositions = [];
+		for(let x = 0; x < width; x++) {
+			for(let y = 0; y < height; y++) {
+				for(let z = 0; z < depth; z++) {
+					let tp = null;
+					if(name == "toRotateX90")
+						tp = [x, z, height - 1 - y];
+					if(name == "toRotateX180")
+						tp = [x, height - 1 - y, depth - 1 - z];
+					if(name == "toRotateX270")
+						tp = [x, depth - 1 - z, y];
+					if(name == "toRotateY90")
+						tp = [depth - 1 - z, y, x];
+					if(name == "toRotateY180")
+						tp = [width - 1 - x, y, depth - 1 - z];
+					if(name == "toRotateY270")
+						tp = [z, y, width - 1 - x];
+					if(name == "toRotateZ90")
+						tp = [height - 1 - y, x, z];
+					if(name == "toRotateZ180")
+						tp = [width - 1 - x, height - 1 - y, z];
+					if(name == "toRotateZ270")
+						tp = [y, width - 1 - x, z];
+					const [tx, ty, tz] = tp;
+					if(tx < 0 || tx >= width) continue;
+					if(ty < 0 || ty >= height) continue;
+					if(tz < 0 || tz >= depth) continue;
+					fromPositions.push(positionAt(x, y, z));
+					toPositions.push(positionAt(tx, ty, tz));
+				}
+			}
+		}
+		const moves = generateSourceOffset(fromPositions, toPositions, l => `that._${l}`).map(m => `		${m}`);
+		const movesBatched = splitEvery(moves, 8 * batch);
+		return (
+`
+	public ${Class} ${name}() {
+		var that = new ${Class}();
+${movesBatched.map((_, i) => `
+		this.${name}_${i}(that);
+`.slice(1, -1)).join("\n")}
+		return that;
+	}
+${movesBatched.map((m, i) => `
+	protected void ${name}_${i}(${Class} that) {
+${m.join("\n")}
+	}
+`.slice(1, -1)).join("\n")}
+`).slice(1, -1);
+	};
+
+	const offsetSteps = [4,2,1];
 	const Class = `BitField${width}x${height}x${depth}`;
 	const source = `
 // Do NOT edit this file. This file was generated.
@@ -200,8 +286,28 @@ ${new Array(batch).fill().map((_, j) => i * batch + j).filter(j => j < slots).ma
 	}
 `.slice(1, -1)).join("\n")}
 
+	public void set(BitField that0) {
+		if(!(that0 instanceof ${Class})) {
+			BitField.super.set(that0);
+			return;
+		}
+		var that = (${Class}) that0;
+${new Array(slotBatch).fill().map((_, i) => i).map(i => `		this.set${i}(that);`).join("\n")}
+	}
+${new Array(slotBatch).fill().map((_, i) => i).map(i => `
+	protected void set${i}(${Class} that) {
+${new Array(batch).fill().map((_, j) => i * batch + j).filter(j => j < slots).map(j => `		this._${j} = that._${j};`).join("\n")}
+	}
+`.slice(1, -1)).join("\n")}
+
+	public ${Class} clone() {
+		var result = new ${Class}();
+		result.set(this);
+		return result;
+	}
+
 	public void offsetX(int amount) {
-		if(amount > 0) {
+		if(amount >= 0) {
 ${offsetSteps.map(step => `
 			while((amount / ${step}) > 0) {
 				this.offsetPX${step}();
@@ -227,7 +333,7 @@ ${generateSourceOffsetXYZ(`offsetNX${step}`, -step, 0, 0)}
 `.slice(1, -1)).join("\n")}
 
 	public void offsetY(int amount) {
-		if(amount > 0) {
+		if(amount >= 0) {
 ${offsetSteps.map(step => `
 			while((amount / ${step}) > 0) {
 				this.offsetPY${step}();
@@ -253,7 +359,7 @@ ${generateSourceOffsetXYZ(`offsetNY${step}`, 0, -step, 0)}
 `.slice(1, -1)).join("\n")}
 
 	public void offsetZ(int amount) {
-		if(amount > 0) {
+		if(amount >= 0) {
 ${offsetSteps.map(step => `
 			while((amount / ${step}) > 0) {
 				this.offsetPZ${step}();
@@ -278,15 +384,6 @@ ${offsetSteps.map(step => `
 ${generateSourceOffsetXYZ(`offsetNZ${step}`, 0, 0, -step)}
 `.slice(1, -1)).join("\n")}
 
-	public void complement() {
-${new Array(slotBatch).fill().map((_, i) => i).map(i => `		this.complement${i}();`).join("\n")}
-	}
-${new Array(slotBatch).fill().map((_, i) => i).map(i => `
-	protected void complement${i}() {
-${new Array(batch).fill().map((_, j) => i * batch + j).filter(j => j < slots).map(j => `		this._${j} = ~this._${j};`).join("\n")}
-	}
-`.slice(1, -1)).join("\n")}
-
 	public boolean isIntersecting(BitField that0) {
 		if(!(that0 instanceof ${Class}))
 			return BitField.super.isIntersecting(that0);
@@ -298,6 +395,15 @@ ${new Array(slotBatch).fill().map((_, i) => i).map(i => `
 	protected boolean isIntersecting${i}(${Class} that) {
 ${new Array(batch).fill().map((_, j) => i * batch + j).filter(j => j < slots).map(j => `		if((this._${j} & that._${j}) != 0) return true;`).join("\n")}
 		return false;
+	}
+`.slice(1, -1)).join("\n")}
+
+	public void complement() {
+${new Array(slotBatch).fill().map((_, i) => i).map(i => `		this.complement${i}();`).join("\n")}
+	}
+${new Array(slotBatch).fill().map((_, i) => i).map(i => `
+	protected void complement${i}() {
+${new Array(batch).fill().map((_, j) => i * batch + j).filter(j => j < slots).map(j => `		this._${j} = ~this._${j};`).join("\n")}
 	}
 `.slice(1, -1)).join("\n")}
 
@@ -356,6 +462,16 @@ ${new Array(slotBatch).fill().map((_, i) => i).map(i => `
 ${new Array(batch).fill().map((_, j) => i * batch + j).filter(j => j < slots).map(j => `		this._${j} &= ~that._${j};`).join("\n")}
 	}
 `.slice(1, -1)).join("\n")}
+
+${/*generateSourceRotateXYZ("toRotateX90")}
+${generateSourceRotateXYZ("toRotateX180")}
+${generateSourceRotateXYZ("toRotateX270")}
+${generateSourceRotateXYZ("toRotateY90")}
+${generateSourceRotateXYZ("toRotateY180")}
+${generateSourceRotateXYZ("toRotateY270")}
+${generateSourceRotateXYZ("toRotateZ90")}
+${generateSourceRotateXYZ("toRotateZ180")}
+${generateSourceRotateXYZ("toRotateZ270")*/""}
 }
 `;
 	// console.log(source);

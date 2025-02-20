@@ -9,21 +9,24 @@ public interface BitField {
 	int getDepth();
 	boolean getValue(int x, int y, int z);
 	void setValue(int x, int y, int z, boolean v);
-	void offsetX(int amount);
-	void offsetY(int amount);
-	void offsetZ(int amount);
-
-	default void complement() {
-		var width = this.getWidth();
-		var height = this.getHeight();
-		var depth = this.getDepth();
+	default void set(BitField that) {
+		var width = Math.min(this.getWidth(), that.getWidth());
+		var height = Math.min(this.getHeight(), that.getHeight());
+		var depth = Math.min(this.getDepth(), that.getDepth());
 		for(int x = 0; x < width; x++) {
 			for(int y = 0; y < height; y++) {
-				for(int z = 0; z < depth; z++)
-					this.setValue(x, y, z, !this.getValue(x, y, z));
+				for(int z = 0; z < depth; z++) {
+					if(!that.getValue(x, y, z)) continue;
+					this.setValue(x, y, z, true);
+				}
 			}
 		}
 	}
+	BitField clone();
+
+	void offsetX(int amount);
+	void offsetY(int amount);
+	void offsetZ(int amount);
 	default boolean isIntersecting(BitField that) {
 		var width = Math.min(this.getWidth(), that.getWidth());
 		var height = Math.min(this.getHeight(), that.getHeight());
@@ -38,6 +41,17 @@ public interface BitField {
 			}
 		}
 		return false;
+	}
+	default void complement() {
+		var width = this.getWidth();
+		var height = this.getHeight();
+		var depth = this.getDepth();
+		for(int x = 0; x < width; x++) {
+			for(int y = 0; y < height; y++) {
+				for(int z = 0; z < depth; z++)
+					this.setValue(x, y, z, !this.getValue(x, y, z));
+			}
+		}
 	}
 	default void union(BitField that) {
 		var width = Math.min(this.getWidth(), that.getWidth());

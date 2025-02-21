@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="io.github.nadhifradityo.stima_tucil1_23045.BitFieldTest" tests="14" skipped="0" failures="5" errors="0" timestamp="2025-02-21T10:05:43" hostname="NADHIF-MSI-GF75" time="0.156">
+  <properties/>
+  <testcase name="canMinMaxX()" classname="io.github.nadhifradityo.stima_tucil1_23045.BitFieldTest" time="0.024"/>
+  <testcase name="canMinMaxY()" classname="io.github.nadhifradityo.stima_tucil1_23045.BitFieldTest" time="0.002"/>
+  <testcase name="canMinMaxZ()" classname="io.github.nadhifradityo.stima_tucil1_23045.BitFieldTest" time="0.002"/>
+  <testcase name="canClear()" classname="io.github.nadhifradityo.stima_tucil1_23045.BitFieldTest" time="0.001"/>
+  <testcase name="canFlipX()" classname="io.github.nadhifradityo.stima_tucil1_23045.BitFieldTest" time="0.002"/>
+  <testcase name="canFlipY()" classname="io.github.nadhifradityo.stima_tucil1_23045.BitFieldTest" time="0.001"/>
+  <testcase name="canFlipZ()" classname="io.github.nadhifradityo.stima_tucil1_23045.BitFieldTest" time="0.001"/>
+  <testcase name="canTrimX()" classname="io.github.nadhifradityo.stima_tucil1_23045.BitFieldTest" time="0.102">
+    <failure message="org.opentest4j.AssertionFailedError: expected: &lt;0&gt; but was: &lt;3&gt;" type="org.opentest4j.AssertionFailedError">org.opentest4j.AssertionFailedError: expected: &lt;0&gt; but was: &lt;3&gt;
+	at app//org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at app//org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at app//org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at app//org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:150)
+	at app//org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:145)
+	at app//org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:531)
+	at app//io.github.nadhifradityo.stima_tucil1_23045.BitFieldTest.canTrimX(BitFieldTest.java:85)
+	at java.base@21.0.4/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base@21.0.4/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base@21.0.4/java.util.ArrayList.forEach(ArrayList.java:1596)
+</failure>
+  </testcase>
+  <testcase name="canTrimY()" classname="io.github.nadhifradityo.stima_tucil1_23045.BitFieldTest" time="0.001">
+    <failure message="org.opentest4j.AssertionFailedError: expected: &lt;0&gt; but was: &lt;3&gt;" type="org.opentest4j.AssertionFailedError">org.opentest4j.AssertionFailedError: expected: &lt;0&gt; but was: &lt;3&gt;
+	at app//org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at app//org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at app//org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at app//org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:150)
+	at app//org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:145)
+	at app//org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:531)
+	at app//io.github.nadhifradityo.stima_tucil1_23045.BitFieldTest.canTrimY(BitFieldTest.java:93)
+	at java.base@21.0.4/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base@21.0.4/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base@21.0.4/java.util.ArrayList.forEach(ArrayList.java:1596)
+</failure>
+  </testcase>
+  <testcase name="canTrimZ()" classname="io.github.nadhifradityo.stima_tucil1_23045.BitFieldTest" time="0.001"/>
+  <testcase name="canOffsetX()" classname="io.github.nadhifradityo.stima_tucil1_23045.BitFieldTest" time="0.006">
+    <failure message="org.opentest4j.AssertionFailedError: expected: &lt;true&gt; but was: &lt;false&gt;" type="org.opentest4j.AssertionFailedError">org.opentest4j.AssertionFailedError: expected: &lt;true&gt; but was: &lt;false&gt;
+	at app//org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at app//org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at app//org.junit.jupiter.api.AssertTrue.failNotTrue(AssertTrue.java:63)
+	at app//org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:36)
+	at app//org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:31)
+	at app//org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:183)
+	at app//io.github.nadhifradityo.stima_tucil1_23045.BitFieldTest.canOffsetX(BitFieldTest.java:32)
+	at java.base@21.0.4/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base@21.0.4/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base@21.0.4/java.util.ArrayList.forEach(ArrayList.java:1596)
+</failure>
+  </testcase>
+  <testcase name="canOffsetY()" classname="io.github.nadhifradityo.stima_tucil1_23045.BitFieldTest" time="0.002">
+    <failure message="org.opentest4j.AssertionFailedError: expected: &lt;true&gt; but was: &lt;false&gt;" type="org.opentest4j.AssertionFailedError">org.opentest4j.AssertionFailedError: expected: &lt;true&gt; but was: &lt;false&gt;
+	at app//org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at app//org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at app//org.junit.jupiter.api.AssertTrue.failNotTrue(AssertTrue.java:63)
+	at app//org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:36)
+	at app//org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:31)
+	at app//org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:183)
+	at app//io.github.nadhifradityo.stima_tucil1_23045.BitFieldTest.canOffsetY(BitFieldTest.java:41)
+	at java.base@21.0.4/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base@21.0.4/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base@21.0.4/java.util.ArrayList.forEach(ArrayList.java:1596)
+</failure>
+  </testcase>
+  <testcase name="canOffsetZ()" classname="io.github.nadhifradityo.stima_tucil1_23045.BitFieldTest" time="0.001">
+    <failure message="org.opentest4j.AssertionFailedError: expected: &lt;false&gt; but was: &lt;true&gt;" type="org.opentest4j.AssertionFailedError">org.opentest4j.AssertionFailedError: expected: &lt;false&gt; but was: &lt;true&gt;
+	at app//org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at app//org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at app//org.junit.jupiter.api.AssertFalse.failNotFalse(AssertFalse.java:63)
+	at app//org.junit.jupiter.api.AssertFalse.assertFalse(AssertFalse.java:36)
+	at app//org.junit.jupiter.api.AssertFalse.assertFalse(AssertFalse.java:31)
+	at app//org.junit.jupiter.api.Assertions.assertFalse(Assertions.java:231)
+	at app//io.github.nadhifradityo.stima_tucil1_23045.BitFieldTest.canOffsetZ(BitFieldTest.java:49)
+	at java.base@21.0.4/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base@21.0.4/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base@21.0.4/java.util.ArrayList.forEach(ArrayList.java:1596)
+</failure>
+  </testcase>
+  <testcase name="canSetGetValue()" classname="io.github.nadhifradityo.stima_tucil1_23045.BitFieldTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

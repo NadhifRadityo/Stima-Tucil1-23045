@@ -1,16 +1,28 @@
 package io.github.nadhifradityo.stima_tucil1_23045;
 
-public class GameContext {
-	protected final Class<? extends BitField> bitFieldKlass;
+import io.github.nadhifradityo.stima_tucil1_23045.bitfields.MutableBitField;
+import io.github.nadhifradityo.stima_tucil1_23045.bitfields.MutableBitField12x12x12Impl;
+import io.github.nadhifradityo.stima_tucil1_23045.bitfields.MutableBitField12x12x1Impl;
+import io.github.nadhifradityo.stima_tucil1_23045.bitfields.MutableBitField16x16x16Impl;
+import io.github.nadhifradityo.stima_tucil1_23045.bitfields.MutableBitField16x16x1Impl;
+import io.github.nadhifradityo.stima_tucil1_23045.bitfields.MutableBitField20x20x10Impl;
+import io.github.nadhifradityo.stima_tucil1_23045.bitfields.MutableBitField20x20x1Impl;
+import io.github.nadhifradityo.stima_tucil1_23045.bitfields.MutableBitField32x32x1Impl;
+import io.github.nadhifradityo.stima_tucil1_23045.bitfields.MutableBitField32x32x8Impl;
+import io.github.nadhifradityo.stima_tucil1_23045.bitfields.MutableBitField8x8x1Impl;
+import io.github.nadhifradityo.stima_tucil1_23045.bitfields.MutableBitField8x8x8Impl;
 
-	public GameContext(Class<? extends BitField> bitFieldKlass) {
+public class GameContext {
+	protected final Class<? extends MutableBitField> bitFieldKlass;
+
+	public GameContext(Class<? extends MutableBitField> bitFieldKlass) {
 		this.bitFieldKlass = bitFieldKlass;
 	}
 	public GameContext(int width, int height, int depth) {
 		this(getBestBitFieldClass(width, height, depth));
 	}
 
-	public BitField newBitField() {
+	public MutableBitField newBitField() {
 		try {
 			return bitFieldKlass.getConstructor().newInstance();
 		} catch(Throwable e) {
@@ -18,27 +30,27 @@ public class GameContext {
 		}
 	}
 
-	public static Class<? extends BitField> getBestBitFieldClass(int width, int height, int depth) {
-		if(width < BitField8x8x1.WIDTH && height < BitField8x8x1.HEIGHT && depth < BitField8x8x1.DEPTH)
-			return BitField8x8x1.class;
-		if(width < BitField8x8x8.WIDTH && height < BitField8x8x8.HEIGHT && depth < BitField8x8x8.DEPTH)
-			return BitField8x8x8.class;
-		if(width < BitField12x12x1.WIDTH && height < BitField12x12x1.HEIGHT && depth < BitField12x12x1.DEPTH)
-			return BitField12x12x1.class;
-		if(width < BitField12x12x12.WIDTH && height < BitField12x12x12.HEIGHT && depth < BitField12x12x12.DEPTH)
-			return BitField12x12x12.class;
-		if(width < BitField16x16x1.WIDTH && height < BitField16x16x1.HEIGHT && depth < BitField16x16x1.DEPTH)
-			return BitField16x16x1.class;
-		if(width < BitField16x16x16.WIDTH && height < BitField16x16x16.HEIGHT && depth < BitField16x16x16.DEPTH)
-			return BitField16x16x16.class;
-		if(width < BitField20x20x1.WIDTH && height < BitField20x20x1.HEIGHT && depth < BitField20x20x1.DEPTH)
-			return BitField20x20x1.class;
-		if(width < BitField20x20x10.WIDTH && height < BitField20x20x10.HEIGHT && depth < BitField20x20x10.DEPTH)
-			return BitField20x20x10.class;
-		if(width < BitField32x32x1.WIDTH && height < BitField32x32x1.HEIGHT && depth < BitField32x32x1.DEPTH)
-			return BitField32x32x1.class;
-		if(width < BitField32x32x8.WIDTH && height < BitField32x32x8.HEIGHT && depth < BitField32x32x8.DEPTH)
-			return BitField32x32x8.class;
+	public static Class<? extends MutableBitField> getBestBitFieldClass(int width, int height, int depth) {
+		if(width < MutableBitField8x8x1Impl.WIDTH && height < MutableBitField8x8x1Impl.HEIGHT && depth < MutableBitField8x8x1Impl.DEPTH)
+			return MutableBitField8x8x1Impl.class;
+		if(width < MutableBitField8x8x8Impl.WIDTH && height < MutableBitField8x8x8Impl.HEIGHT && depth < MutableBitField8x8x8Impl.DEPTH)
+			return MutableBitField8x8x8Impl.class;
+		if(width < MutableBitField12x12x1Impl.WIDTH && height < MutableBitField12x12x1Impl.HEIGHT && depth < MutableBitField12x12x1Impl.DEPTH)
+			return MutableBitField12x12x1Impl.class;
+		if(width < MutableBitField12x12x12Impl.WIDTH && height < MutableBitField12x12x12Impl.HEIGHT && depth < MutableBitField12x12x12Impl.DEPTH)
+			return MutableBitField12x12x12Impl.class;
+		if(width < MutableBitField16x16x1Impl.WIDTH && height < MutableBitField16x16x1Impl.HEIGHT && depth < MutableBitField16x16x1Impl.DEPTH)
+			return MutableBitField16x16x1Impl.class;
+		if(width < MutableBitField16x16x16Impl.WIDTH && height < MutableBitField16x16x16Impl.HEIGHT && depth < MutableBitField16x16x16Impl.DEPTH)
+			return MutableBitField16x16x16Impl.class;
+		if(width < MutableBitField20x20x1Impl.WIDTH && height < MutableBitField20x20x1Impl.HEIGHT && depth < MutableBitField20x20x1Impl.DEPTH)
+			return MutableBitField20x20x1Impl.class;
+		if(width < MutableBitField20x20x10Impl.WIDTH && height < MutableBitField20x20x10Impl.HEIGHT && depth < MutableBitField20x20x10Impl.DEPTH)
+			return MutableBitField20x20x10Impl.class;
+		if(width < MutableBitField32x32x1Impl.WIDTH && height < MutableBitField32x32x1Impl.HEIGHT && depth < MutableBitField32x32x1Impl.DEPTH)
+			return MutableBitField32x32x1Impl.class;
+		if(width < MutableBitField32x32x8Impl.WIDTH && height < MutableBitField32x32x8Impl.HEIGHT && depth < MutableBitField32x32x8Impl.DEPTH)
+			return MutableBitField32x32x8Impl.class;
 		throw new IllegalArgumentException("No BitField class size available for " + width + "x" + height + "x" + depth);
 	}
 }

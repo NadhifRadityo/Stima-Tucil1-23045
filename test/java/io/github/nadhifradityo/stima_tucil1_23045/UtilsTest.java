@@ -7,6 +7,8 @@ import java.nio.charset.StandardCharsets;
 
 import org.junit.jupiter.api.Test;
 
+import io.github.nadhifradityo.stima_tucil1_23045.bitfields.BitField;
+
 public class UtilsTest {
 	@Test
 	public void canGenerateRectangularBitField() {

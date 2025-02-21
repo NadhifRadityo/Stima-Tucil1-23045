@@ -5,44 +5,43 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Board {
-	protected final BitField boundaryField;
-	protected final BitField contentField;
-	protected final Piece[] pieces;
-	protected final Map<Piece, CompiledPiece> compiledPieces;
+import io.github.nadhifradityo.stima_tucil1_23045.bitfields.BitField;
+import io.github.nadhifradityo.stima_tucil1_23045.bitfields.ImmutableBitField;
+import io.github.nadhifradityo.stima_tucil1_23045.bitfields.MutableBitField;
 
-	protected Board(BitField boundaryField, BitField contentField, Piece[] pieces, Map<Piece, CompiledPiece> compiledPieces) {
+public class Board {
+	protected final ImmutableBitField boundaryField;
+	protected final MutableBitField contentField;
+	protected final CompiledPiece[] compiledPieces;
+
+	protected Board(ImmutableBitField boundaryField, MutableBitField contentField, CompiledPiece[] compiledPieces) {
 		this.boundaryField = boundaryField;
 		this.contentField = contentField;
-		this.pieces = pieces;
 		this.compiledPieces = compiledPieces;
 	}
-	public Board(BitField boundaryField, BitField contentField, Piece[] pieces) {
-		this(boundaryField, contentField, pieces, generateCompiledPieces(boundaryField, pieces));
+	public Board(ImmutableBitField boundaryField, MutableBitField contentField, Piece[] pieces) {
+		this(boundaryField, contentField, generateCompiledPieces(boundaryField, pieces));
 	}
 
-	protected static Map<Piece, CompiledPiece> generateCompiledPieces(BitField boundaryField, Piece[] pieces) {
-		var compiledPieces = new HashMap<Piece, CompiledPiece>();
-		for(var piece : pieces)
-			compiledPieces.put(piece, CompiledPiece.generateCompiledPiece(boundaryField, piece));
+	protected static CompiledPiece[] generateCompiledPieces(BitField boundaryField, Piece[] pieces) {
+		var compiledPieces = new CompiledPiece[pieces.length];
+		for(int i = 0; i < compiledPieces.length; i++)
+			compiledPieces[i] = CompiledPiece.generateCompiledPiece(boundaryField, pieces[i]);
 		return compiledPieces;
 	}
 
-	public BitField getBoundaryField() {
+	public ImmutableBitField getBoundaryField() {
 		return boundaryField;
 	}
-	public BitField getContentField() {
+	public MutableBitField getContentField() {
 		return contentField;
 	}
-	public Piece[] getPieces() {
-		return pieces;
-	}
-	public Map<Piece, CompiledPiece> getCompiledPieces() {
+	public CompiledPiece[] getCompiledPieces() {
 		return compiledPieces;
 	}
 
 	public Board clone() {
-		return new Board(boundaryField, contentField, pieces, compiledPieces);
+		return new Board(boundaryField.clone(), contentField.clone(), compiledPieces);
 	}
 
 	public static class CompiledPiece {
@@ -69,15 +68,20 @@ public class Board {
 		}
 	}
 	public static class CompiledShape {
-		protected final BitField contentField;
+		protected final Piece.Shape shape;
+		protected final ImmutableBitField contentField;
 		protected final String configurationName;
 
-		public CompiledShape(BitField contentField, String configurationName) {
+		public CompiledShape(Piece.Shape shape, ImmutableBitField contentField, String configurationName) {
+			this.shape = shape;
 			this.contentField = contentField;
 			this.configurationName = configurationName;
 		}
 
-		public BitField getContentField() {
+		public Piece.Shape getShape() {
+			return shape;
+		}
+		public ImmutableBitField getContentField() {
 			return contentField;
 		}
 		public String getConfigurationName() {
@@ -86,23 +90,21 @@ public class Board {
 
 		public static CompiledShape[] generateCompiledShapes(BitField boardBoundaryField, Piece.Shape shape) {
 			List<CompiledShape> result = new ArrayList<>();
-			int minX = boardBoundaryField.getMinX();
-			int maxX = boardBoundaryField.getMaxX();
-			int minY = boardBoundaryField.getMinY();
-			int maxY = boardBoundaryField.getMaxY();
-			int minZ = boardBoundaryField.getMinZ();
-			int maxZ = boardBoundaryField.getMaxZ();
+			var minX = boardBoundaryField.getMinX();
+			var maxX = boardBoundaryField.getMaxX();
+			var minY = boardBoundaryField.getMinY();
+			var maxY = boardBoundaryField.getMaxY();
+			var minZ = boardBoundaryField.getMinZ();
+			var maxZ = boardBoundaryField.getMaxZ();
 			for(int x = minX; x <= maxX; x++) {
-				BitField shiftXField = boardBoundaryField.clone();
-				shiftXField.offsetX(x);
+				var shiftXField = shape.getContentField().toMutable().toOffsetX(x);
 				for(int y = minY; y <= maxY; y++) {
-					BitField shiftYField = shiftXField.clone();
-					shiftYField.offsetY(y);
+					var shiftXYField = shiftXField.toOffsetY(y);
 					for(int z = minZ; z <= maxZ; z++) {
-						BitField shiftZField = shiftYField.clone();
-						shiftZField.offsetZ(z);
-						if(boardBoundaryField.isIntersecting(shiftZField)) continue;
-						var compiledShape = new CompiledShape(shiftZField, shape.getConfigurationName() + " (X: " + x + ", Y: " + y + ", Z: " + z + ")");
+						var shiftXYZField = shiftXYField.toOffsetZ(z);
+						if(boardBoundaryField.isIntersecting(shiftXYZField)) continue;
+						var configurationName = shape.getConfigurationName() + " (X: " + x + ", Y: " + y + ", Z: " + z + ")";
+						var compiledShape = new CompiledShape(shape, shiftXYZField.toImmutable(), configurationName);
 						result.add(compiledShape);
 					}
 				}

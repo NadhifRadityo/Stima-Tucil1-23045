@@ -6,12 +6,15 @@ import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+import io.github.nadhifradityo.stima_tucil1_23045.bitfields.BitField;
+import io.github.nadhifradityo.stima_tucil1_23045.bitfields.MutableBitField;
+
 public class Utils {
 	private Utils() {
 
 	}
 
-	public static BitField generateRectangularBitField(GameContext factory, int width, int height) {
+	public static MutableBitField generateRectangularBitField(GameContext factory, int width, int height) {
 		var result = factory.newBitField();
 		for(int i = 0; i < width; i++) {
 			for(int j = 0; j < height; j++)
@@ -19,7 +22,7 @@ public class Utils {
 		}
 		return result;
 	}
-	public static BitField generatePyramidalBitField(GameContext factory, int width, int height) {
+	public static MutableBitField generatePyramidalBitField(GameContext factory, int width, int height) {
 		var result = factory.newBitField();
 		var depth = Math.min(width, height);
 		for(int i = 0; i < depth; i++) {
@@ -30,7 +33,7 @@ public class Utils {
 		}
 		return result;
 	}
-	public static BitField parseBitFieldTemplate(GameContext factory, String template) {
+	public static MutableBitField parseBitFieldTemplate(GameContext factory, String template) {
 		var result = factory.newBitField();
 		int y = 0;
 		for(int i = 0; i < template.length(); i++) {

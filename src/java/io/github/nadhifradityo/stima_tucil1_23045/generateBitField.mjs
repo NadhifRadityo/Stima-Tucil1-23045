@@ -24,19 +24,6 @@ const splitEvery = (a, n) => {
 const toSigned64 = x => (x & 0x7FFFFFFFFFFFFFFFn) - (x & 0x8000000000000000n);
 
 /**
- * @param {boolean[]} boolArray 
- * @returns {BigInt}
- */
-const booleanArrayToBigInt = boolArray => {
-	let result = 0n;
-	for(let i = 0; i < boolArray.length; i++) {
-		if(!boolArray[i]) continue;
-		result |= (1n << BigInt(i));
-	}
-	return result;
-}
-
-/**
  * @typedef {Object} GeneratorOpts
  * @property {string} storeType
  * @property {number} storeSize
@@ -86,7 +73,7 @@ const generateSource = async (/** @type {GeneratorOpts} */ opts) => {
 	 * @param {number[]} toPositions
 	 * @returns {string[]}
 	 */
-	const generateSourceMover = (fromPositions, toPositions, vResult = l => `this._${l}`, vFrom = l => `this._${l}`, vTarget = l => `this._${l}`) => {
+	const generateSourceMover = (fromPositions, toPositions, vResult = l => `this._${l}`, vFrom = l => `_${l}`, vTarget = l => `_${l}`) => {
 		/** @type {[number, number][]} */
 		const flos = fromPositions.map(p => [positionLoc(p), positionOffset(p)]);
 		/** @type {[number, number][]} */
@@ -138,51 +125,53 @@ const generateSource = async (/** @type {GeneratorOpts} */ opts) => {
 		// }, []);
 		return iglos.map(([l1, m1, l2, m2, s]) => {
 			const nm2 = toSigned64(m2 ^ 0xFFFFFFFFFFFFFFFFn);
-			const ts = `${vTarget(l1)}${m1 != -1n ? ` & ${m1}L` : ""}${s != 0 ? s > 0 ? ` >> ${s}` : ` << ${-s}` : ""}`;
-			const fs = nm2 != 0n ? `(${vFrom(l2)} & ${nm2}L) | (${ts})` : ts;
-			return `${vResult(l2)} = ${fs};`;
-		});
+			const tss = s != 0 ? s > 0 ? `>> ${s}` : `<< ${-s}` : null;
+			const ts = m1 != 0n ? m1 != -1n ? 
+				tss != null ? `(${vTarget(l1, l2)} & ${m1}L) ${tss}` : `${vTarget(l1, l2)} & ${m1}L` :
+				tss != null ? `${vTarget(l1, l2)} ${tss}` : `${vTarget(l1, l2)}` :
+				null;
+			const fs = nm2 != 0n ? nm2 != -1n ? 
+				ts != null ? `(${vFrom(l2, l1)} & ${nm2}L) | (${ts})` : `${vFrom(l2, l1)} & ${nm2}L` :
+				ts != null ? `${vFrom(l2, l1)} | (${ts})` : null :
+				ts != null ? ts : "0";
+			if(fs == null) return null;
+			return `${vResult(l2, l1)} = ${fs};`;
+		}).filter(l => l != null);
 	};
 	/**
 	 * @param {number[]} positions
 	 * @param {boolean[]} values
 	 * @returns {string[]}
 	 */
-	const generateSourceSetter = (positions, values, vResult = l => `this._${l}`, vFrom = l => `this._${l}`) => {
+	const generateSourceSetter = (positions, values, vResult = l => `this._${l}`, vFrom = l => `_${l}`) => {
 		/** @type {[number, number][]} */
 		const flos = positions.map(p => [positionLoc(p), positionOffset(p)]);
 		// group consecutive bit shifts
-		const glos = new Array(positions.length).fill().reduce((/** @type {[number, number, boolean[]][]} */ a, _, i) => {
+		const iglos = new Array(positions.length).fill().reduce((/** @type {[number, BigInt, BigInt][]} */ a, _, i) => {
 			const [l1, o1] = flos[i];
 			const value = values[i];
-			const group = a.find(([pl1, po1, v]) => l1 == pl1 && o1 == po1 + v.length);
+			const tv1 = toSigned64(value ? (1n << BigInt(o1)) : 0n);
+			const fv1 = toSigned64(!value ? (1n << BigInt(o1)) : 0n);
+			const group = a.find(([pl1, ptv1, pfv1]) => l1 == pl1);
 			if(group == null) {
-				a.push([l1, o1, [value]]);
+				a.push([l1, tv1, fv1]);
 				return a;
 			}
-			group[2].push(value);
+			group[1] |= tv1;
+			group[2] |= fv1;
 			return a;
-		}, []).filter(([l1, o1, v]) => v.length != 0);
-		// group islands of bit shifts
-		const iglos = glos.reduce((/** @type {[number, BigInt, BigInt][]} */ a, [l1, o1, v]) => {
-			const lm = toSigned64((1n << BigInt(v.length)) - 1n);
-			const m1 = toSigned64((lm << BigInt(o1)) & 0xFFFFFFFFFFFFFFFFn);
-			const v1 = toSigned64((booleanArrayToBigInt(v) << BigInt(o1)) & 0xFFFFFFFFFFFFFFFFn);
-			const group = a.find(([pl1, pm1, pv1]) => l1 == pl1);
-			if(group == null) {
-				a.push([l1, m1, v1]);
-				return a;
-			}
-			group[1] |= m1;
-			group[2] |= v1;
-			return a;
-		}, []).filter(([l1, m1, v1]) => m1 != 0);
-		return iglos.map(([l1, m1, v1]) => {
-			const nm1 = toSigned64(m1 ^ 0xFFFFFFFFFFFFFFFFn);
-			const ts = v1 != 0n ? `${v1}L` : null;
-			const fs = nm1 != 0n ? ts != null ? `(${vFrom(l1)} & ${nm1}L) | (${ts})` : `${vFrom(l1)} & ${nm1}L` : ts;
-			if(fs == null) return null;
-			return `${vResult(l1)} = ${fs};`
+		}, []).filter(([l, tv, fv]) => tv != 0 || fv != 0);
+		return iglos.map(([l1, tv1, fv1]) => {
+			const nfv1 = toSigned64(fv1 ^ 0xFFFFFFFFFFFFFFFFn);
+			const stv1 = tv1 != 0n ? tv1 != -1n ? `${tv1}L` : `${-1n}L` : null;
+			if(stv1 == `${-1n}L`)
+				return `${vResult(l1)} = ${stv1};`
+			const sfv1 = nfv1 != 0n ? nfv1 != -1n ? 
+				stv1 != null ? `(${vFrom(l1)} & ${nfv1}L) | ${stv1}` : `${vFrom(l1)} & ${nfv1}L` :
+				stv1 != null ? `${vFrom(l1)} | ${stv1}` : null :
+				stv1 != null ? stv1 : "0";
+			if(sfv1 == null) return null;
+			return `${vResult(l1)} = ${sfv1};`
 		}).filter(l => l != null);
 	};
 
@@ -196,7 +185,6 @@ const generateSource = async (/** @type {GeneratorOpts} */ opts) => {
 	const generateSourceOffsetXYZ = (name, amountX, amountY, amountZ) => {
 		const fromPositions = [];
 		const toPositions = [];
-		const unsetPositions = [];
 		for(let x = 0; x < width; x++) {
 			const tx = x + amountX;
 			if(tx < 0 || tx >= width) continue;
@@ -208,23 +196,74 @@ const generateSource = async (/** @type {GeneratorOpts} */ opts) => {
 					if(tz < 0 || tz >= depth) continue;
 					fromPositions.push(positionAt(x, y, z));
 					toPositions.push(positionAt(tx, ty, tz));
-					if(x < amountX || y < amountY || z < amountZ)
-						unsetPositions.push(positionAt(x, y, z));
 				}
 			}
 		}
-		const moves = generateSourceMover(fromPositions, toPositions).map(m => `		${m}`);
-		moves.push(...generateSourceSetter(unsetPositions, unsetPositions.map(() => false)).map(m => `		${m}`));
+		const unsetPositions = [];
+		for(let x = 0; x < width; x++) {
+			for(let y = 0; y < height; y++) {
+				for(let z = 0; z < depth; z++) {
+					const p = positionAt(x, y, z);
+					if(toPositions.includes(p)) continue;
+					unsetPositions.push(p);
+				}
+			}
+		}
+		const overwrittenVars = new Set();
+		const requiredVars = new Set();
+		const moves = [];
+		moves.push(...generateSourceMover(
+			fromPositions,
+			toPositions,
+			l => { overwrittenVars.add(l); return `this._${l}`; },
+			l => `this._${l}`,
+			(l, la) => { if(!overwrittenVars.has(l) || l == la) return `this._${l}`; requiredVars.add(l); return `_${l}`; }
+		).map(m => `		${m}`));
+		moves.push(...generateSourceSetter(
+			unsetPositions, 
+			unsetPositions.map(() => false),
+			l => `this._${l}`,
+			l => `this._${l}`
+		).map(m => `		${m}`));
+		if(requiredVars.size > 0) {
+			const alt_overwrittenVars = new Set();
+			const alt_requiredVars = new Set();
+			const alt_moves = [];
+			alt_moves.push(...generateSourceMover(
+				fromPositions.toReversed(),
+				toPositions.toReversed(),
+				l => { alt_overwrittenVars.add(l); return `this._${l}`; },
+				l => `this._${l}`,
+				(l, la) => { if(!alt_overwrittenVars.has(l) || l == la) return `this._${l}`; alt_requiredVars.add(l); return `_${l}`; }
+			).map(m => `		${m}`));
+			alt_moves.push(...generateSourceSetter(
+				unsetPositions.toReversed(), 
+				unsetPositions.toReversed().map(() => false),
+				l => `this._${l}`,
+				l => `this._${l}`
+			).map(m => `		${m}`));
+			if(alt_requiredVars.size < requiredVars.size) {
+				overwrittenVars.clear();
+				for(const v of alt_overwrittenVars)
+					overwrittenVars.add(v);
+				requiredVars.clear();
+				for(const v of alt_requiredVars)
+					requiredVars.add(v);
+				moves.splice(0);
+				moves.push(...alt_moves);
+			}
+		}
 		const movesBatched = splitEvery(moves, 8 * batch);
 		return (
 `
 	protected void ${name}() {
+${[...requiredVars].map(i => `		long _${i} = this._${i};`).join("\n")}
 ${movesBatched.map((_, i) => `
-		this.${name}_${i}();
+		this.${name}_${i}(${[...requiredVars].map(i => `_${i}`).join(", ")});
 `.slice(1, -1)).join("\n")}
 	}
 ${movesBatched.map((m, i) => `
-	protected void ${name}_${i}() {
+	protected void ${name}_${i}(${[...requiredVars].map(i => `long _${i}`).join(", ")}) {
 ${m.join("\n")}
 	}
 `.slice(1, -1)).join("\n")}
@@ -269,7 +308,14 @@ ${m.join("\n")}
 				}
 			}
 		}
-		const moves = generateSourceMover(fromPositions, toPositions, l => `that._${l}`).map(m => `		${m}`);
+		const moves = [];
+		moves.push(...generateSourceMover(
+			fromPositions, 
+			toPositions, 
+			l => `that._${l}`, 
+			l => `this._${l}`, 
+			l => `this._${l}`
+		).map(m => `		${m}`));
 		const movesBatched = splitEvery(moves, 8 * batch);
 		return (
 `

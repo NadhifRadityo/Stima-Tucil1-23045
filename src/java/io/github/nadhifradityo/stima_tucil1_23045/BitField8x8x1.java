@@ -108,43 +108,52 @@ public class BitField8x8x1 extends BitField {
 		assert amount == 0;
 	}
 	protected void offsetPX4() {
+
 		this.offsetPX4_0();
 	}
 	protected void offsetPX4_0() {
-		this._0 = (this._0 & -1085102592571150096L) | (this._0 & -1085102592571150096L >> 4);
+		this._0 = (this._0 & -1085102592571150096L) | ((this._0 & -1085102592571150096L) >> 4);
 		this._0 = this._0 & 1085102592571150095L;
 	}
 	protected void offsetPX2() {
+
 		this.offsetPX2_0();
 	}
 	protected void offsetPX2_0() {
-		this._0 = (this._0 & -4557430888798830400L) | (this._0 & -217020518514230020L >> 2);
+		this._0 = (this._0 & -4557430888798830400L) | ((this._0 & -217020518514230020L) >> 2);
 		this._0 = this._0 & 4557430888798830399L;
 	}
 	protected void offsetPX1() {
+
 		this.offsetPX1_0();
 	}
 	protected void offsetPX1_0() {
-		this._0 = (this._0 & -9187201950435737472L) | (this._0 & -72340172838076674L >> 1);
+		this._0 = (this._0 & -9187201950435737472L) | ((this._0 & -72340172838076674L) >> 1);
 		this._0 = this._0 & 9187201950435737471L;
 	}
 	protected void offsetNX4() {
+
 		this.offsetNX4_0();
 	}
 	protected void offsetNX4_0() {
-		this._0 = (this._0 & 1085102592571150095L) | (this._0 & 1085102592571150095L << 4);
+		this._0 = (this._0 & 1085102592571150095L) | ((this._0 & 1085102592571150095L) << 4);
+		this._0 = this._0 & -1085102592571150096L;
 	}
 	protected void offsetNX2() {
+
 		this.offsetNX2_0();
 	}
 	protected void offsetNX2_0() {
-		this._0 = (this._0 & 217020518514230019L) | (this._0 & 4557430888798830399L << 2);
+		this._0 = (this._0 & 217020518514230019L) | ((this._0 & 4557430888798830399L) << 2);
+		this._0 = this._0 & -217020518514230020L;
 	}
 	protected void offsetNX1() {
+
 		this.offsetNX1_0();
 	}
 	protected void offsetNX1_0() {
-		this._0 = (this._0 & 72340172838076673L) | (this._0 & 9187201950435737471L << 1);
+		this._0 = (this._0 & 72340172838076673L) | ((this._0 & 9187201950435737471L) << 1);
+		this._0 = this._0 & -72340172838076674L;
 	}
 
 	public void offsetY(int amount) {
@@ -180,43 +189,52 @@ public class BitField8x8x1 extends BitField {
 		assert amount == 0;
 	}
 	protected void offsetPY4() {
+
 		this.offsetPY4_0();
 	}
 	protected void offsetPY4_0() {
-		this._0 = (this._0 & -4294967296L) | (this._0 & -4294967296L >> 32);
+		this._0 = (this._0 & -4294967296L) | ((this._0 & -4294967296L) >> 32);
 		this._0 = this._0 & 4294967295L;
 	}
 	protected void offsetPY2() {
+
 		this.offsetPY2_0();
 	}
 	protected void offsetPY2_0() {
-		this._0 = (this._0 & -281474976710656L) | (this._0 & -65536L >> 16);
+		this._0 = (this._0 & -281474976710656L) | ((this._0 & -65536L) >> 16);
 		this._0 = this._0 & 281474976710655L;
 	}
 	protected void offsetPY1() {
+
 		this.offsetPY1_0();
 	}
 	protected void offsetPY1_0() {
-		this._0 = (this._0 & -72057594037927936L) | (this._0 & -256L >> 8);
+		this._0 = (this._0 & -72057594037927936L) | ((this._0 & -256L) >> 8);
 		this._0 = this._0 & 72057594037927935L;
 	}
 	protected void offsetNY4() {
+
 		this.offsetNY4_0();
 	}
 	protected void offsetNY4_0() {
-		this._0 = (this._0 & 4294967295L) | (this._0 & 4294967295L << 32);
+		this._0 = (this._0 & 4294967295L) | ((this._0 & 4294967295L) << 32);
+		this._0 = this._0 & -4294967296L;
 	}
 	protected void offsetNY2() {
+
 		this.offsetNY2_0();
 	}
 	protected void offsetNY2_0() {
-		this._0 = (this._0 & 65535L) | (this._0 & 281474976710655L << 16);
+		this._0 = (this._0 & 65535L) | ((this._0 & 281474976710655L) << 16);
+		this._0 = this._0 & -65536L;
 	}
 	protected void offsetNY1() {
+
 		this.offsetNY1_0();
 	}
 	protected void offsetNY1_0() {
-		this._0 = (this._0 & 255L) | (this._0 & 72057594037927935L << 8);
+		this._0 = (this._0 & 255L) | ((this._0 & 72057594037927935L) << 8);
+		this._0 = this._0 & -256L;
 	}
 
 	public void offsetZ(int amount) {
@@ -253,28 +271,46 @@ public class BitField8x8x1 extends BitField {
 	}
 	protected void offsetPZ4() {
 
+		this.offsetPZ4_0();
 	}
-
+	protected void offsetPZ4_0() {
+		this._0 = 0;
+	}
 	protected void offsetPZ2() {
 
+		this.offsetPZ2_0();
 	}
-
+	protected void offsetPZ2_0() {
+		this._0 = 0;
+	}
 	protected void offsetPZ1() {
 
+		this.offsetPZ1_0();
 	}
-
+	protected void offsetPZ1_0() {
+		this._0 = 0;
+	}
 	protected void offsetNZ4() {
 
+		this.offsetNZ4_0();
 	}
-
+	protected void offsetNZ4_0() {
+		this._0 = 0;
+	}
 	protected void offsetNZ2() {
 
+		this.offsetNZ2_0();
 	}
-
+	protected void offsetNZ2_0() {
+		this._0 = 0;
+	}
 	protected void offsetNZ1() {
 
+		this.offsetNZ1_0();
 	}
-
+	protected void offsetNZ1_0() {
+		this._0 = 0;
+	}
 
 	public boolean isIntersecting(BitField that0) {
 		if(!(that0 instanceof BitField8x8x1))

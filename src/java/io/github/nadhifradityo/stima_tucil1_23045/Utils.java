@@ -59,6 +59,9 @@ public class Utils {
 		return result.toArray(new String[result.size()]);
 	}
 
+	public static void printBitField(BitField bitField) {
+		outputBitField(new BitField[] { bitField }, System.out, new char[] { 'X' });
+	}
 	public static void outputBitField(BitField[] bitFields, OutputStream stream, char[] chars) {
 		try {
 			StringBuilder sb = new StringBuilder();

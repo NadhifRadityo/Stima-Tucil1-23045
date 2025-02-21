@@ -269,6 +269,7 @@ public class BitField12x12x12 extends BitField {
 		long _15 = this._15;
 		long _6 = this._6;
 		this.offsetPX4_0(_22, _13, _4, _21, _12, _3, _18, _9, _0, _24, _15, _6);
+		this.offsetPX4_1();
 	}
 	protected void offsetPX4_0(long _22, long _13, long _4, long _21, long _12, long _3, long _18, long _9, long _0, long _24, long _15, long _6) {
 		this._26 = (this._26 & -71793646807019776L) | ((this._26 & 1148698348912316400L) >> 4);
@@ -335,6 +336,8 @@ public class BitField12x12x12 extends BitField {
 		this._12 = this._12 & 1148698348912316400L;
 		this._3 = this._3 & 1148698348912316400L;
 		this._23 = this._23 & -1081127857799827201L;
+	}
+	protected void offsetPX4_1() {
 		this._14 = this._14 & -1081127857799827201L;
 		this._5 = this._5 & -1081127857799827201L;
 		this._25 = this._25 & -67570491112489201L;
@@ -364,6 +367,7 @@ public class BitField12x12x12 extends BitField {
 		long _10 = this._10;
 		long _19 = this._19;
 		this.offsetPX2_0(_6, _15, _24, _0, _9, _18, _3, _12, _21, _4, _13, _22, _7, _16, _25, _1, _10, _19);
+		this.offsetPX2_1();
 	}
 	protected void offsetPX2_0(long _6, long _15, long _24, long _0, long _9, long _18, long _3, long _12, long _21, long _4, long _13, long _22, long _7, long _16, long _25, long _1, long _10, long _19) {
 		this._0 = (this._0 & -4608307493871763444L) | ((this._0 & -13514098222497844L) >> 2);
@@ -430,6 +434,8 @@ public class BitField12x12x12 extends BitField {
 		this._14 = this._14 & -864902286239861761L;
 		this._23 = this._23 & -864902286239861761L;
 		this._3 = this._3 & 4608307493871763443L;
+	}
+	protected void offsetPX2_1() {
 		this._12 = this._12 & 4608307493871763443L;
 		this._21 = this._21 & 4608307493871763443L;
 		this._1 = this._1 & -54056392889991361L;
@@ -459,6 +465,7 @@ public class BitField12x12x12 extends BitField {
 		long _10 = this._10;
 		long _19 = this._19;
 		this.offsetPX1_0(_6, _15, _24, _0, _9, _18, _3, _12, _21, _4, _13, _22, _7, _16, _25, _1, _10, _19);
+		this.offsetPX1_1();
 	}
 	protected void offsetPX1_0(long _6, long _15, long _24, long _0, long _9, long _18, long _3, long _12, long _21, long _4, long _13, long _22, long _7, long _16, long _25, long _1, long _10, long _19) {
 		this._0 = (this._0 & -9221119687151026168L) | ((this._0 & -4504699407499282L) >> 1);
@@ -525,6 +532,8 @@ public class BitField12x12x12 extends BitField {
 		this._14 = this._14 & -576601524159907841L;
 		this._23 = this._23 & -576601524159907841L;
 		this._3 = this._3 & 9221119687151026167L;
+	}
+	protected void offsetPX1_1() {
 		this._12 = this._12 & 9221119687151026167L;
 		this._21 = this._21 & 9221119687151026167L;
 		this._1 = this._1 & -36037595259994241L;
@@ -548,6 +557,7 @@ public class BitField12x12x12 extends BitField {
 		long _11 = this._11;
 		long _20 = this._20;
 		this.offsetNX4_0(_4, _13, _22, _5, _14, _23, _8, _17, _26, _2, _11, _20);
+		this.offsetNX4_1();
 	}
 	protected void offsetNX4_0(long _4, long _13, long _22, long _5, long _14, long _23, long _8, long _17, long _26, long _2, long _11, long _20) {
 		this._0 = (this._0 & 67570491112489215L) | ((this._0 & 1148698348912316400L) << 4);
@@ -614,6 +624,8 @@ public class BitField12x12x12 extends BitField {
 		this._14 = this._14 & 1148698348912316400L;
 		this._23 = this._23 & 1148698348912316400L;
 		this._3 = this._3 & -67570491112489201L;
+	}
+	protected void offsetNX4_1() {
 		this._12 = this._12 & -67570491112489201L;
 		this._21 = this._21 & -67570491112489201L;
 		this._1 = this._1 & -1081127857799827201L;
@@ -643,6 +655,7 @@ public class BitField12x12x12 extends BitField {
 		long _11 = this._11;
 		long _20 = this._20;
 		this.offsetNX2_0(_7, _16, _25, _1, _10, _19, _4, _13, _22, _5, _14, _23, _8, _17, _26, _2, _11, _20);
+		this.offsetNX2_1();
 	}
 	protected void offsetNX2_0(long _7, long _16, long _25, long _1, long _10, long _19, long _4, long _13, long _22, long _5, long _14, long _23, long _8, long _17, long _26, long _2, long _11, long _20) {
 		this._0 = (this._0 & 13514098222497843L) | ((this._0 & 4608307493871763443L) << 2);
@@ -709,6 +722,8 @@ public class BitField12x12x12 extends BitField {
 		this._14 = this._14 & -3459609144959447044L;
 		this._23 = this._23 & -3459609144959447044L;
 		this._3 = this._3 & -13514098222497841L;
+	}
+	protected void offsetNX2_1() {
 		this._12 = this._12 & -13514098222497841L;
 		this._21 = this._21 & -13514098222497841L;
 		this._1 = this._1 & -216225571559965441L;
@@ -738,6 +753,7 @@ public class BitField12x12x12 extends BitField {
 		long _11 = this._11;
 		long _20 = this._20;
 		this.offsetNX1_0(_7, _16, _25, _1, _10, _19, _4, _13, _22, _5, _14, _23, _8, _17, _26, _2, _11, _20);
+		this.offsetNX1_1();
 	}
 	protected void offsetNX1_0(long _7, long _16, long _25, long _1, long _10, long _19, long _4, long _13, long _22, long _5, long _14, long _23, long _8, long _17, long _26, long _2, long _11, long _20) {
 		this._0 = (this._0 & 4504699407499281L) | ((this._0 & 9221119687151026167L) << 1);
@@ -804,6 +820,8 @@ public class BitField12x12x12 extends BitField {
 		this._14 = this._14 & -1153203048319815682L;
 		this._23 = this._23 & -1153203048319815682L;
 		this._3 = this._3 & -4504699407499281L;
+	}
+	protected void offsetNX1_1() {
 		this._12 = this._12 & -4504699407499281L;
 		this._21 = this._21 & -4504699407499281L;
 		this._1 = this._1 & -72075190519988481L;
@@ -931,6 +949,7 @@ public class BitField12x12x12 extends BitField {
 		long _15 = this._15;
 		long _6 = this._6;
 		this.offsetPY2_0(_20, _11, _2, _22, _13, _4, _24, _15, _6);
+		this.offsetPY2_1();
 	}
 	protected void offsetPY2_0(long _20, long _11, long _2, long _22, long _13, long _4, long _24, long _15, long _6) {
 		this._26 = (this._26 & -1099511627776L) | ((this._26 & -16777216L) >> 24);
@@ -976,11 +995,11 @@ public class BitField12x12x12 extends BitField {
 		this._9 = (this._9 & -1099511627776L) | ((this._9 & -16777216L) >> 24);
 		this._0 = (this._0 & -1099511627776L) | ((this._0 & -16777216L) >> 24);
 		this._23 = (this._23 & 1099511627775L) | ((_22 & 16777215L) << 40);
-		this._20 = (this._20 & -16777216L) | ((this._20 & 281474959933440L) >> 24);
+		this._20 = (this._20 & -16777216L) | ((_20 & 281474959933440L) >> 24);
 		this._14 = (this._14 & 1099511627775L) | ((_13 & 16777215L) << 40);
-		this._11 = (this._11 & -16777216L) | ((this._11 & 281474959933440L) >> 24);
+		this._11 = (this._11 & -16777216L) | ((_11 & 281474959933440L) >> 24);
 		this._5 = (this._5 & 1099511627775L) | ((_4 & 16777215L) << 40);
-		this._2 = (this._2 & -16777216L) | ((this._2 & 281474959933440L) >> 24);
+		this._2 = (this._2 & -16777216L) | ((_2 & 281474959933440L) >> 24);
 		this._25 = (this._25 & -72056494526300161L) | ((_24 & 65535L) << 40);
 		this._16 = (this._16 & -72056494526300161L) | ((_15 & 65535L) << 40);
 		this._7 = (this._7 & -72056494526300161L) | ((_6 & 65535L) << 40);
@@ -997,6 +1016,8 @@ public class BitField12x12x12 extends BitField {
 		this._2 = this._2 & -281474959933441L;
 		this._0 = this._0 & 1099511627775L;
 		this._24 = this._24 & -65536L;
+	}
+	protected void offsetPY2_1() {
 		this._15 = this._15 & -65536L;
 		this._6 = this._6 & -65536L;
 	}
@@ -1162,6 +1183,7 @@ public class BitField12x12x12 extends BitField {
 		long _11 = this._11;
 		long _20 = this._20;
 		this.offsetNY2_0(_6, _15, _24, _4, _13, _22, _2, _11, _20);
+		this.offsetNY2_1();
 	}
 	protected void offsetNY2_0(long _6, long _15, long _24, long _4, long _13, long _22, long _2, long _11, long _20) {
 		this._0 = (this._0 & 16777215L) | ((this._0 & 1099511627775L) << 24);
@@ -1207,11 +1229,11 @@ public class BitField12x12x12 extends BitField {
 		this._17 = (this._17 & 16777215L) | ((this._17 & 1099511627775L) << 24);
 		this._26 = (this._26 & 16777215L) | ((this._26 & 1099511627775L) << 24);
 		this._3 = (this._3 & -16777216L) | ((_4 & -1099511627776L) >> 40);
-		this._6 = (this._6 & 1099511627775L) | ((this._6 & 1099511562240L) << 24);
+		this._6 = (this._6 & 1099511627775L) | ((_6 & 1099511562240L) << 24);
 		this._12 = (this._12 & -16777216L) | ((_13 & -1099511627776L) >> 40);
-		this._15 = (this._15 & 1099511627775L) | ((this._15 & 1099511562240L) << 24);
+		this._15 = (this._15 & 1099511627775L) | ((_15 & 1099511562240L) << 24);
 		this._21 = (this._21 & -16777216L) | ((_22 & -1099511627776L) >> 40);
-		this._24 = (this._24 & 1099511627775L) | ((this._24 & 1099511562240L) << 24);
+		this._24 = (this._24 & 1099511627775L) | ((_24 & 1099511562240L) << 24);
 		this._1 = (this._1 & -16776961L) | ((_2 & -281474976710656L) >> 40);
 		this._10 = (this._10 & -16776961L) | ((_11 & -281474976710656L) >> 40);
 		this._19 = (this._19 & -16776961L) | ((_20 & -281474976710656L) >> 40);
@@ -1228,6 +1250,8 @@ public class BitField12x12x12 extends BitField {
 		this._24 = this._24 & -1099511562241L;
 		this._26 = this._26 & -16777216L;
 		this._2 = this._2 & 281474976710655L;
+	}
+	protected void offsetNY2_1() {
 		this._11 = this._11 & 281474976710655L;
 		this._20 = this._20 & 281474976710655L;
 	}

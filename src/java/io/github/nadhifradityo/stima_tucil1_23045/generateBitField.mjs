@@ -17,11 +17,32 @@ const splitEvery = (a, n) => {
 		result.push(a.slice(i, i + n));
 	return result;
 };
+
 /**
  * @param {BigInt} x
  * @returns {BigInt}
  */
 const toSigned64 = x => (x & 0x7FFFFFFFFFFFFFFFn) - (x & 0x8000000000000000n);
+
+/**
+ * @param {RegExp} regex 
+ * @param {string} string 
+ * @param {(g: RegExpExecArray) => string} replacer 
+ * @returns {string}
+ */
+const regexReplace = (regex, string, replacer) => {
+	let lastIndex = 0;
+	let result = "";
+	let matcher;
+	while((matcher = regex.exec(string)) != null) {
+		const replace = replacer(matcher);
+		result += string.slice(lastIndex, matcher.index);
+		result += replace;
+		lastIndex = matcher.index + matcher[0].length;
+	}
+	result += string.slice(lastIndex);
+	return result;
+};
 
 /**
  * @typedef {Object} GeneratorOpts
@@ -33,7 +54,10 @@ const toSigned64 = x => (x & 0x7FFFFFFFFFFFFFFFn) - (x & 0x8000000000000000n);
  * @property {number} batch
  */
 
-const generateSource = async (/** @type {GeneratorOpts} */ opts) => {
+/**
+ * @param {GeneratorOpts} opts 
+ */
+const generateSource = async opts => {
 	const {
 		width,
 		height,
@@ -127,15 +151,15 @@ const generateSource = async (/** @type {GeneratorOpts} */ opts) => {
 			const nm2 = toSigned64(m2 ^ 0xFFFFFFFFFFFFFFFFn);
 			const tss = s != 0 ? s > 0 ? `>> ${s}` : `<< ${-s}` : null;
 			const ts = m1 != 0n ? m1 != -1n ? 
-				tss != null ? `(${vTarget(l1, l2)} & ${m1}L) ${tss}` : `${vTarget(l1, l2)} & ${m1}L` :
-				tss != null ? `${vTarget(l1, l2)} ${tss}` : `${vTarget(l1, l2)}` :
+				tss != null ? `(${vTarget(l1)} & ${m1}L) ${tss}` : `${vTarget(l1)} & ${m1}L` :
+				tss != null ? `${vTarget(l1)} ${tss}` : `${vTarget(l1)}` :
 				null;
 			const fs = nm2 != 0n ? nm2 != -1n ? 
-				ts != null ? `(${vFrom(l2, l1)} & ${nm2}L) | (${ts})` : `${vFrom(l2, l1)} & ${nm2}L` :
-				ts != null ? `${vFrom(l2, l1)} | (${ts})` : null :
+				ts != null ? `(${vFrom(l2)} & ${nm2}L) | (${ts})` : `${vFrom(l2)} & ${nm2}L` :
+				ts != null ? `${vFrom(l2)} | (${ts})` : null :
 				ts != null ? ts : "0";
 			if(fs == null) return null;
-			return `${vResult(l2, l1)} = ${fs};`;
+			return `${vResult(l2)} = ${fs};`;
 		}).filter(l => l != null);
 	};
 	/**
@@ -217,7 +241,7 @@ const generateSource = async (/** @type {GeneratorOpts} */ opts) => {
 			toPositions,
 			l => { overwrittenVars.add(l); return `this._${l}`; },
 			l => `this._${l}`,
-			(l, la) => { if(!overwrittenVars.has(l) || l == la) return `this._${l}`; requiredVars.add(l); return `_${l}`; }
+			(l, la) => { if(!overwrittenVars.has(l) || l == la) return `this._${l}`; requiredVars.add(l); return `INJECT_${l}`; }
 		).map(m => `		${m}`));
 		moves.push(...generateSourceSetter(
 			unsetPositions, 
@@ -234,7 +258,7 @@ const generateSource = async (/** @type {GeneratorOpts} */ opts) => {
 				toPositions.toReversed(),
 				l => { alt_overwrittenVars.add(l); return `this._${l}`; },
 				l => `this._${l}`,
-				(l, la) => { if(!alt_overwrittenVars.has(l) || l == la) return `this._${l}`; alt_requiredVars.add(l); return `_${l}`; }
+				l => { if(!alt_overwrittenVars.has(l)) return `this._${l}`; alt_requiredVars.add(l); return `INJECT_${l}`; }
 			).map(m => `		${m}`));
 			alt_moves.push(...generateSourceSetter(
 				unsetPositions.toReversed(), 
@@ -253,17 +277,27 @@ const generateSource = async (/** @type {GeneratorOpts} */ opts) => {
 				moves.push(...alt_moves);
 			}
 		}
-		const movesBatched = splitEvery(moves, 8 * batch);
+		const movesBatched = splitEvery(moves, 4 * batch);
+		const requiredBatchVars = movesBatched.map(b => {
+			const vars = new Set();
+			b.forEach((_, i) => {
+				b[i] = regexReplace(/INJECT_([0-9]+)/gm, b[i], g => {
+					vars.add(g[1]);
+					return `_${g[1]}`;
+				});
+			});
+			return vars;
+		});
 		return (
 `
 	protected void ${name}() {
 ${[...requiredVars].map(i => `		long _${i} = this._${i};`).join("\n")}
 ${movesBatched.map((_, i) => `
-		this.${name}_${i}(${[...requiredVars].map(i => `_${i}`).join(", ")});
+		this.${name}_${i}(${[...requiredBatchVars[i]].map(j => `_${j}`).join(", ")});
 `.slice(1, -1)).join("\n")}
 	}
 ${movesBatched.map((m, i) => `
-	protected void ${name}_${i}(${[...requiredVars].map(i => `long _${i}`).join(", ")}) {
+	protected void ${name}_${i}(${[...requiredBatchVars[i]].map(j => `long _${j}`).join(", ")}) {
 ${m.join("\n")}
 	}
 `.slice(1, -1)).join("\n")}
@@ -316,7 +350,7 @@ ${m.join("\n")}
 			l => `this._${l}`, 
 			l => `this._${l}`
 		).map(m => `		${m}`));
-		const movesBatched = splitEvery(moves, 8 * batch);
+		const movesBatched = splitEvery(moves, 4 * batch);
 		return (
 `
 	public ${Class} ${name}() {

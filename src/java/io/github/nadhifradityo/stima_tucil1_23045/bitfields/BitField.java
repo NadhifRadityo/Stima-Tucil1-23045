@@ -12,6 +12,21 @@ public interface BitField {
 	public MutableBitField toMutable();
 	public BitField clone();
 
+	public default int count() {
+		var width = this.getWidth();
+		var height = this.getHeight();
+		var depth = this.getDepth();
+		int count = 0;
+		for(int x = 0; x < width; x++) {
+			for(int y = 0; y < height; y++) {
+				for(int z = 0; z < depth; z++) {
+					if(!this.getValue(x, y, z)) continue;
+					count++;
+				}
+			}
+		}
+		return count;
+	}
 	public default int getMinX() {
 		var width = this.getWidth();
 		var height = this.getHeight();

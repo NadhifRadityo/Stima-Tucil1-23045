@@ -97,6 +97,48 @@ public abstract class BitField12x12x12Impl implements BitField {
 	public abstract MutableBitField12x12x12Impl toMutable();
 	public abstract BitField clone();
 
+	public int count() {
+		var result = 0;
+		result += this.count_0();
+		result += this.count_1();
+		return result;
+	}
+	protected int count_0() {
+		var result = 0;
+		result += Long.bitCount(this._0);
+		result += Long.bitCount(this._1);
+		result += Long.bitCount(this._2);
+		result += Long.bitCount(this._3);
+		result += Long.bitCount(this._4);
+		result += Long.bitCount(this._5);
+		result += Long.bitCount(this._6);
+		result += Long.bitCount(this._7);
+		result += Long.bitCount(this._8);
+		result += Long.bitCount(this._9);
+		result += Long.bitCount(this._10);
+		result += Long.bitCount(this._11);
+		result += Long.bitCount(this._12);
+		result += Long.bitCount(this._13);
+		result += Long.bitCount(this._14);
+		result += Long.bitCount(this._15);
+		return result;
+	}
+	protected int count_1() {
+		var result = 0;
+		result += Long.bitCount(this._16);
+		result += Long.bitCount(this._17);
+		result += Long.bitCount(this._18);
+		result += Long.bitCount(this._19);
+		result += Long.bitCount(this._20);
+		result += Long.bitCount(this._21);
+		result += Long.bitCount(this._22);
+		result += Long.bitCount(this._23);
+		result += Long.bitCount(this._24);
+		result += Long.bitCount(this._25);
+		result += Long.bitCount(this._26);
+		return result;
+	}
+
 	public boolean isIntersecting(BitField that0) {
 		if(!(that0 instanceof BitField12x12x12Impl))
 			return BitField.super.isIntersecting(that0);

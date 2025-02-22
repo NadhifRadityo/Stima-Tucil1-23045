@@ -59,7 +59,7 @@ public class Utils {
 			result.add(matcher.group(0));
 		if(result.stream().reduce(0, (a, b) -> a + b.length(), (a, b) -> a + b) != template.length())
 			System.err.println("Pieces template may be malformed: \n" + template);
-		return result.toArray(new String[result.size()]);
+		return result.toArray(n -> new String[n]);
 	}
 
 	public static void printBitField(BitField bitField) {

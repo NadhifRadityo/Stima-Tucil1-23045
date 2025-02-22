@@ -622,6 +622,4 @@ public class MutableBitField8x8x8Impl extends BitField8x8x8Impl implements Mutab
 		this._6 &= ~that._6;
 		this._7 &= ~that._7;
 	}
-
-
 }

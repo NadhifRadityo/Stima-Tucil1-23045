@@ -3973,6 +3973,4 @@ public class MutableBitField20x20x10Impl extends BitField20x20x10Impl implements
 		this._61 &= ~that._61;
 		this._62 &= ~that._62;
 	}
-
-
 }

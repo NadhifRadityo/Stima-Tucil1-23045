@@ -1,9 +1,7 @@
 package io.github.nadhifradityo.stima_tucil1_23045;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import io.github.nadhifradityo.stima_tucil1_23045.bitfields.BitField;
 import io.github.nadhifradityo.stima_tucil1_23045.bitfields.ImmutableBitField;
@@ -46,9 +44,9 @@ public class Board {
 
 	public static class CompiledPiece {
 		protected final Piece piece;
-		protected final Map<Piece.Shape, CompiledShape[]> compiledShapes;
+		protected final CompiledShape[] compiledShapes;
 
-		protected CompiledPiece(Piece piece, Map<Piece.Shape, CompiledShape[]> compiledShapes) {
+		protected CompiledPiece(Piece piece, CompiledShape[] compiledShapes) {
 			this.piece = piece;
 			this.compiledShapes = compiledShapes;
 		}
@@ -56,15 +54,15 @@ public class Board {
 		public Piece getPiece() {
 			return piece;
 		}
-		public Map<Piece.Shape, CompiledShape[]> getCompiledShapes() {
+		public CompiledShape[] getCompiledShapes() {
 			return compiledShapes;
 		}
 
 		public static CompiledPiece generateCompiledPiece(BitField boardBoundaryField, Piece piece) {
-			var compiledShapes = new HashMap<Piece.Shape, CompiledShape[]>();
+			var compiledShapes = new ArrayList<CompiledShape>();
 			for(var shape : piece.getShapes())
-				compiledShapes.put(shape, CompiledShape.generateCompiledShapes(boardBoundaryField, shape));
-			return new CompiledPiece(piece, compiledShapes);
+				compiledShapes.addAll(CompiledShape.generateCompiledShapes(boardBoundaryField, shape));
+			return new CompiledPiece(piece, compiledShapes.toArray(n -> new CompiledShape[n]));
 		}
 	}
 	public static class CompiledShape {
@@ -88,7 +86,7 @@ public class Board {
 			return configurationName;
 		}
 
-		public static CompiledShape[] generateCompiledShapes(BitField boardBoundaryField, Piece.Shape shape) {
+		public static List<CompiledShape> generateCompiledShapes(BitField boardBoundaryField, Piece.Shape shape) {
 			List<CompiledShape> result = new ArrayList<>();
 			var minX = boardBoundaryField.getMinX();
 			var maxX = boardBoundaryField.getMaxX();
@@ -109,7 +107,7 @@ public class Board {
 					}
 				}
 			}
-			return result.toArray(new CompiledShape[result.size()]);
+			return result;
 		}
 	}
 }

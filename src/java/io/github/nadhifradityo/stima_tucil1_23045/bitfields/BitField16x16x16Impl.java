@@ -183,6 +183,95 @@ public abstract class BitField16x16x16Impl implements BitField {
 	public abstract MutableBitField16x16x16Impl toMutable();
 	public abstract BitField clone();
 
+	public int count() {
+		var result = 0;
+		result += this.count_0();
+		result += this.count_1();
+		result += this.count_2();
+		result += this.count_3();
+		return result;
+	}
+	protected int count_0() {
+		var result = 0;
+		result += Long.bitCount(this._0);
+		result += Long.bitCount(this._1);
+		result += Long.bitCount(this._2);
+		result += Long.bitCount(this._3);
+		result += Long.bitCount(this._4);
+		result += Long.bitCount(this._5);
+		result += Long.bitCount(this._6);
+		result += Long.bitCount(this._7);
+		result += Long.bitCount(this._8);
+		result += Long.bitCount(this._9);
+		result += Long.bitCount(this._10);
+		result += Long.bitCount(this._11);
+		result += Long.bitCount(this._12);
+		result += Long.bitCount(this._13);
+		result += Long.bitCount(this._14);
+		result += Long.bitCount(this._15);
+		return result;
+	}
+	protected int count_1() {
+		var result = 0;
+		result += Long.bitCount(this._16);
+		result += Long.bitCount(this._17);
+		result += Long.bitCount(this._18);
+		result += Long.bitCount(this._19);
+		result += Long.bitCount(this._20);
+		result += Long.bitCount(this._21);
+		result += Long.bitCount(this._22);
+		result += Long.bitCount(this._23);
+		result += Long.bitCount(this._24);
+		result += Long.bitCount(this._25);
+		result += Long.bitCount(this._26);
+		result += Long.bitCount(this._27);
+		result += Long.bitCount(this._28);
+		result += Long.bitCount(this._29);
+		result += Long.bitCount(this._30);
+		result += Long.bitCount(this._31);
+		return result;
+	}
+	protected int count_2() {
+		var result = 0;
+		result += Long.bitCount(this._32);
+		result += Long.bitCount(this._33);
+		result += Long.bitCount(this._34);
+		result += Long.bitCount(this._35);
+		result += Long.bitCount(this._36);
+		result += Long.bitCount(this._37);
+		result += Long.bitCount(this._38);
+		result += Long.bitCount(this._39);
+		result += Long.bitCount(this._40);
+		result += Long.bitCount(this._41);
+		result += Long.bitCount(this._42);
+		result += Long.bitCount(this._43);
+		result += Long.bitCount(this._44);
+		result += Long.bitCount(this._45);
+		result += Long.bitCount(this._46);
+		result += Long.bitCount(this._47);
+		return result;
+	}
+	protected int count_3() {
+		var result = 0;
+		result += Long.bitCount(this._48);
+		result += Long.bitCount(this._49);
+		result += Long.bitCount(this._50);
+		result += Long.bitCount(this._51);
+		result += Long.bitCount(this._52);
+		result += Long.bitCount(this._53);
+		result += Long.bitCount(this._54);
+		result += Long.bitCount(this._55);
+		result += Long.bitCount(this._56);
+		result += Long.bitCount(this._57);
+		result += Long.bitCount(this._58);
+		result += Long.bitCount(this._59);
+		result += Long.bitCount(this._60);
+		result += Long.bitCount(this._61);
+		result += Long.bitCount(this._62);
+		result += Long.bitCount(this._63);
+		return result;
+	}
+
 	public boolean isIntersecting(BitField that0) {
 		if(!(that0 instanceof BitField16x16x16Impl))
 			return BitField.super.isIntersecting(that0);

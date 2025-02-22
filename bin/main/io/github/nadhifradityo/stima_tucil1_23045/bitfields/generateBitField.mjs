@@ -416,6 +416,19 @@ ${new Array(batch).fill().map((_, j) => i * batch + j).filter(j => j < slots).ma
 	public abstract ${ClassMutable} toMutable();
 	public abstract BitField clone();
 
+	public int count() {
+		var result = 0;
+${new Array(slotBatch).fill().map((_, i) => i).map(i => `		result += this.count_${i}();`).join("\n")}
+		return result;
+	}
+${new Array(slotBatch).fill().map((_, i) => i).map(i => `
+	protected int count_${i}() {
+		var result = 0;
+${new Array(batch).fill().map((_, j) => i * batch + j).filter(j => j < slots).map(j => `		result += Long.bitCount(this._${j});`).join("\n")}
+		return result;
+	}
+`.slice(1, -1)).join("\n")}
+
 	public boolean isIntersecting(BitField that0) {
 		if(!(that0 instanceof ${Class}))
 			return BitField.super.isIntersecting(that0);

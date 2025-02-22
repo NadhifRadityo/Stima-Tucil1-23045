@@ -53,6 +53,24 @@ public abstract class BitField8x8x8Impl implements BitField {
 	public abstract MutableBitField8x8x8Impl toMutable();
 	public abstract BitField clone();
 
+	public int count() {
+		var result = 0;
+		result += this.count_0();
+		return result;
+	}
+	protected int count_0() {
+		var result = 0;
+		result += Long.bitCount(this._0);
+		result += Long.bitCount(this._1);
+		result += Long.bitCount(this._2);
+		result += Long.bitCount(this._3);
+		result += Long.bitCount(this._4);
+		result += Long.bitCount(this._5);
+		result += Long.bitCount(this._6);
+		result += Long.bitCount(this._7);
+		return result;
+	}
+
 	public boolean isIntersecting(BitField that0) {
 		if(!(that0 instanceof BitField8x8x8Impl))
 			return BitField.super.isIntersecting(that0);

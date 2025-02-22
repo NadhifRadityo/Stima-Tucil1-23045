@@ -349,6 +349,4 @@ public class MutableBitField8x8x1Impl extends BitField8x8x1Impl implements Mutab
 	protected void subtract_0(BitField8x8x1Impl that) {
 		this._0 &= ~that._0;
 	}
-
-
 }

@@ -45,6 +45,20 @@ public abstract class BitField16x16x1Impl implements BitField {
 	public abstract MutableBitField16x16x1Impl toMutable();
 	public abstract BitField clone();
 
+	public int count() {
+		var result = 0;
+		result += this.count_0();
+		return result;
+	}
+	protected int count_0() {
+		var result = 0;
+		result += Long.bitCount(this._0);
+		result += Long.bitCount(this._1);
+		result += Long.bitCount(this._2);
+		result += Long.bitCount(this._3);
+		return result;
+	}
+
 	public boolean isIntersecting(BitField that0) {
 		if(!(that0 instanceof BitField16x16x1Impl))
 			return BitField.super.isIntersecting(that0);

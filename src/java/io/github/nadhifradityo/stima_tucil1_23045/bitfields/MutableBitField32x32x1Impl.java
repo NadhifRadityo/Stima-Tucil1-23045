@@ -870,6 +870,4 @@ public class MutableBitField32x32x1Impl extends BitField32x32x1Impl implements M
 		this._14 &= ~that._14;
 		this._15 &= ~that._15;
 	}
-
-
 }

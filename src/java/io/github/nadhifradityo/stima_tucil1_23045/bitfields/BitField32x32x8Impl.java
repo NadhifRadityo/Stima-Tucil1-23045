@@ -335,6 +335,179 @@ public abstract class BitField32x32x8Impl implements BitField {
 	public abstract MutableBitField32x32x8Impl toMutable();
 	public abstract BitField clone();
 
+	public int count() {
+		var result = 0;
+		result += this.count_0();
+		result += this.count_1();
+		result += this.count_2();
+		result += this.count_3();
+		result += this.count_4();
+		result += this.count_5();
+		result += this.count_6();
+		result += this.count_7();
+		return result;
+	}
+	protected int count_0() {
+		var result = 0;
+		result += Long.bitCount(this._0);
+		result += Long.bitCount(this._1);
+		result += Long.bitCount(this._2);
+		result += Long.bitCount(this._3);
+		result += Long.bitCount(this._4);
+		result += Long.bitCount(this._5);
+		result += Long.bitCount(this._6);
+		result += Long.bitCount(this._7);
+		result += Long.bitCount(this._8);
+		result += Long.bitCount(this._9);
+		result += Long.bitCount(this._10);
+		result += Long.bitCount(this._11);
+		result += Long.bitCount(this._12);
+		result += Long.bitCount(this._13);
+		result += Long.bitCount(this._14);
+		result += Long.bitCount(this._15);
+		return result;
+	}
+	protected int count_1() {
+		var result = 0;
+		result += Long.bitCount(this._16);
+		result += Long.bitCount(this._17);
+		result += Long.bitCount(this._18);
+		result += Long.bitCount(this._19);
+		result += Long.bitCount(this._20);
+		result += Long.bitCount(this._21);
+		result += Long.bitCount(this._22);
+		result += Long.bitCount(this._23);
+		result += Long.bitCount(this._24);
+		result += Long.bitCount(this._25);
+		result += Long.bitCount(this._26);
+		result += Long.bitCount(this._27);
+		result += Long.bitCount(this._28);
+		result += Long.bitCount(this._29);
+		result += Long.bitCount(this._30);
+		result += Long.bitCount(this._31);
+		return result;
+	}
+	protected int count_2() {
+		var result = 0;
+		result += Long.bitCount(this._32);
+		result += Long.bitCount(this._33);
+		result += Long.bitCount(this._34);
+		result += Long.bitCount(this._35);
+		result += Long.bitCount(this._36);
+		result += Long.bitCount(this._37);
+		result += Long.bitCount(this._38);
+		result += Long.bitCount(this._39);
+		result += Long.bitCount(this._40);
+		result += Long.bitCount(this._41);
+		result += Long.bitCount(this._42);
+		result += Long.bitCount(this._43);
+		result += Long.bitCount(this._44);
+		result += Long.bitCount(this._45);
+		result += Long.bitCount(this._46);
+		result += Long.bitCount(this._47);
+		return result;
+	}
+	protected int count_3() {
+		var result = 0;
+		result += Long.bitCount(this._48);
+		result += Long.bitCount(this._49);
+		result += Long.bitCount(this._50);
+		result += Long.bitCount(this._51);
+		result += Long.bitCount(this._52);
+		result += Long.bitCount(this._53);
+		result += Long.bitCount(this._54);
+		result += Long.bitCount(this._55);
+		result += Long.bitCount(this._56);
+		result += Long.bitCount(this._57);
+		result += Long.bitCount(this._58);
+		result += Long.bitCount(this._59);
+		result += Long.bitCount(this._60);
+		result += Long.bitCount(this._61);
+		result += Long.bitCount(this._62);
+		result += Long.bitCount(this._63);
+		return result;
+	}
+	protected int count_4() {
+		var result = 0;
+		result += Long.bitCount(this._64);
+		result += Long.bitCount(this._65);
+		result += Long.bitCount(this._66);
+		result += Long.bitCount(this._67);
+		result += Long.bitCount(this._68);
+		result += Long.bitCount(this._69);
+		result += Long.bitCount(this._70);
+		result += Long.bitCount(this._71);
+		result += Long.bitCount(this._72);
+		result += Long.bitCount(this._73);
+		result += Long.bitCount(this._74);
+		result += Long.bitCount(this._75);
+		result += Long.bitCount(this._76);
+		result += Long.bitCount(this._77);
+		result += Long.bitCount(this._78);
+		result += Long.bitCount(this._79);
+		return result;
+	}
+	protected int count_5() {
+		var result = 0;
+		result += Long.bitCount(this._80);
+		result += Long.bitCount(this._81);
+		result += Long.bitCount(this._82);
+		result += Long.bitCount(this._83);
+		result += Long.bitCount(this._84);
+		result += Long.bitCount(this._85);
+		result += Long.bitCount(this._86);
+		result += Long.bitCount(this._87);
+		result += Long.bitCount(this._88);
+		result += Long.bitCount(this._89);
+		result += Long.bitCount(this._90);
+		result += Long.bitCount(this._91);
+		result += Long.bitCount(this._92);
+		result += Long.bitCount(this._93);
+		result += Long.bitCount(this._94);
+		result += Long.bitCount(this._95);
+		return result;
+	}
+	protected int count_6() {
+		var result = 0;
+		result += Long.bitCount(this._96);
+		result += Long.bitCount(this._97);
+		result += Long.bitCount(this._98);
+		result += Long.bitCount(this._99);
+		result += Long.bitCount(this._100);
+		result += Long.bitCount(this._101);
+		result += Long.bitCount(this._102);
+		result += Long.bitCount(this._103);
+		result += Long.bitCount(this._104);
+		result += Long.bitCount(this._105);
+		result += Long.bitCount(this._106);
+		result += Long.bitCount(this._107);
+		result += Long.bitCount(this._108);
+		result += Long.bitCount(this._109);
+		result += Long.bitCount(this._110);
+		result += Long.bitCount(this._111);
+		return result;
+	}
+	protected int count_7() {
+		var result = 0;
+		result += Long.bitCount(this._112);
+		result += Long.bitCount(this._113);
+		result += Long.bitCount(this._114);
+		result += Long.bitCount(this._115);
+		result += Long.bitCount(this._116);
+		result += Long.bitCount(this._117);
+		result += Long.bitCount(this._118);
+		result += Long.bitCount(this._119);
+		result += Long.bitCount(this._120);
+		result += Long.bitCount(this._121);
+		result += Long.bitCount(this._122);
+		result += Long.bitCount(this._123);
+		result += Long.bitCount(this._124);
+		result += Long.bitCount(this._125);
+		result += Long.bitCount(this._126);
+		result += Long.bitCount(this._127);
+		return result;
+	}
+
 	public boolean isIntersecting(BitField that0) {
 		if(!(that0 instanceof BitField32x32x8Impl))
 			return BitField.super.isIntersecting(that0);

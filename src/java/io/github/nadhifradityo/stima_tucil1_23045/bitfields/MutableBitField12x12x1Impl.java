@@ -441,6 +441,4 @@ public class MutableBitField12x12x1Impl extends BitField12x12x1Impl implements M
 		this._1 &= ~that._1;
 		this._2 &= ~that._2;
 	}
-
-
 }

@@ -1,8 +1,11 @@
 package io.github.nadhifradityo.stima_tucil1_23045;
 
 import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.WeakHashMap;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
@@ -13,6 +16,18 @@ public class Utils {
 	private Utils() {
 
 	}
+
+	protected static final WeakHashMap<Throwable, String> throwableAsStringCache = new WeakHashMap<>();
+	protected static String throwableAsString(Throwable throwable) {
+		var result = throwableAsStringCache.get(throwable);
+		if(result != null) return result;
+        StringWriter stringWriter = new StringWriter();
+        PrintWriter printWriter = new PrintWriter(stringWriter);
+        throwable.printStackTrace(printWriter);
+        result = stringWriter.toString();
+		throwableAsStringCache.put(throwable, result);
+		return result;
+    }
 
 	public static MutableBitField generateRectangularBitField(GameContext factory, int width, int height) {
 		var result = factory.newBitField();
@@ -62,8 +77,17 @@ public class Utils {
 		return result.toArray(n -> new String[n]);
 	}
 
-	public static void printBitField(BitField bitField) {
-		outputBitField(new BitField[] { bitField }, System.out, new char[] { 'X' });
+	public static void printBitField(BitField bitField, char character) {
+		outputBitField(bitField, System.out, character);
+	}
+	protected static final ThreadLocal<BitField[]> outputBitField_tempBitFieldLocal = ThreadLocal.withInitial(() -> new BitField[1]);
+	protected static final ThreadLocal<char[]> outputBitField_tempCharLocal = ThreadLocal.withInitial(() -> new char[1]);
+	public static void outputBitField(BitField bitField, OutputStream stream, char character) {
+		var tempBitField = outputBitField_tempBitFieldLocal.get();
+		var tempChar = outputBitField_tempCharLocal.get();
+		tempBitField[0] = bitField;
+		tempChar[0] = character;
+		outputBitField(tempBitField, stream, tempChar);
 	}
 	public static void outputBitField(BitField[] bitFields, OutputStream stream, char[] chars) {
 		try {
@@ -95,5 +119,27 @@ public class Utils {
 		} catch(Exception e) {
 			throw new Error(e);
 		}
+	}
+
+	public static Solver[] defaultSolverBrancher(Solver solver, int minBranch) {
+		var pieces = solver.getDynamicPieces();
+		int depthBranch = 0;
+		int currentBranch = 1;
+		while(currentBranch < minBranch) {
+			currentBranch *= pieces[depthBranch].getCompiledShapes().length;
+			depthBranch++;
+		}
+		var result = new Solver[currentBranch];
+		if(depthBranch == 0) {
+			result[0] = solver.branch();
+			solver.reset();
+			return result;
+		}
+		for(int i = 0; i < currentBranch; i++) {
+			solver.step(pieces.length - depthBranch);
+			result[i] = solver.branch();
+		}
+		solver.reset();
+		return result;
 	}
 }

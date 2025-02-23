@@ -23,13 +23,13 @@
 <tr>
 <td>
 <div class="infoBox" id="tests">
-<div class="counter">14</div>
+<div class="counter">11</div>
 <p>tests</p>
 </div>
 </td>
 <td>
 <div class="infoBox" id="failures">
-<div class="counter">5</div>
+<div class="counter">0</div>
 <p>failures</p>
 </div>
 </td>
@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.146s</div>
+<div class="counter">0.040s</div>
 <p>duration</p>
 </div>
 </td>
@@ -50,8 +50,8 @@
 </div>
 </td>
 <td>
-<div class="infoBox failures" id="successRate">
-<div class="percent">64%</div>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
 <p>successful</p>
 </div>
 </td>
@@ -61,106 +61,10 @@
 <div id="tabs">
 <ul class="tabLinks">
 <li>
-<a href="#tab0">Failed tests</a>
-</li>
-<li>
-<a href="#tab1">Tests</a>
+<a href="#tab0">Tests</a>
 </li>
 </ul>
 <div id="tab0" class="tab">
-<h2>Failed tests</h2>
-<div class="test">
-<a name="canOffsetX()"></a>
-<h3 class="failures">canOffsetX()</h3>
-<span class="code">
-<pre>org.opentest4j.AssertionFailedError: expected: &lt;true&gt; but was: &lt;false&gt;
-	at app//org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
-	at app//org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
-	at app//org.junit.jupiter.api.AssertTrue.failNotTrue(AssertTrue.java:63)
-	at app//org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:36)
-	at app//org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:31)
-	at app//org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:183)
-	at app//io.github.nadhifradityo.stima_tucil1_23045.BitFieldTest.canOffsetX(BitFieldTest.java:32)
-	at java.base@21.0.4/java.lang.reflect.Method.invoke(Method.java:580)
-	at java.base@21.0.4/java.util.ArrayList.forEach(ArrayList.java:1596)
-	at java.base@21.0.4/java.util.ArrayList.forEach(ArrayList.java:1596)
-</pre>
-</span>
-</div>
-<div class="test">
-<a name="canOffsetY()"></a>
-<h3 class="failures">canOffsetY()</h3>
-<span class="code">
-<pre>org.opentest4j.AssertionFailedError: expected: &lt;true&gt; but was: &lt;false&gt;
-	at app//org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
-	at app//org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
-	at app//org.junit.jupiter.api.AssertTrue.failNotTrue(AssertTrue.java:63)
-	at app//org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:36)
-	at app//org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:31)
-	at app//org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:183)
-	at app//io.github.nadhifradityo.stima_tucil1_23045.BitFieldTest.canOffsetY(BitFieldTest.java:41)
-	at java.base@21.0.4/java.lang.reflect.Method.invoke(Method.java:580)
-	at java.base@21.0.4/java.util.ArrayList.forEach(ArrayList.java:1596)
-	at java.base@21.0.4/java.util.ArrayList.forEach(ArrayList.java:1596)
-</pre>
-</span>
-</div>
-<div class="test">
-<a name="canOffsetZ()"></a>
-<h3 class="failures">canOffsetZ()</h3>
-<span class="code">
-<pre>org.opentest4j.AssertionFailedError: expected: &lt;false&gt; but was: &lt;true&gt;
-	at app//org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
-	at app//org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
-	at app//org.junit.jupiter.api.AssertFalse.failNotFalse(AssertFalse.java:63)
-	at app//org.junit.jupiter.api.AssertFalse.assertFalse(AssertFalse.java:36)
-	at app//org.junit.jupiter.api.AssertFalse.assertFalse(AssertFalse.java:31)
-	at app//org.junit.jupiter.api.Assertions.assertFalse(Assertions.java:231)
-	at app//io.github.nadhifradityo.stima_tucil1_23045.BitFieldTest.canOffsetZ(BitFieldTest.java:49)
-	at java.base@21.0.4/java.lang.reflect.Method.invoke(Method.java:580)
-	at java.base@21.0.4/java.util.ArrayList.forEach(ArrayList.java:1596)
-	at java.base@21.0.4/java.util.ArrayList.forEach(ArrayList.java:1596)
-</pre>
-</span>
-</div>
-<div class="test">
-<a name="canTrimX()"></a>
-<h3 class="failures">canTrimX()</h3>
-<span class="code">
-<pre>org.opentest4j.AssertionFailedError: expected: &lt;0&gt; but was: &lt;3&gt;
-	at app//org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
-	at app//org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
-	at app//org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
-	at app//org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:150)
-	at app//org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:145)
-	at app//org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:531)
-	at app//io.github.nadhifradityo.stima_tucil1_23045.BitFieldTest.canTrimX(BitFieldTest.java:85)
-	at java.base@21.0.4/java.lang.reflect.Method.invoke(Method.java:580)
-	at java.base@21.0.4/java.util.ArrayList.forEach(ArrayList.java:1596)
-	at java.base@21.0.4/java.util.ArrayList.forEach(ArrayList.java:1596)
-</pre>
-</span>
-</div>
-<div class="test">
-<a name="canTrimY()"></a>
-<h3 class="failures">canTrimY()</h3>
-<span class="code">
-<pre>org.opentest4j.AssertionFailedError: expected: &lt;0&gt; but was: &lt;3&gt;
-	at app//org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
-	at app//org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
-	at app//org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
-	at app//org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:150)
-	at app//org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:145)
-	at app//org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:531)
-	at app//io.github.nadhifradityo.stima_tucil1_23045.BitFieldTest.canTrimY(BitFieldTest.java:93)
-	at java.base@21.0.4/java.lang.reflect.Method.invoke(Method.java:580)
-	at java.base@21.0.4/java.util.ArrayList.forEach(ArrayList.java:1596)
-	at java.base@21.0.4/java.util.ArrayList.forEach(ArrayList.java:1596)
-</pre>
-</span>
-</div>
-</div>
-<div id="tab1" class="tab">
 <h2>Tests</h2>
 <table>
 <thead>
@@ -172,7 +76,7 @@
 </thead>
 <tr>
 <td class="success">canClear()</td>
-<td class="success">0.001s</td>
+<td class="success">0.002s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -192,51 +96,36 @@
 </tr>
 <tr>
 <td class="success">canMinMaxX()</td>
-<td class="success">0.024s</td>
+<td class="success">0.026s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">canMinMaxY()</td>
-<td class="success">0.002s</td>
+<td class="success">0.001s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">canMinMaxZ()</td>
-<td class="success">0.002s</td>
+<td class="success">0.003s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
-<td class="failures">canOffsetX()</td>
-<td class="failures">0.006s</td>
-<td class="failures">failed</td>
-</tr>
-<tr>
-<td class="failures">canOffsetY()</td>
-<td class="failures">0.002s</td>
-<td class="failures">failed</td>
-</tr>
-<tr>
-<td class="failures">canOffsetZ()</td>
-<td class="failures">0.001s</td>
-<td class="failures">failed</td>
-</tr>
-<tr>
-<td class="success">canSetGetValue()</td>
+<td class="success">canOffsetX()</td>
 <td class="success">0s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
-<td class="failures">canTrimX()</td>
-<td class="failures">0.102s</td>
-<td class="failures">failed</td>
+<td class="success">canOffsetY()</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
 </tr>
 <tr>
-<td class="failures">canTrimY()</td>
-<td class="failures">0.001s</td>
-<td class="failures">failed</td>
+<td class="success">canOffsetZ()</td>
+<td class="success">0.002s</td>
+<td class="success">passed</td>
 </tr>
 <tr>
-<td class="success">canTrimZ()</td>
+<td class="success">canSetGetValue()</td>
 <td class="success">0.001s</td>
 <td class="success">passed</td>
 </tr>
@@ -250,7 +139,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 8.12.1</a> at 21 Feb 2025, 17:05:44</p>
+<a href="http://www.gradle.org">Gradle 8.12.1</a> at 22 Feb 2025, 14:46:19</p>
 </div>
 </div>
 </body>

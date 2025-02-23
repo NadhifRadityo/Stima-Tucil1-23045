@@ -1,5 +1,7 @@
 package io.github.nadhifradityo.stima_tucil1_23045;
 
+import java.util.ArrayList;
+
 import io.github.nadhifradityo.stima_tucil1_23045.bitfields.BitField;
 import io.github.nadhifradityo.stima_tucil1_23045.bitfields.ImmutableBitField;
 
@@ -16,10 +18,10 @@ public class Piece {
 	}
 
 	public ImmutableBitField getBaseShapeField() {
-		return baseShapeField;
+		return this.baseShapeField;
 	}
 	public Shape[] getShapes() {
-		return shapes;
+		return this.shapes;
 	}
 
 	public static class Shape {
@@ -32,10 +34,10 @@ public class Piece {
 		}
 
 		public ImmutableBitField getContentField() {
-			return contentField;
+			return this.contentField;
 		}
 		public String getConfigurationName() {
-			return configurationName;
+			return this.configurationName;
 		}
 
 		public static Shape[] generateRotatedShapes(BitField baseShapeField) {
@@ -63,20 +65,34 @@ public class Piece {
 			flipYRotateZ90.trim();
 			flipYRotateZ180.trim();
 			flipYRotateZ270.trim();
-			return new Shape[] {
-				new Shape(original.toImmutable(), "Original"),
-				new Shape(rotateZ90.toImmutable(), "Rotate Z 90"),
-				new Shape(rotateZ180.toImmutable(), "Rotate Z 180"),
-				new Shape(rotateZ270.toImmutable(), "Rotate Z 270"),
-				new Shape(flipXOriginal.toImmutable(), "Flip X"),
-				new Shape(flipXRotateZ90.toImmutable(), "Rotate Z 90 Flip X"),
-				new Shape(flipXRotateZ180.toImmutable(), "Rotate Z 180 Flip X"),
-				new Shape(flipXRotateZ270.toImmutable(), "Rotate Z 270 Flip X"),
-				new Shape(flipYOriginal.toImmutable(), "Flip Y"),
-				new Shape(flipYRotateZ90.toImmutable(), "Rotate Z 90 Flip Y"),
-				new Shape(flipYRotateZ180.toImmutable(), "Rotate Z 180 Flip Y"),
-				new Shape(flipYRotateZ270.toImmutable(), "Rotate Z 270 Flip Y"),
-			};
+			var candidates = new ArrayList<Shape>();
+			candidates.add(new Shape(original.toImmutable(), "Original"));
+			candidates.add(new Shape(rotateZ90.toImmutable(), "Rotate Z 90"));
+			candidates.add(new Shape(rotateZ180.toImmutable(), "Rotate Z 180"));
+			candidates.add(new Shape(rotateZ270.toImmutable(), "Rotate Z 270"));
+			candidates.add(new Shape(flipXOriginal.toImmutable(), "Flip X"));
+			candidates.add(new Shape(flipXRotateZ90.toImmutable(), "Rotate Z 90 Flip X"));
+			candidates.add(new Shape(flipXRotateZ180.toImmutable(), "Rotate Z 180 Flip X"));
+			candidates.add(new Shape(flipXRotateZ270.toImmutable(), "Rotate Z 270 Flip X"));
+			candidates.add(new Shape(flipYOriginal.toImmutable(), "Flip Y"));
+			candidates.add(new Shape(flipYRotateZ90.toImmutable(), "Rotate Z 90 Flip Y"));
+			candidates.add(new Shape(flipYRotateZ180.toImmutable(), "Rotate Z 180 Flip Y"));
+			candidates.add(new Shape(flipYRotateZ270.toImmutable(), "Rotate Z 270 Flip Y"));
+			for(int i = candidates.size() - 1; i >= 0; i--) {
+				var shape = candidates.get(i);
+				var duplicated = false;
+				for(int j = i - 1; j >= 0; j--) {
+					var shape2 = candidates.get(j);
+					if(!shape.getContentField().equals(shape2.getContentField()))
+						continue;
+					duplicated = true;
+					break;
+				}
+				if(!duplicated)
+					continue;
+				candidates.remove(i);
+			}
+			return candidates.toArray(n -> new Shape[n]);
 		}
 	}
 }

@@ -416,6 +416,20 @@ ${new Array(batch).fill().map((_, j) => i * batch + j).filter(j => j < slots).ma
 	public abstract ${ClassMutable} toMutable();
 	public abstract BitField clone();
 
+	public boolean equals(BitField that0) {
+		if(!(that0 instanceof ${Class}))
+			return BitField.super.equals(that0);
+		var that = (${Class}) that0;
+${new Array(slotBatch).fill().map((_, i) => i).map(i => `		if(!this.equals_${i}(that)) return false;`).join("\n")}
+		return true;
+	}
+${new Array(slotBatch).fill().map((_, i) => i).map(i => `
+	protected boolean equals_${i}(${Class} that) {
+${new Array(batch).fill().map((_, j) => i * batch + j).filter(j => j < slots).map(j => `		if(this._${j} != that._${j}) return false;`).join("\n")}
+		return true;
+	}
+`.slice(1, -1)).join("\n")}
+
 	public int count() {
 		var result = 0;
 ${new Array(slotBatch).fill().map((_, i) => i).map(i => `		result += this.count_${i}();`).join("\n")}

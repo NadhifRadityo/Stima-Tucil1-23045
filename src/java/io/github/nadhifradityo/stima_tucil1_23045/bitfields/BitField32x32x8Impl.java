@@ -335,6 +335,173 @@ public abstract class BitField32x32x8Impl implements BitField {
 	public abstract MutableBitField32x32x8Impl toMutable();
 	public abstract BitField clone();
 
+	public boolean equals(BitField that0) {
+		if(!(that0 instanceof BitField32x32x8Impl))
+			return BitField.super.equals(that0);
+		var that = (BitField32x32x8Impl) that0;
+		if(!this.equals_0(that)) return false;
+		if(!this.equals_1(that)) return false;
+		if(!this.equals_2(that)) return false;
+		if(!this.equals_3(that)) return false;
+		if(!this.equals_4(that)) return false;
+		if(!this.equals_5(that)) return false;
+		if(!this.equals_6(that)) return false;
+		if(!this.equals_7(that)) return false;
+		return true;
+	}
+	protected boolean equals_0(BitField32x32x8Impl that) {
+		if(this._0 != that._0) return false;
+		if(this._1 != that._1) return false;
+		if(this._2 != that._2) return false;
+		if(this._3 != that._3) return false;
+		if(this._4 != that._4) return false;
+		if(this._5 != that._5) return false;
+		if(this._6 != that._6) return false;
+		if(this._7 != that._7) return false;
+		if(this._8 != that._8) return false;
+		if(this._9 != that._9) return false;
+		if(this._10 != that._10) return false;
+		if(this._11 != that._11) return false;
+		if(this._12 != that._12) return false;
+		if(this._13 != that._13) return false;
+		if(this._14 != that._14) return false;
+		if(this._15 != that._15) return false;
+		return true;
+	}
+	protected boolean equals_1(BitField32x32x8Impl that) {
+		if(this._16 != that._16) return false;
+		if(this._17 != that._17) return false;
+		if(this._18 != that._18) return false;
+		if(this._19 != that._19) return false;
+		if(this._20 != that._20) return false;
+		if(this._21 != that._21) return false;
+		if(this._22 != that._22) return false;
+		if(this._23 != that._23) return false;
+		if(this._24 != that._24) return false;
+		if(this._25 != that._25) return false;
+		if(this._26 != that._26) return false;
+		if(this._27 != that._27) return false;
+		if(this._28 != that._28) return false;
+		if(this._29 != that._29) return false;
+		if(this._30 != that._30) return false;
+		if(this._31 != that._31) return false;
+		return true;
+	}
+	protected boolean equals_2(BitField32x32x8Impl that) {
+		if(this._32 != that._32) return false;
+		if(this._33 != that._33) return false;
+		if(this._34 != that._34) return false;
+		if(this._35 != that._35) return false;
+		if(this._36 != that._36) return false;
+		if(this._37 != that._37) return false;
+		if(this._38 != that._38) return false;
+		if(this._39 != that._39) return false;
+		if(this._40 != that._40) return false;
+		if(this._41 != that._41) return false;
+		if(this._42 != that._42) return false;
+		if(this._43 != that._43) return false;
+		if(this._44 != that._44) return false;
+		if(this._45 != that._45) return false;
+		if(this._46 != that._46) return false;
+		if(this._47 != that._47) return false;
+		return true;
+	}
+	protected boolean equals_3(BitField32x32x8Impl that) {
+		if(this._48 != that._48) return false;
+		if(this._49 != that._49) return false;
+		if(this._50 != that._50) return false;
+		if(this._51 != that._51) return false;
+		if(this._52 != that._52) return false;
+		if(this._53 != that._53) return false;
+		if(this._54 != that._54) return false;
+		if(this._55 != that._55) return false;
+		if(this._56 != that._56) return false;
+		if(this._57 != that._57) return false;
+		if(this._58 != that._58) return false;
+		if(this._59 != that._59) return false;
+		if(this._60 != that._60) return false;
+		if(this._61 != that._61) return false;
+		if(this._62 != that._62) return false;
+		if(this._63 != that._63) return false;
+		return true;
+	}
+	protected boolean equals_4(BitField32x32x8Impl that) {
+		if(this._64 != that._64) return false;
+		if(this._65 != that._65) return false;
+		if(this._66 != that._66) return false;
+		if(this._67 != that._67) return false;
+		if(this._68 != that._68) return false;
+		if(this._69 != that._69) return false;
+		if(this._70 != that._70) return false;
+		if(this._71 != that._71) return false;
+		if(this._72 != that._72) return false;
+		if(this._73 != that._73) return false;
+		if(this._74 != that._74) return false;
+		if(this._75 != that._75) return false;
+		if(this._76 != that._76) return false;
+		if(this._77 != that._77) return false;
+		if(this._78 != that._78) return false;
+		if(this._79 != that._79) return false;
+		return true;
+	}
+	protected boolean equals_5(BitField32x32x8Impl that) {
+		if(this._80 != that._80) return false;
+		if(this._81 != that._81) return false;
+		if(this._82 != that._82) return false;
+		if(this._83 != that._83) return false;
+		if(this._84 != that._84) return false;
+		if(this._85 != that._85) return false;
+		if(this._86 != that._86) return false;
+		if(this._87 != that._87) return false;
+		if(this._88 != that._88) return false;
+		if(this._89 != that._89) return false;
+		if(this._90 != that._90) return false;
+		if(this._91 != that._91) return false;
+		if(this._92 != that._92) return false;
+		if(this._93 != that._93) return false;
+		if(this._94 != that._94) return false;
+		if(this._95 != that._95) return false;
+		return true;
+	}
+	protected boolean equals_6(BitField32x32x8Impl that) {
+		if(this._96 != that._96) return false;
+		if(this._97 != that._97) return false;
+		if(this._98 != that._98) return false;
+		if(this._99 != that._99) return false;
+		if(this._100 != that._100) return false;
+		if(this._101 != that._101) return false;
+		if(this._102 != that._102) return false;
+		if(this._103 != that._103) return false;
+		if(this._104 != that._104) return false;
+		if(this._105 != that._105) return false;
+		if(this._106 != that._106) return false;
+		if(this._107 != that._107) return false;
+		if(this._108 != that._108) return false;
+		if(this._109 != that._109) return false;
+		if(this._110 != that._110) return false;
+		if(this._111 != that._111) return false;
+		return true;
+	}
+	protected boolean equals_7(BitField32x32x8Impl that) {
+		if(this._112 != that._112) return false;
+		if(this._113 != that._113) return false;
+		if(this._114 != that._114) return false;
+		if(this._115 != that._115) return false;
+		if(this._116 != that._116) return false;
+		if(this._117 != that._117) return false;
+		if(this._118 != that._118) return false;
+		if(this._119 != that._119) return false;
+		if(this._120 != that._120) return false;
+		if(this._121 != that._121) return false;
+		if(this._122 != that._122) return false;
+		if(this._123 != that._123) return false;
+		if(this._124 != that._124) return false;
+		if(this._125 != that._125) return false;
+		if(this._126 != that._126) return false;
+		if(this._127 != that._127) return false;
+		return true;
+	}
+
 	public int count() {
 		var result = 0;
 		result += this.count_0();

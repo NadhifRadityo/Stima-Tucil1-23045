@@ -69,6 +69,33 @@ public abstract class BitField32x32x1Impl implements BitField {
 	public abstract MutableBitField32x32x1Impl toMutable();
 	public abstract BitField clone();
 
+	public boolean equals(BitField that0) {
+		if(!(that0 instanceof BitField32x32x1Impl))
+			return BitField.super.equals(that0);
+		var that = (BitField32x32x1Impl) that0;
+		if(!this.equals_0(that)) return false;
+		return true;
+	}
+	protected boolean equals_0(BitField32x32x1Impl that) {
+		if(this._0 != that._0) return false;
+		if(this._1 != that._1) return false;
+		if(this._2 != that._2) return false;
+		if(this._3 != that._3) return false;
+		if(this._4 != that._4) return false;
+		if(this._5 != that._5) return false;
+		if(this._6 != that._6) return false;
+		if(this._7 != that._7) return false;
+		if(this._8 != that._8) return false;
+		if(this._9 != that._9) return false;
+		if(this._10 != that._10) return false;
+		if(this._11 != that._11) return false;
+		if(this._12 != that._12) return false;
+		if(this._13 != that._13) return false;
+		if(this._14 != that._14) return false;
+		if(this._15 != that._15) return false;
+		return true;
+	}
+
 	public int count() {
 		var result = 0;
 		result += this.count_0();

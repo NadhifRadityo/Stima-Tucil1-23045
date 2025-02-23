@@ -12,6 +12,24 @@ public interface BitField {
 	public MutableBitField toMutable();
 	public BitField clone();
 
+	public default boolean equals(BitField that) {
+		var width = this.getWidth();
+		var height = this.getHeight();
+		var depth = this.getDepth();
+		if(width != that.getWidth()) return false;
+		if(height != that.getHeight()) return false;
+		if(depth != that.getDepth()) return false;
+		for(int x = 0; x < width; x++) {
+			for(int y = 0; y < height; y++) {
+				for(int z = 0; z < depth; z++) {
+					if(this.getValue(x, y, z) == that.getValue(x, y, z))
+						continue;
+					return false;
+				}
+			}
+		}
+		return true;
+	}
 	public default int count() {
 		var width = this.getWidth();
 		var height = this.getHeight();

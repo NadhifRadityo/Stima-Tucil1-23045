@@ -9,6 +9,8 @@ repositories {
 dependencies {
 	implementation("org.eclipse.collections:eclipse-collections-api:11.1.0")
 	implementation("org.eclipse.collections:eclipse-collections:11.1.0")
+	implementation("commons-cli:commons-cli:1.9.0")
+	implementation("com.googlecode.lanterna:lanterna:3.1.3")
 	implementation("com.badlogicgames.gdx:gdx:1.13.1")
 	implementation("com.badlogicgames.gdx:gdx-backend-lwjgl3:1.13.1")
 	implementation("com.badlogicgames.gdx:gdx-platform:1.13.1:natives-desktop")

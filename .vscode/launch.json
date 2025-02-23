@@ -1,0 +1,26 @@
+{
+	// Use IntelliSense to learn about possible attributes.
+	// Hover to view descriptions of existing attributes.
+	// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"type": "java",
+			"name": "Main",
+			"request": "launch",
+			"mainClass": "io.github.nadhifradityo.stima_tucil1_23045.Main",
+			"projectName": "Stima-Tucil1-23045",
+			"preLaunchTask": "gradle: compileJava",
+			"args": "cli -u -t 8 -s 10 -b 8 -i .private/test-basic.txt"
+		},
+		{
+			"name": "Launch Program",
+			"program": "${workspaceFolder}/src/java/io/github/nadhifradityo/stima_tucil1_23045/generateBitField.mjs",
+			"request": "launch",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"type": "node"
+		}
+	]
+}

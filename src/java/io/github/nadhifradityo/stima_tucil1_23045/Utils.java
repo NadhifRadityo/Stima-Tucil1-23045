@@ -11,6 +11,7 @@ import java.util.WeakHashMap;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+import io.github.nadhifradityo.stima_tucil1_23045.Board.CompiledPiece;
 import io.github.nadhifradityo.stima_tucil1_23045.bitfields.BitField;
 import io.github.nadhifradityo.stima_tucil1_23045.bitfields.MutableBitField;
 
@@ -156,14 +157,70 @@ public class Utils {
 		}
 	}
 
-	public static Solver[] defaultSolverBrancher(Solver solver, int branch) {
-		long splitEvery = Math.ceilDiv(solver.getMaxPlacement() - solver.getMinPlacement(), branch);
-		var result = new Solver[branch];
-		for(int i = 0; i < branch; i++) {
-			var start = i * splitEvery;
-			var end = Math.min(solver.getMaxPlacement(), (i + 1) * splitEvery);
-			result[i] = new Solver(solver.getBoard().clone(), start, end);
+	protected static long findClosestValidPlacement(Solver solver, long targetPlacement) {
+		var board = solver.getBoard();
+		var compiledPieces = board.getCompiledPieces();
+		solver.setCurrentPlacement(targetPlacement - 1);
+		if(!board.isIntersecting())
+			return solver.getBoardPlacement();
+		var compiledPieceIndex = compiledPieces.length - 1;
+		for(; compiledPieceIndex >= 0; compiledPieceIndex--) {
+			board.removeCompiledPiece(compiledPieces[compiledPieceIndex]);
+			if(board.isIntersecting()) continue;
+			break;
 		}
-		return result;
+		var closestPlacement = solver.getMaxPlacement();
+		var compiledPiece = compiledPieces[compiledPieceIndex];
+		for(int j = 0; j < compiledPiece.getCompiledShapes().length; j++) {
+			board.putCompiledPiece(compiledPiece, j);
+			if(board.isIntersecting()) continue;
+			var placement = solver.getBoardPlacement();
+			if(Math.abs(targetPlacement - placement) >= Math.abs(targetPlacement - closestPlacement))
+				continue;
+			closestPlacement = placement;
+		}
+		return closestPlacement;
+	}
+	protected static long initialPlacement(Solver solver) {
+		var board = solver.getBoard();
+		var compiledPieces = board.getCompiledPieces();
+		board.reset();
+		for(var compiledPiece : compiledPieces)
+			board.putCompiledPiece(compiledPiece, 0);
+		return solver.getBoardPlacement();
+	}
+	public static Solver[] defaultSolverBrancher(Solver solver, int branch) {
+		var splitEvery = Math.ceilDiv(solver.getMaxPlacement() - solver.getMinPlacement(), branch);
+		var start = findClosestValidPlacement(solver, initialPlacement(solver));
+		var result = new ArrayList<Solver>(branch);
+		for(int i = 0; i < branch; i++) {
+			var end = findClosestValidPlacement(solver, start + splitEvery);
+			if(end == start) break;
+			result.add(i, new Solver(solver.getBoard().clone(), start, end));
+			start = end;
+		}
+		while(result.size() < branch) {
+			result.sort((a, b) -> Long.compare(
+				b.getMaxPlacement() - b.getMinPlacement(),
+				a.getMaxPlacement() - a.getMinPlacement()));
+			var splitSuccessful = false;
+			for(int i = 0; i < result.size(); i++) {
+				var solverToSplit = result.get(i);
+				var minPlacement = solverToSplit.getMinPlacement();
+				var maxPlacement = solverToSplit.getMaxPlacement();
+				var midPoint = (minPlacement + maxPlacement) / 2;
+				var splitPoint = findClosestValidPlacement(solver, midPoint);
+				if(splitPoint <= minPlacement || splitPoint >= maxPlacement) continue;
+				result.remove(i);
+				result.add(new Solver(solver.getBoard().clone(), minPlacement, splitPoint));
+				result.add(new Solver(solver.getBoard().clone(), splitPoint, maxPlacement));
+				splitSuccessful = true;
+				break;
+			}
+			if(!splitSuccessful)
+				break;
+		}
+		result.sort((a, b) -> Long.compare(a.minPlacement, b.minPlacement));
+		return result.toArray(n -> new Solver[n]);
 	}
 }

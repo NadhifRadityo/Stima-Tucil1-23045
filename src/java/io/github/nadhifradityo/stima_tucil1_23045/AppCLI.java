@@ -190,7 +190,7 @@ public class AppCLI {
 				public Void call() throws Exception {
 					var repeat = 0;
 					var allFinished = false;
-					var timeStart = System.currentTimeMillis();
+					var timeStart = System.nanoTime();
 					while(!AppCLI.this.shouldStop && !allFinished && repeat < 65535) {
 						if(repeat % 8192 == 0)
 							Thread.sleep(1);
@@ -202,8 +202,10 @@ public class AppCLI {
 							allFinished = false;
 							solver.step();
 							if(!solver.isSolved()) continue;
-							var duration = (taskTimes[i] + System.currentTimeMillis() - timeStart) / (end - start);
-							solutions.add(new Solution(solver, duration));
+							var duration = taskTimes[i] + System.nanoTime() - timeStart;
+							// var durationInterleaved = Math.ceilDiv(duration, (end - start) * (repeat - 1) + j);
+							var durationInterleaved = Math.ceilDiv(duration, (end - start) * Math.max(1, repeat / 32 - 1) + j);
+							solutions.add(new Solution(solver, duration, durationInterleaved));
 							if(solutions.size() < AppCLI.this.cmdSolutions) continue;
 							synchronized(printLock) {
 								AppCLI.this.shouldStop = true;
@@ -212,7 +214,7 @@ public class AppCLI {
 							break;
 						}
 					}
-					taskTimes[i] += System.currentTimeMillis() - timeStart;
+					taskTimes[i] += System.nanoTime() - timeStart;
 					if(!AppCLI.this.shouldStop && !allFinished)
 						futures[i] = executorService.submit(this);
 					return null;
@@ -240,13 +242,15 @@ public class AppCLI {
 				}
 				for(int i = 0; i < this.solvers.length; i++) {
 					var solver = this.solvers[i];
-					var minPlacement = solver.getMinPlacement();
-					var maxPlacement = solver.getMaxPlacement();
-					var placement = !solver.isCompleted() ? solver.getCurrentPlacement() : solver.getMaxPlacement();
-					var progress = placement - minPlacement;
-					var maxProgress = maxPlacement - minPlacement;
 					var solutionsCount = tempSolutionCounts.get(solver);
-					System.out.println(String.format("Solver %d: %d/%d permutations (%.2f%%), %d solutions", i, progress, maxProgress, (float) progress * 100 / (float) maxProgress, solutionsCount));
+					var progressTracker = solver.getProgressTracker();
+					String progressBar;
+					double progressPercent;
+					synchronized(progressTracker) {
+						progressBar = progressTracker.getProgressBar();
+						progressPercent = progressTracker.getOverallProgress() * 100;
+					}
+					System.out.println(String.format("Solver #%d: %4d solutions, %s (%-6.2f%%)", i, solutionsCount, progressBar, progressPercent));
 				}
 			};
 			while(!this.shouldStop) {
@@ -282,7 +286,15 @@ public class AppCLI {
 		System.out.println();
 		for(int i = 0; i < solutions.size(); i++) {
 			var solution = solutions.get(i);
-			System.out.println(String.format("Solution: #%d (Took %d ms)", i, solution.duration));
+			var solverIndex = -1;
+			for(int j = 0; j < this.solvers.length; j++) {
+				if(this.solvers[j] != solution.solver) continue;
+				solverIndex = j;
+				break;
+			}
+			System.out.println(String.format("Solution: #%d (from Solver #%d)", i, solverIndex));
+			System.out.println(String.format("Duration: %.2f ms (%.2f ms interleaved not compensated)", (double) solution.durationInterleaved / 1000000, (double) solution.duration / 1000000));
+			System.out.println(String.format("Placement ID: %d", solution.placement));
 			System.out.println(Utils.stringBitField(solution.bitFields, solution.chars));
 			System.out.println();
 		}
@@ -290,7 +302,7 @@ public class AppCLI {
 			System.out.println(String.format("No solution found"));
 		else {
 			var longestDuration = solutions.stream().reduce(1L, (a, s) -> Math.max(a, s.duration), (a, b) -> Math.max(a, b));
-			var msPerSolution = (float) longestDuration / solutions.size();
+			var msPerSolution = (double) longestDuration / 1000000 / solutions.size();
 			var solutionsPerSecond = 1000 / msPerSolution;
 			System.out.println(String.format("Speed: %.2f ms/solution <==> %.2f solutions/second", msPerSolution, solutionsPerSecond));
 		}
@@ -308,11 +320,13 @@ public class AppCLI {
 
 	protected static class Solution {
 		public final Solver solver;
+		public final long placement;
 		public final BitField[] bitFields;
 		public final char[] chars;
 		public final long duration;
+		public final long durationInterleaved;
 
-		public Solution(Solver solver, long duration) {
+		public Solution(Solver solver, long duration, long durationInterleaved) {
 			var compiledPieces = solver.getBoard().getCompiledPieces();
 			var bitFields = Lists.mutable.<BitField>empty();
 			var chars = CharLists.mutable.empty();
@@ -325,9 +339,11 @@ public class AppCLI {
 				chars.add(id.charAt(id.length() - 1));
 			}
 			this.solver = solver;
+			this.placement = solver.getCurrentPlacement();
 			this.bitFields = bitFields.toArray(n -> new BitField[n]);
 			this.chars = chars.toArray();
 			this.duration = duration;
+			this.durationInterleaved = durationInterleaved;
 		}
 	}
 }

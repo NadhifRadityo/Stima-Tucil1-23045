@@ -1,6 +1,9 @@
 package io.github.nadhifradityo.stima_tucil1_23045;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -8,6 +11,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.Scanner;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -74,7 +78,7 @@ public class AppCLI {
 		try {
 			CommandLine cmd = parser.parse(options, args);
 			if(cmd.hasOption("help")) {
-				formatter.printHelp("", options);
+				formatter.printHelp(getCommandLine().orElse("java -jar Stima-Tucil1-23045.jar"), options);
 				System.exit(0);
 			}
 			cmdInput = cmd.getOptionValue("input");
@@ -100,7 +104,7 @@ public class AppCLI {
 			cmdVirtualConsole = cmd.hasOption("virtual-console");
 		} catch(ParseException e) {
 			System.out.println("Error: " + e.getMessage());
-			formatter.printHelp("", options);
+			formatter.printHelp(getCommandLine().orElse("java -jar Stima-Tucil1-23045.jar"), options);
 			return;
 		}
 		var instance = new AppCLI(cmdInput, cmdBranch, cmdThread, cmdSolutions, cmdOutput, cmdNoInteractive, cmdVirtualConsole);
@@ -113,6 +117,29 @@ public class AppCLI {
 		}
 	}
 
+	protected static Optional<String> getCommandLine() {
+		if(!System.getProperty("os.name").toLowerCase().startsWith("windows"))
+			return ProcessHandle.current().info().commandLine();
+		long desiredProcessid = ProcessHandle.current().pid();
+		try {
+			Process process = new ProcessBuilder("wmic", "process", "where", "ProcessID=" + desiredProcessid, "get", "commandline", "/format:list")
+				.redirectErrorStream(true)
+				.start();
+			try(InputStreamReader inputStreamReader = new InputStreamReader(process.getInputStream());
+				BufferedReader reader = new BufferedReader(inputStreamReader)) {
+				while(true) {
+					String line = reader.readLine();
+					if(line == null)
+						return Optional.empty();
+					if(!line.startsWith("CommandLine="))
+						continue;
+					return Optional.of(line.substring("CommandLine=".length()));
+				}
+			}
+		} catch(IOException e) {
+			return Optional.empty();
+		}
+	}
 	protected static boolean isAwtHeadless() {
 		try {
 			Class<?> klass = Class.forName("java.awt.GraphicsEnvironment");

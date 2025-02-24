@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="io.github.nadhifradityo.stima_tucil1_23045.BitFieldTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2025-02-24T04:23:34" hostname="NADHIF-MSI-GF75" time="0.046">
+<testsuite name="io.github.nadhifradityo.stima_tucil1_23045.BitFieldTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2025-02-24T04:36:51" hostname="NADHIF-MSI-GF75" time="0.047">
   <properties/>
   <testcase name="canMinMaxX()" classname="io.github.nadhifradityo.stima_tucil1_23045.BitFieldTest" time="0.027"/>
   <testcase name="canMinMaxY()" classname="io.github.nadhifradityo.stima_tucil1_23045.BitFieldTest" time="0.001"/>
   <testcase name="canMinMaxZ()" classname="io.github.nadhifradityo.stima_tucil1_23045.BitFieldTest" time="0.002"/>
-  <testcase name="canClear()" classname="io.github.nadhifradityo.stima_tucil1_23045.BitFieldTest" time="0.001"/>
+  <testcase name="canClear()" classname="io.github.nadhifradityo.stima_tucil1_23045.BitFieldTest" time="0.003"/>
   <testcase name="canFlipX()" classname="io.github.nadhifradityo.stima_tucil1_23045.BitFieldTest" time="0.002"/>
   <testcase name="canFlipY()" classname="io.github.nadhifradityo.stima_tucil1_23045.BitFieldTest" time="0.001"/>
   <testcase name="canFlipZ()" classname="io.github.nadhifradityo.stima_tucil1_23045.BitFieldTest" time="0.001"/>
-  <testcase name="canOffsetX()" classname="io.github.nadhifradityo.stima_tucil1_23045.BitFieldTest" time="0.0"/>
-  <testcase name="canOffsetY()" classname="io.github.nadhifradityo.stima_tucil1_23045.BitFieldTest" time="0.001"/>
+  <testcase name="canOffsetX()" classname="io.github.nadhifradityo.stima_tucil1_23045.BitFieldTest" time="0.001"/>
+  <testcase name="canOffsetY()" classname="io.github.nadhifradityo.stima_tucil1_23045.BitFieldTest" time="0.0"/>
   <testcase name="canOffsetZ()" classname="io.github.nadhifradityo.stima_tucil1_23045.BitFieldTest" time="0.001"/>
   <testcase name="canSetGetValue()" classname="io.github.nadhifradityo.stima_tucil1_23045.BitFieldTest" time="0.0"/>
   <system-out><![CDATA[]]></system-out>

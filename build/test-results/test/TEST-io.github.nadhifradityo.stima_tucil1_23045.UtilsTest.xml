@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="io.github.nadhifradityo.stima_tucil1_23045.UtilsTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2025-02-24T04:23:34" hostname="NADHIF-MSI-GF75" time="0.011">
+<testsuite name="io.github.nadhifradityo.stima_tucil1_23045.UtilsTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2025-02-24T04:36:51" hostname="NADHIF-MSI-GF75" time="0.01">
   <properties/>
-  <testcase name="canGenerateRectangularBitField()" classname="io.github.nadhifradityo.stima_tucil1_23045.UtilsTest" time="0.009"/>
+  <testcase name="canGenerateRectangularBitField()" classname="io.github.nadhifradityo.stima_tucil1_23045.UtilsTest" time="0.007"/>
   <testcase name="canGeneratePyramidalBitField()" classname="io.github.nadhifradityo.stima_tucil1_23045.UtilsTest" time="0.002"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>

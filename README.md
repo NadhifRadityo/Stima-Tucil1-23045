@@ -27,7 +27,7 @@ Your task is to find at least one solution for the IQ Puzzler Pro game using a b
 ## Running the Application
 1. Download the latest release JAR file from: [GitHub Releases](https://github.com/NadhifRadityo/Stima-Tucil1-23045/releases)
 2. Run the application by either:
-   - Double-clicking the JAR file
+   - Double-clicking the JAR file. (_Will run the default options. See notice below._)
    - Running the command:  
      ```sh
      java -jar Stima-Tucil1-23045.jar
@@ -47,6 +47,14 @@ Options:
  -t, --thread <arg>       Number of threads to use (default: 2)
  -u, --no-interactive     Disable interactive console mode
 ```
+
+> [!NOTE]
+> Note: To ensure a fair comparison with other programs, run this program with the following minimal configuration:
+> ```
+> java -jar Stima-Tucil1-23045.jar -b 1 -t 1 -s 1
+> ```
+> With these options, the program will execute with a single branch (no branching), a maximum of one thread, and will generate only one solution.
+> <p style="font-size: 8px; font-style: italic; text-align: end;">Threading was implemented because the author couldn't resist optimizing.</p>
 
 ## Screenshots
 |Image|Caption|

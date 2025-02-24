@@ -6,12 +6,12 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.WeakHashMap;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
-import io.github.nadhifradityo.stima_tucil1_23045.Board.CompiledPiece;
 import io.github.nadhifradityo.stima_tucil1_23045.bitfields.BitField;
 import io.github.nadhifradityo.stima_tucil1_23045.bitfields.MutableBitField;
 
@@ -68,17 +68,14 @@ public class Utils {
 		int z = 0;
 		int y = 0;
 		while(scanner.hasNextLine() && z < depth) {
-			String line = scanner.nextLine().trim();
-			if(line.startsWith("Z:")) {
-				try {
-					z = Integer.parseInt(line.substring(2).trim());
-					y = 0;
-				} catch(NumberFormatException e) {
-					z++;
-				}
+			if(y >= height) continue;
+			String line = scanner.nextLine();
+			if(line.length() == 0 && y == 0) continue;
+			if(line.trim().startsWith("Z:")) {
+				z = Integer.parseInt(line.trim().substring(2).trim());
+				y = 0;
 				continue;
 			}
-			if(y >= height) continue;
 			for(int x = 0; x < Math.min(line.length(), width); x++) {
 				char character = line.charAt(x);
 				if(Character.isWhitespace(character) || character == '.')
@@ -86,6 +83,10 @@ public class Utils {
 				result.setValue(x, y, z, true);
 			}
 			y++;
+			if(y >= height) {
+				y = 0;
+				z++;
+			}
 		}
 		return result;
 	}
@@ -103,50 +104,72 @@ public class Utils {
 
 	protected static final ThreadLocal<ByteArrayOutputStream> stringBitField_tempByteArrayOutputStreamLocal = ThreadLocal.withInitial(() -> new ByteArrayOutputStream());
 	protected static final ThreadLocal<PrintStream> stringBitField_tempPrintStreamLocal = ThreadLocal.withInitial(() -> new PrintStream(stringBitField_tempByteArrayOutputStreamLocal.get()));
-	public static String stringBitField(BitField[] bitFields, char[] chars) {
+	public static String stringBitField(BitField[] bitFields, char[] chars, String[] ansiStyles, boolean trimX, boolean trimY, boolean trimZ) {
 		var tempByteArrayOutputStream = stringBitField_tempByteArrayOutputStreamLocal.get();
 		var tempPrintStream = stringBitField_tempPrintStreamLocal.get();
-		outputBitField(bitFields, tempPrintStream, chars);
+		outputBitField(bitFields, tempPrintStream, chars, ansiStyles, trimX, trimY, trimZ);
 		tempPrintStream.flush();
 		var result = tempByteArrayOutputStream.toString(StandardCharsets.UTF_8);
 		tempByteArrayOutputStream.reset();
 		return result;
 	}
-	public static String stringBitField(BitField bitField, char character) {
+	public static String stringBitField(BitField[] bitFields, char[] chars, boolean trimX, boolean trimY, boolean trimZ) {
+		return stringBitField(bitFields, chars, null, trimX, trimY, trimZ);
+	}
+	public static String stringBitField(BitField[] bitFields, char[] chars, String[] ansiStyles) {
+		return stringBitField(bitFields, chars, ansiStyles, true, true, true);
+	}
+	public static String stringBitField(BitField[] bitFields, char[] chars) {
+		return stringBitField(bitFields, chars, null);
+	}
+	public static String stringBitField(BitField bitField, char character, boolean trimX, boolean trimY, boolean trimZ) {
 		var tempBitFields = outputBitField_tempBitFieldsLocal.get();
 		var tempChars = outputBitField_tempCharsLocal.get();
 		tempBitFields[0] = bitField;
 		tempChars[0] = character;
-		return stringBitField(tempBitFields, tempChars);
+		return stringBitField(tempBitFields, tempChars, trimX, trimY, trimZ);
+	}
+	public static String stringBitField(BitField bitField, char character) {
+		return stringBitField(bitField, character, true, true, true);
 	}
 	protected static final ThreadLocal<BitField[]> outputBitField_tempBitFieldsLocal = ThreadLocal.withInitial(() -> new BitField[1]);
 	protected static final ThreadLocal<char[]> outputBitField_tempCharsLocal = ThreadLocal.withInitial(() -> new char[1]);
-	public static void outputBitField(BitField bitField, PrintStream stream, char character) {
+	public static void outputBitField(BitField bitField, PrintStream stream, char character, boolean trimX, boolean trimY, boolean trimZ) {
 		var tempBitFields = outputBitField_tempBitFieldsLocal.get();
 		var tempChars = outputBitField_tempCharsLocal.get();
 		tempBitFields[0] = bitField;
 		tempChars[0] = character;
-		outputBitField(tempBitFields, stream, tempChars);
+		outputBitField(tempBitFields, stream, tempChars, null, trimX, trimY, trimZ);
 	}
-	public static void outputBitField(BitField[] bitFields, PrintStream stream, char[] chars) {
+	public static void outputBitField(BitField bitField, PrintStream stream, char character) {
+		outputBitField(bitField, stream, character, true, true, true);
+	}
+	public static void outputBitField(BitField[] bitFields, PrintStream stream, char[] chars, String[] ansiStyles, boolean trimX, boolean trimY, boolean trimZ) {
 		try {
-			int minX = Stream.of(bitFields).reduce(Integer.MAX_VALUE, (a, b) -> Math.min(a, b.getMinX()), (a, b) -> Math.min(a, b));
-			int maxX = Stream.of(bitFields).reduce(Integer.MIN_VALUE, (a, b) -> Math.max(a, b.getMaxX()), (a, b) -> Math.max(a, b));
-			int minY = Stream.of(bitFields).reduce(Integer.MAX_VALUE, (a, b) -> Math.min(a, b.getMinY()), (a, b) -> Math.min(a, b));
-			int maxY = Stream.of(bitFields).reduce(Integer.MIN_VALUE, (a, b) -> Math.max(a, b.getMaxY()), (a, b) -> Math.max(a, b));
-			int minZ = Stream.of(bitFields).reduce(Integer.MAX_VALUE, (a, b) -> Math.min(a, b.getMinZ()), (a, b) -> Math.min(a, b));
-			int maxZ = Stream.of(bitFields).reduce(Integer.MIN_VALUE, (a, b) -> Math.max(a, b.getMaxZ()), (a, b) -> Math.max(a, b));
+			int minX = !trimX ? 0 : Stream.of(bitFields).reduce(Integer.MAX_VALUE, (a, b) -> Math.min(a, b.getMinX()), (a, b) -> Math.min(a, b));
+			int maxX = !trimX ? Stream.of(bitFields).reduce(Integer.MIN_VALUE, (a, b) -> Math.max(a, b.getWidth()), (a, b) -> Math.max(a, b)) :
+				Stream.of(bitFields).reduce(Integer.MIN_VALUE, (a, b) -> Math.max(a, b.getMaxX()), (a, b) -> Math.max(a, b));
+			int minY = !trimY ? 0 : Stream.of(bitFields).reduce(Integer.MAX_VALUE, (a, b) -> Math.min(a, b.getMinY()), (a, b) -> Math.min(a, b));
+			int maxY = !trimY ? Stream.of(bitFields).reduce(Integer.MIN_VALUE, (a, b) -> Math.max(a, b.getHeight()), (a, b) -> Math.max(a, b)) : 
+				Stream.of(bitFields).reduce(Integer.MIN_VALUE, (a, b) -> Math.max(a, b.getMaxY()), (a, b) -> Math.max(a, b));
+			int minZ = !trimZ ? 0 : Stream.of(bitFields).reduce(Integer.MAX_VALUE, (a, b) -> Math.min(a, b.getMinZ()), (a, b) -> Math.min(a, b));
+			int maxZ = !trimZ ? Stream.of(bitFields).reduce(Integer.MIN_VALUE, (a, b) -> Math.max(a, b.getDepth()), (a, b) -> Math.max(a, b)) : 
+				Stream.of(bitFields).reduce(Integer.MIN_VALUE, (a, b) -> Math.max(a, b.getMaxZ()), (a, b) -> Math.max(a, b));
 			for(int z = minZ; z <= maxZ; z++) {
 				stream.printf("Z: %d\n", z);
 				for(int y = minY; y <= maxY; y++) {
 					for(int x = minX; x <= maxX; x++) {
 						char c = ' ';
+						String ansiStyle = "";
 						for(int i = 0; i < bitFields.length; i++) {
 							var bitField = bitFields[i];
 							if(!bitField.getValue(x, y, z)) continue;
 							c = chars[i];
+							if(ansiStyles != null && i < ansiStyles.length)
+								ansiStyle = ansiStyles[i];
 							break;
 						}
+						stream.append(ansiStyle);
 						stream.append(c);
 					}
 					stream.println();
@@ -222,5 +245,13 @@ public class Utils {
 		}
 		result.sort((a, b) -> Long.compare(a.minPlacement, b.minPlacement));
 		return result.toArray(n -> new Solver[n]);
+	}
+
+	public static String getAnsiColorFromSeed(String seed) {
+		var random = new Random(seed.hashCode());
+		var r = random.nextInt(240);
+		var g = random.nextInt(240);
+		var b = random.nextInt(240);
+		return "\u001B[38;2;" + r + ";" + g + ";" + b + "m";
 	}
 }

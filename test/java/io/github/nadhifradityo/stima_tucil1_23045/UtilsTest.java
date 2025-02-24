@@ -9,7 +9,7 @@ public class UtilsTest {
 	public void canGenerateRectangularBitField() {
 		var gameContext =  new BitFieldFactory(4, 4, 4);
 		var bitField = Utils.generateRectangularBitField(gameContext, 4, 4);
-		var result = Utils.stringBitField(bitField, 'X');
+		var result = Utils.stringBitField(bitField, 'X').replace("\r\n", "\n");
 		assertEquals("""
 			Z: 0\n\
 			XXXX\n\
@@ -22,7 +22,7 @@ public class UtilsTest {
 	public void canGeneratePyramidalBitField() {
 		var gameContext =  new BitFieldFactory(4, 4, 4);
 		var bitField = Utils.generatePyramidalBitField(gameContext, 4, 4);
-		var result = Utils.stringBitField(bitField, 'X');
+		var result = Utils.stringBitField(bitField, 'X').replace("\r\n", "\n");
 		assertEquals("""
 			Z: 0\n\
 			XXXX\n\

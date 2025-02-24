@@ -217,12 +217,11 @@ public class Solver {
 			return (double) covered / total;
 		}
 
-		protected static final int BAR_LENGTH = 50;
-		public String getProgressBar() {
+		public String getProgressBar(int length) {
 			var bar = new StringBuilder();
 			var rangeSize = this.max - this.min + 1;
-			var unitSize = (double) rangeSize / BAR_LENGTH;
-			for(int i = 0; i < BAR_LENGTH; i++) {
+			var unitSize = (double) rangeSize / length;
+			for(int i = 0; i < length; i++) {
 				var segmentStart = (long) (this.min + i * unitSize);
 				var segmentEnd = (long) (segmentStart + unitSize - 1);
 				var fillRatio = getFillRatio(segmentStart, segmentEnd);

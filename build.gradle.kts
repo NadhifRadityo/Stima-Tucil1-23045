@@ -4,6 +4,7 @@ plugins {
 
 repositories {
 	mavenCentral()
+	maven { url = uri("https://jitpack.io") }
 }
 
 dependencies {
@@ -11,14 +12,7 @@ dependencies {
 	implementation("org.eclipse.collections:eclipse-collections:11.1.0")
 	implementation("commons-cli:commons-cli:1.9.0")
 	implementation("com.googlecode.lanterna:lanterna:3.1.3")
-	implementation("com.badlogicgames.gdx:gdx:1.13.1")
-	implementation("com.badlogicgames.gdx:gdx-backend-lwjgl3:1.13.1")
-	implementation("com.badlogicgames.gdx:gdx-platform:1.13.1:natives-desktop")
-	implementation("io.github.spair:imgui-java-binding:1.88.0")
-	implementation("io.github.spair:imgui-java-lwjgl3:1.88.0")
-	implementation("io.github.spair:imgui-java-natives-linux:1.88.0")
-	implementation("io.github.spair:imgui-java-natives-macos:1.88.0")
-	implementation("io.github.spair:imgui-java-natives-windows:1.88.0")
+	implementation("com.github.steos.jnafilechooser:jnafilechooser-api:1.1.2")
 }
 
 sourceSets {

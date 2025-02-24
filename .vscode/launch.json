@@ -6,12 +6,30 @@
 	"configurations": [
 		{
 			"type": "java",
-			"name": "Main",
+			"name": "Main CLI Non-Interactive",
 			"request": "launch",
 			"mainClass": "io.github.nadhifradityo.stima_tucil1_23045.Main",
 			"projectName": "Stima-Tucil1-23045",
 			"preLaunchTask": "gradle: compileJava",
-			"args": "cli -u -t 8 -s 10 -b 8 -i .private/test-basic.txt"
+			"args": "-u -t 8 -s 10000 -b 24 -i .private/test-custom.txt"
+		},
+		{
+			"type": "java",
+			"name": "Main CLI Interactive Emulator",
+			"request": "launch",
+			"mainClass": "io.github.nadhifradityo.stima_tucil1_23045.Main",
+			"projectName": "Stima-Tucil1-23045",
+			"preLaunchTask": "gradle: compileJava",
+			"args": "-c -t 2 -s 10000 -b 255 -i .private/test-custom.txt"
+		},
+		{
+			"type": "java",
+			"name": "Main CLI Interactive",
+			"request": "launch",
+			"mainClass": "io.github.nadhifradityo.stima_tucil1_23045.Main",
+			"projectName": "Stima-Tucil1-23045",
+			"preLaunchTask": "gradle: compileJava",
+			"args": "-t 2 -s 10000 -b 255 -i .private/test-custom.txt"
 		},
 		{
 			"name": "Launch Program",
